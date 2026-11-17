@@ -1,0 +1,1477 @@
+{
+  "masterResume": {
+    "fullName": "Joy Brahma",
+    "email": "brahma.joy.jb@gmail.com",
+    "phone": "+91 83368 34988",
+    "linkedinLabel": "LinkedIn",
+    "location": "Kolkata, India",
+    "summary": "Software Engineer with 5+ years of experience designing, developing, testing, deploying, and operating scalable multi-tenant backend systems. Strong background in data structures and algorithms, system design, distributed systems, databases, cloud infrastructure, performance optimization, security, and reliability. Experienced in technical leadership, code reviews, debugging, and delivering systems under latency, scalability, cost, and security constraints.",
+    "experience": [
+      {
+        "id": "exp-deloitte-usi",
+        "role": "Engineer-2 (Software Engineer)",
+        "company": "Deloitte USI — Prism Portfolio (HealthPrism, PeoplePrism, Project Omega)",
+        "period": "Jul 2021 – Present",
+        "bullets": [
+          "Designed and optimized backend services for multi-tenant analytics platforms, improving scalability, performance, and reliability across production workloads with increasing concurrency.",
+          "Developed and optimized an LLM-powered natural-language-to-SQL analytics system by improving session management and enabling greater parallel tool execution, achieving approximately 40% faster p50 response times.",
+          "Designed and implemented a RAG-based metadata query sub-agent using Vertex AI RAG Engine, integrating retrieval capabilities into existing backend workflows.",
+          "Reduced p95 API latency by 30% and lowered Snowflake compute costs by designing and implementing centralized Redis caching with TTL-based and event-driven cache invalidation.",
+          "Re-architected backend service initialization and resource management, achieving approximately 3× faster startup times and enabling lower minimum replicas under autoscaling, reducing infrastructure costs by $20K+ annually.",
+          "Led Snowflake performance and cost optimization using materialized views, workload-specific warehouses, and Streams/Tasks, reducing overall compute expenditure by approximately 20%.",
+          "Designed and enforced fine-grained RBAC across multi-tenant services and implemented asynchronous audit pipelines, preventing cross-tenant access risks without impacting request latency.",
+          "Owned production deployments, debugging, and incident resolution, diagnosing regression and scaling issues as system concurrency increased approximately 3× and driving fixes through deployment.",
+          "Primary code reviewer for Prism backend services, ensuring quality, efficiency, and maintainability.",
+          "Collaborated with MLOps and Data Science teams to develop automated quality-control pipelines against ground truth, reducing data release timelines by approximately 50%.",
+          "Led technical knowledge-sharing initiatives, facilitating team-wide design and engineering sessions and a 3-month internal App Chapter series covering system design trade-offs, design patterns, scalability, and production engineering."
+        ]
+      }
+    ],
+    "skills": [
+      {
+        "category": "Languages",
+        "items": "Python, Java, C++, SQL, JavaScript"
+      },
+      {
+        "category": "Software Engineering",
+        "items": "Data Structures & Algorithms, Object-Oriented Design, System Design, Distributed Systems, API Design, Design Patterns, Concurrency, Performance Optimization, Testing, Debugging, Code Review"
+      },
+      {
+        "category": "Backend & Frameworks",
+        "items": "FastAPI, Spring Boot, Django, LangGraph, React"
+      },
+      {
+        "category": "Databases & Data Systems",
+        "items": "Snowflake, BigQuery, PostgreSQL, Redis, Relational Databases"
+      },
+      {
+        "category": "Cloud & Infrastructure",
+        "items": "Google Cloud Platform (GCP), Docker, CI/CD, Autoscaling, Monitoring & Alerting"
+      },
+      {
+        "category": "AI/ML",
+        "items": "LLMs, RAG, Vertex AI, Natural Language Processing"
+      }
+    ],
+    "education": [
+      {
+        "id": "edu-iiitm",
+        "institution": "ABV-IIITM, Gwalior",
+        "period": "2019 – 2021",
+        "degree": "M.Tech in Information Security"
+      },
+      {
+        "id": "edu-iem",
+        "institution": "Institute of Engineering and Management, Kolkata (MAKAUT)",
+        "period": "2013 – 2017",
+        "degree": "B.Tech in Computer Science and Engineering"
+      }
+    ],
+    "publications": [
+      {
+        "id": "pub-ieee-iot",
+        "title": "Preserving Contextual Privacy for Smart Home IoT Devices with Dynamic Traffic Shaping",
+        "venue": "IEEE Internet of Things Journal, Nov 2021"
+      }
+    ],
+    "achievements": [
+      "Awarded 3 Outstanding Performance Awards, 5 Applause Awards, and multiple Spot Awards at Deloitte.",
+      "Google Cloud Associate Cloud Engineer certified.",
+      "SnowPro Core certified."
+    ]
+  },
+  "companies": [
+    {
+      "id": "co-google",
+      "name": "Google",
+      "tier": "FAANG+",
+      "compBandLPA": "50–75 LPA",
+      "cultureNote": "Strong engineering rigor, collaborative code reviews, healthy WLB across Cloud & Core teams.",
+      "careersDomain": "google.com/about/careers",
+      "locationHubs": [
+        "Bengaluru",
+        "Hyderabad",
+        "Pune"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-microsoft",
+      "name": "Microsoft",
+      "tier": "FAANG+",
+      "compBandLPA": "42–60 LPA",
+      "cultureNote": "Sustainable work-life balance, mature engineering systems, Azure & AI platform teams.",
+      "careersDomain": "apply.careers.microsoft.com",
+      "locationHubs": [
+        "Hyderabad",
+        "Bengaluru",
+        "Noida"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-amazon",
+      "name": "Amazon",
+      "tier": "FAANG+",
+      "compBandLPA": "42–62 LPA",
+      "cultureNote": "Large-scale distributed systems at SDE-2; team-dependent WLB, strong resume signal.",
+      "careersDomain": "amazon.jobs",
+      "locationHubs": [
+        "Bengaluru",
+        "Hyderabad",
+        "Chennai"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-atlassian",
+      "name": "Atlassian",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "45–65 LPA",
+      "cultureNote": "Remote-friendly Team Anywhere model, async engineering culture, strong WLB.",
+      "careersDomain": "atlassian.com/company/careers",
+      "locationHubs": [
+        "Bengaluru",
+        "Remote India"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-snowflake",
+      "name": "Snowflake",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "50–75 LPA",
+      "cultureNote": "Direct domain match with Joy’s Snowflake optimization & query-engine expertise.",
+      "careersDomain": "jobs.ashbyhq.com/snowflake",
+      "locationHubs": [
+        "Pune",
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-databricks",
+      "name": "Databricks",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "50–78 LPA",
+      "cultureNote": "High-caliber data/AI platform engineering, strong Python/distributed systems alignment.",
+      "careersDomain": "boards.greenhouse.io/databricks",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-stripe",
+      "name": "Stripe",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "52–75 LPA",
+      "cultureNote": "Clear written engineering culture, API reliability focus, reasonable hours.",
+      "careersDomain": "boards.greenhouse.io/stripe",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-rubrik",
+      "name": "Rubrik",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "45–65 LPA",
+      "cultureNote": "Strong distributed systems & cloud data security engineering in Bengaluru & Pune.",
+      "careersDomain": "boards.greenhouse.io/rubrik",
+      "locationHubs": [
+        "Bengaluru",
+        "Pune"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-mongodb",
+      "name": "MongoDB",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "44–62 LPA",
+      "cultureNote": "Healthy engineering culture, strong database internals & cloud platform teams.",
+      "careersDomain": "boards.greenhouse.io/mongodb",
+      "locationHubs": [
+        "Gurugram",
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-cloudflare",
+      "name": "Cloudflare",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "42–60 LPA",
+      "cultureNote": "High-performance networking & edge compute engineering with strong WLB.",
+      "careersDomain": "boards.greenhouse.io/cloudflare",
+      "locationHubs": [
+        "Bengaluru",
+        "Hyderabad"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-coinbase",
+      "name": "Coinbase",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "48–70 LPA",
+      "cultureNote": "Remote-first product engineering, high compensation, strong backend/security focus.",
+      "careersDomain": "boards.greenhouse.io/coinbase",
+      "locationHubs": [
+        "Remote India",
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-gitlab",
+      "name": "GitLab",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–58 LPA",
+      "cultureNote": "All-remote async engineering benchmark with transparent handbook & healthy WLB.",
+      "careersDomain": "job-boards.greenhouse.io/gitlab",
+      "locationHubs": [
+        "Remote India"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-razorpay",
+      "name": "Razorpay",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–52 LPA",
+      "cultureNote": "Strong fintech architecture, fast feedback loops, great warm-up interview practice.",
+      "careersDomain": "job-boards.greenhouse.io/razorpaysoftwareprivatelimited",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-cred",
+      "name": "CRED",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "42–56 LPA",
+      "cultureNote": "High-craft backend & fintech product teams in Bengaluru.",
+      "careersDomain": "jobs.lever.co/cred",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-meta",
+      "name": "Meta",
+      "tier": "FAANG+",
+      "compBandLPA": "55–85 LPA",
+      "cultureNote": "High ownership and fast engineering velocity; selective India infra/product roles.",
+      "careersDomain": "metacareers.com",
+      "locationHubs": [
+        "Bengaluru",
+        "Gurugram"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-uber",
+      "name": "Uber",
+      "tier": "FAANG+",
+      "compBandLPA": "48–72 LPA",
+      "cultureNote": "Deep distributed systems, Go/Java/Python stack, high-bar engineering mentorship.",
+      "careersDomain": "uber.com/careers",
+      "locationHubs": [
+        "Bengaluru",
+        "Hyderabad"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-netflix",
+      "name": "Netflix",
+      "tier": "FAANG+",
+      "compBandLPA": "60–90 LPA",
+      "cultureNote": "High-trust freedom and responsibility culture, top-of-market cash compensation.",
+      "careersDomain": "jobs.netflix.com",
+      "locationHubs": [
+        "Mumbai",
+        "Bengaluru"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-linkedin",
+      "name": "LinkedIn",
+      "tier": "FAANG+",
+      "compBandLPA": "48–68 LPA",
+      "cultureNote": "Exceptional work-life balance, strong distributed data & Java/Python infrastructure.",
+      "careersDomain": "careers.linkedin.com",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-okta",
+      "name": "Okta",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "42–58 LPA",
+      "cultureNote": "Strong identity/RBAC security alignment and calm global engineering cadence.",
+      "careersDomain": "boards.greenhouse.io/okta",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-zscaler",
+      "name": "Zscaler",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–55 LPA",
+      "cultureNote": "Cloud security & high-throughput distributed backend systems in India.",
+      "careersDomain": "boards.greenhouse.io/zscaler",
+      "locationHubs": [
+        "Bengaluru",
+        "Mohali",
+        "Pune"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-purestorage",
+      "name": "Pure Storage",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "42–58 LPA",
+      "cultureNote": "Systems/C++/Python storage engineering with high retention and predictable WLB.",
+      "careersDomain": "boards.greenhouse.io/purestorage",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-celonis",
+      "name": "Celonis",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–55 LPA",
+      "cultureNote": "Process intelligence & large-scale data analytics engineering in Bengaluru.",
+      "careersDomain": "boards.greenhouse.io/celonis",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-netskope",
+      "name": "Netskope",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "42–58 LPA",
+      "cultureNote": "Cloud security & SASE engineering with steady WLB and C++/Python/Go backends.",
+      "careersDomain": "boards.greenhouse.io/netskope",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-toast",
+      "name": "Toast",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–55 LPA",
+      "cultureNote": "Collaborative product culture, Java/Python cloud microservices in Bengaluru/Chennai.",
+      "careersDomain": "boards.greenhouse.io/toast",
+      "locationHubs": [
+        "Bengaluru",
+        "Chennai"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-elastic",
+      "name": "Elastic",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "42–60 LPA",
+      "cultureNote": "Distributed search & RAG/observability platforms, remote-friendly culture.",
+      "careersDomain": "boards.greenhouse.io/elastic",
+      "locationHubs": [
+        "Bengaluru",
+        "Remote India"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-fivetran",
+      "name": "Fivetran",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "42–58 LPA",
+      "cultureNote": "Automated data pipelines & Snowflake/BigQuery connector engineering in Bengaluru.",
+      "careersDomain": "boards.greenhouse.io/fivetran",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-sumologic",
+      "name": "Sumo Logic",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–54 LPA",
+      "cultureNote": "Cloud-native telemetry & multi-tenant analytics platform with balanced hours.",
+      "careersDomain": "boards.greenhouse.io/sumologic",
+      "locationHubs": [
+        "Noida",
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-twilio",
+      "name": "Twilio",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "44–62 LPA",
+      "cultureNote": "High-scale API infrastructure, strong distributed systems & Java/Python roles.",
+      "careersDomain": "boards.greenhouse.io/twilio",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-airbnb",
+      "name": "Airbnb",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "55–80 LPA",
+      "cultureNote": "Live Anywhere flexibility, top-tier engineering craft and collaborative culture.",
+      "careersDomain": "boards.greenhouse.io/airbnb",
+      "locationHubs": [
+        "Bengaluru",
+        "Gurugram"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-druva",
+      "name": "Druva",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–52 LPA",
+      "cultureNote": "Cloud SaaS data protection in Pune/Bengaluru with steady engineering pace.",
+      "careersDomain": "boards.greenhouse.io/druva",
+      "locationHubs": [
+        "Pune",
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-agoda",
+      "name": "Agoda",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "42–60 LPA",
+      "cultureNote": "Data-driven travel engineering with relocation/India tech hubs and strong WLB.",
+      "careersDomain": "boards.greenhouse.io/agoda",
+      "locationHubs": [
+        "Gurugram",
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-datadog",
+      "name": "Datadog",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "48–68 LPA",
+      "cultureNote": "High-throughput observability & distributed systems, strong engineering culture.",
+      "careersDomain": "boards.greenhouse.io/datadog",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-commerceiq",
+      "name": "CommerceIQ",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–52 LPA",
+      "cultureNote": "AI/data-driven retail SaaS platform in Bengaluru with good warm-up loops.",
+      "careersDomain": "boards.greenhouse.io/commerceiq",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-groww",
+      "name": "Groww",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–54 LPA",
+      "cultureNote": "High-scale wealth-tech backend systems, Java/Spring Boot & low-latency APIs.",
+      "careersDomain": "boards.greenhouse.io/groww",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-coupang",
+      "name": "Coupang",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "48–68 LPA",
+      "cultureNote": "Massive e-commerce scale distributed systems & search/recommendation engineering.",
+      "careersDomain": "boards.greenhouse.io/coupang",
+      "locationHubs": [
+        "Bengaluru",
+        "Hyderabad"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-anthropic",
+      "name": "Anthropic",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "65–95 LPA",
+      "cultureNote": "Frontier AI safety & scalable LLM inference/platform engineering.",
+      "careersDomain": "boards.greenhouse.io/anthropic",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-starburst",
+      "name": "Starburst",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "42–58 LPA",
+      "cultureNote": "Distributed SQL / Trino data lakehouse engineering, strong SQL/Java alignment.",
+      "careersDomain": "boards.greenhouse.io/starburst",
+      "locationHubs": [
+        "Bengaluru",
+        "Pune"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-neo4j",
+      "name": "Neo4j",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–56 LPA",
+      "cultureNote": "Graph database & GraphRAG AI engineering with collaborative remote culture.",
+      "careersDomain": "boards.greenhouse.io/neo4j",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-singlestore",
+      "name": "SingleStore",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "44–62 LPA",
+      "cultureNote": "Real-time distributed SQL & vector database engineering in India.",
+      "careersDomain": "boards.greenhouse.io/singlestore",
+      "locationHubs": [
+        "Bengaluru",
+        "Hyderabad"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-yugabyte",
+      "name": "Yugabyte",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "45–65 LPA",
+      "cultureNote": "Distributed PostgreSQL database engineering, strong C++/systems & cloud teams.",
+      "careersDomain": "boards.greenhouse.io/yugabyte",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-togetherai",
+      "name": "Together AI",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "50–75 LPA",
+      "cultureNote": "High-performance LLM inference, distributed training & Python AI backend.",
+      "careersDomain": "boards.greenhouse.io/togetherai",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-mixpanel",
+      "name": "Mixpanel",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "44–60 LPA",
+      "cultureNote": "Real-time product analytics & high-throughput ingestion, strong engineering WLB.",
+      "careersDomain": "boards.greenhouse.io/mixpanel",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-launchdarkly",
+      "name": "LaunchDarkly",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "42–58 LPA",
+      "cultureNote": "Developer-first feature management platform with healthy async culture.",
+      "careersDomain": "boards.greenhouse.io/launchdarkly",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-samsara",
+      "name": "Samsara",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "45–64 LPA",
+      "cultureNote": "IoT & real-time telemetry cloud platforms, strong WLB and systems rigor.",
+      "careersDomain": "boards.greenhouse.io/samsara",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-tenstorrent",
+      "name": "Tenstorrent",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "45–65 LPA",
+      "cultureNote": "AI compute software, compilers, C++/Python systems engineering in Bengaluru.",
+      "careersDomain": "boards.greenhouse.io/tenstorrent",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-newrelic",
+      "name": "New Relic",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–56 LPA",
+      "cultureNote": "Observability & telemetry engineering in Hyderabad/Bengaluru with steady WLB.",
+      "careersDomain": "boards.greenhouse.io/newrelic",
+      "locationHubs": [
+        "Hyderabad",
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-fastly",
+      "name": "Fastly",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "42–58 LPA",
+      "cultureNote": "Edge cloud platform, low-latency distributed systems & security engineering.",
+      "careersDomain": "boards.greenhouse.io/fastly",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-figma",
+      "name": "Figma",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "55–80 LPA",
+      "cultureNote": "High-craft collaborative systems & C++/TypeScript platform engineering.",
+      "careersDomain": "boards.greenhouse.io/figma",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-grafanalabs",
+      "name": "Grafana Labs",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "44–62 LPA",
+      "cultureNote": "Remote-first open-source observability engineering with top-rated autonomy.",
+      "careersDomain": "boards.greenhouse.io/grafanalabs",
+      "locationHubs": [
+        "Remote India"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-adyen",
+      "name": "Adyen",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "45–62 LPA",
+      "cultureNote": "Global payments architecture, high reliability Java/distributed backends.",
+      "careersDomain": "boards.greenhouse.io/adyen",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-cockroachlabs",
+      "name": "Cockroach Labs",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "48–68 LPA",
+      "cultureNote": "Distributed SQL database internals & cloud control-plane engineering.",
+      "careersDomain": "boards.greenhouse.io/cockroachlabs",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-duolingo",
+      "name": "Duolingo",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "48–66 LPA",
+      "cultureNote": "Strong product craft, Python/AI backends, collaborative engineering culture.",
+      "careersDomain": "boards.greenhouse.io/duolingo",
+      "locationHubs": [
+        "Gurugram"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-scaleai",
+      "name": "Scale AI",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "50–72 LPA",
+      "cultureNote": "AI data & evaluation infrastructure, fast-moving Python/ML platform roles.",
+      "careersDomain": "boards.greenhouse.io/scaleai",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-openai",
+      "name": "OpenAI",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "65–95 LPA",
+      "cultureNote": "Frontier AI systems, distributed Python/infrastructure engineering.",
+      "careersDomain": "jobs.ashbyhq.com/openai",
+      "locationHubs": [
+        "Bengaluru",
+        "New Delhi"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-cursor",
+      "name": "Cursor",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "55–85 LPA",
+      "cultureNote": "High-impact AI developer tooling & low-latency backend infrastructure.",
+      "careersDomain": "jobs.ashbyhq.com/cursor",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-notion",
+      "name": "Notion",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "52–75 LPA",
+      "cultureNote": "Product-driven engineering culture, collaborative workspace infrastructure.",
+      "careersDomain": "jobs.ashbyhq.com/notion",
+      "locationHubs": [
+        "Hyderabad",
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-temporal",
+      "name": "Temporal",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "48–68 LPA",
+      "cultureNote": "Durable execution & distributed workflow engine engineering.",
+      "careersDomain": "jobs.ashbyhq.com/temporal",
+      "locationHubs": [
+        "Bengaluru",
+        "Remote India"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-servicenow",
+      "name": "ServiceNow",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–55 LPA",
+      "cultureNote": "Mature enterprise SaaS in Hyderabad with strong WLB & Java/cloud systems.",
+      "careersDomain": "careers.servicenow.com",
+      "locationHubs": [
+        "Hyderabad",
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-swiggy",
+      "name": "Swiggy",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–54 LPA",
+      "cultureNote": "High-scale consumer logistics & backend microservices, great warm-up loops.",
+      "careersDomain": "careers.swiggy.com",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-freshworks",
+      "name": "Freshworks",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–50 LPA",
+      "cultureNote": "Global SaaS product engineering out of Chennai/Bengaluru with friendly culture.",
+      "careersDomain": "freshworks.com/company/careers",
+      "locationHubs": [
+        "Chennai",
+        "Bengaluru",
+        "Hyderabad"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-whatfix",
+      "name": "Whatfix",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "38–48 LPA",
+      "cultureNote": "Enterprise digital adoption SaaS with supportive engineering culture.",
+      "careersDomain": "whatfix.com/careers",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-meesho",
+      "name": "Meesho",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–54 LPA",
+      "cultureNote": "Boundaryless remote-first Indian e-commerce engineering at massive scale.",
+      "careersDomain": "jobs.lever.co/meesho",
+      "locationHubs": [
+        "Bengaluru",
+        "Remote India"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-mindtickle",
+      "name": "Mindtickle",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–52 LPA",
+      "cultureNote": "B2B revenue enablement SaaS in Pune/Bengaluru with balanced hours.",
+      "careersDomain": "jobs.lever.co/mindtickle",
+      "locationHubs": [
+        "Pune",
+        "Bengaluru"
+      ],
+      "enabled": true
+    },
+    {
+      "id": "co-intuit",
+      "name": "Intuit",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "42–56 LPA",
+      "cultureNote": "Top-rated India WLB, mature Java/Python backend platforms, strong AI/data focus.",
+      "careersDomain": "jobs.intuit.com",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-adobe",
+      "name": "Adobe",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–55 LPA",
+      "cultureNote": "Humane pace, low attrition, strong cloud/platform teams in Noida & Bengaluru.",
+      "careersDomain": "careers.adobe.com",
+      "locationHubs": [
+        "Noida",
+        "Bengaluru"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-walmart",
+      "name": "Walmart Global Tech",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–52 LPA",
+      "cultureNote": "Steady hours, massive scale retail systems, Java/GCP stack.",
+      "careersDomain": "careers.walmart.com",
+      "locationHubs": [
+        "Bengaluru",
+        "Chennai"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-paypal",
+      "name": "PayPal",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–50 LPA",
+      "cultureNote": "Predictable hours, enterprise fintech reliability, Java/Python microservices.",
+      "careersDomain": "careers.pypl.com",
+      "locationHubs": [
+        "Bengaluru",
+        "Chennai"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-salesforce",
+      "name": "Salesforce",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "45–62 LPA",
+      "cultureNote": "Strong WLB, multi-tenant cloud & AI agent infrastructure in Hyderabad/Bengaluru.",
+      "careersDomain": "careers.salesforce.com",
+      "locationHubs": [
+        "Hyderabad",
+        "Bengaluru"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-flipkart",
+      "name": "Flipkart",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–55 LPA",
+      "cultureNote": "Classic Indian SDE-2 benchmark; strong system design & distributed backend interviews.",
+      "careersDomain": "flipkartcareers.com",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-phonepe",
+      "name": "PhonePe",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "42–58 LPA",
+      "cultureNote": "High-throughput UPI/payments systems in Bengaluru & Pune.",
+      "careersDomain": "phonepe.com/careers",
+      "locationHubs": [
+        "Bengaluru",
+        "Pune"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-postman",
+      "name": "Postman",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–55 LPA",
+      "cultureNote": "Developer-first product culture, async collaboration, healthy work-life boundaries.",
+      "careersDomain": "postman.com/company/careers",
+      "locationHubs": [
+        "Bengaluru",
+        "Remote India"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-browserstack",
+      "name": "BrowserStack",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–54 LPA",
+      "cultureNote": "Profitable developer infrastructure SaaS in Mumbai/Bengaluru.",
+      "careersDomain": "browserstack.com/careers",
+      "locationHubs": [
+        "Mumbai",
+        "Bengaluru"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-confluent",
+      "name": "Confluent",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "48–66 LPA",
+      "cultureNote": "Event streaming / Kafka cloud engineering with strong distributed systems bar.",
+      "careersDomain": "careers.confluent.io",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-nutanix",
+      "name": "Nutanix",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "44–60 LPA",
+      "cultureNote": "Hybrid multi-cloud systems & distributed storage engineering in Bengaluru/Pune.",
+      "careersDomain": "nutanix.com/company/careers",
+      "locationHubs": [
+        "Bengaluru",
+        "Pune"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-cohesity",
+      "name": "Cohesity",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "44–60 LPA",
+      "cultureNote": "AI-powered data security & distributed storage in Bengaluru & Pune.",
+      "careersDomain": "cohesity.com/company/careers",
+      "locationHubs": [
+        "Bengaluru",
+        "Pune"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-crowdstrike",
+      "name": "CrowdStrike",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "46–64 LPA",
+      "cultureNote": "Remote-friendly cybersecurity cloud & telemetry engineering in Pune/Bengaluru.",
+      "careersDomain": "crowdstrike.com/careers",
+      "locationHubs": [
+        "Pune",
+        "Bengaluru",
+        "Remote India"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-paloaltonetworks",
+      "name": "Palo Alto Networks",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "45–62 LPA",
+      "cultureNote": "Enterprise cloud security engineering with balanced work culture.",
+      "careersDomain": "jobs.paloaltonetworks.com",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-nvidia",
+      "name": "NVIDIA",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "48–75 LPA",
+      "cultureNote": "Low attrition, world-class AI systems & platform software engineering.",
+      "careersDomain": "nvidia.com/en-in/about-nvidia/careers",
+      "locationHubs": [
+        "Bengaluru",
+        "Pune",
+        "Hyderabad"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-arista",
+      "name": "Arista Networks",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "45–65 LPA",
+      "cultureNote": "Exceptional WLB, systems & cloud networking software engineering in Bengaluru/Pune.",
+      "careersDomain": "arista.com/en/careers",
+      "locationHubs": [
+        "Bengaluru",
+        "Pune"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-visa",
+      "name": "Visa",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–52 LPA",
+      "cultureNote": "High-reliability global payments tech hub in Bengaluru with great WLB.",
+      "careersDomain": "visa.co.in/careers",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-amex",
+      "name": "American Express",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "40–52 LPA",
+      "cultureNote": "Predictable hours, enterprise Python/Java/BigData engineering in Bengaluru/Gurugram.",
+      "careersDomain": "americanexpress.com/en-us/careers",
+      "locationHubs": [
+        "Bengaluru",
+        "Gurugram"
+      ],
+      "enabled": false
+    },
+    {
+      "id": "co-rippling",
+      "name": "Rippling",
+      "tier": "Warm-Up Product",
+      "compBandLPA": "50–72 LPA",
+      "cultureNote": "Fast-paced high-ownership product engineering in Bengaluru.",
+      "careersDomain": "rippling.com/careers",
+      "locationHubs": [
+        "Bengaluru"
+      ],
+      "enabled": false
+    }
+  ],
+  "jobs": [
+    {
+      "id": "google-75184274717713094",
+      "company": "Google",
+      "title": "Software Engineer, Knowledge Catalog Data Products",
+      "location": "Bengaluru, Karnataka, India",
+      "postedAtText": "Active on Google Careers",
+      "freshnessHours": 36,
+      "applyUrl": "https://www.google.com/about/careers/applications/jobs/results/75184274717713094",
+      "sourceUrls": [
+        {
+          "title": "Google Careers India",
+          "url": "https://www.google.com/about/careers/applications/jobs/results/75184274717713094"
+        }
+      ],
+      "tier": "FAANG+",
+      "estimatedCompLPA": "50–75 LPA",
+      "cultureSummary": "Strong engineering rigor, collaborative code reviews, healthy WLB across Cloud & Core teams.",
+      "keyRequirements": [
+        "Bachelor's degree",
+        "5 years software development",
+        "3 years testing/launching products",
+        "1 year design/architecture"
+      ],
+      "minQualificationsMet": [
+        "Bachelor's degree",
+        "5.3 years software development",
+        "3+ years testing/maintaining/launching",
+        "Strong system design and architecture background"
+      ],
+      "minQualificationsMissing": [],
+      "preferredQualificationsMet": [
+        "Java/C++ proficiency",
+        "SQL and Data warehouse expertise"
+      ],
+      "preferredQualificationsMissing": [
+        "Expertise in Go or large-scale data governance",
+        "Prior SaaS/Cloud product development at scale"
+      ],
+      "yoeAssessment": "5.3 YoE vs 5+ yrs req (Fits)",
+      "realityVerdict": "Highly qualified candidate; meets all baseline requirements for a mid-level SWE role.",
+      "shortlistProbability": 78,
+      "strategicLane": "FAANG+ Priority",
+      "matchReasons": [
+        "Matches exact years of experience",
+        "Strong overlap with SQL and BigData/Warehouse requirements",
+        "Deep experience with Snowflake and GCP aligns with cloud/SaaS focus"
+      ],
+      "gapWarnings": [
+        "Relocation to Bengaluru required",
+        "Lacks Go experience, a common preferred skill for Google infra roles"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T08:20:52.786Z"
+    },
+    {
+      "id": "amazon-10604005",
+      "company": "Amazon",
+      "title": "Software Development Engineer, CS ARIA",
+      "location": "Hyderabad, Telangana, IND",
+      "postedAtText": "4d ago",
+      "freshnessHours": 104,
+      "applyUrl": "https://www.amazon.jobs/en/jobs/10604005/software-development-engineer-cs-aria",
+      "sourceUrls": [
+        {
+          "title": "Amazon Jobs India",
+          "url": "https://www.amazon.jobs/en/jobs/10604005/software-development-engineer-cs-aria"
+        }
+      ],
+      "tier": "FAANG+",
+      "estimatedCompLPA": "42–62 LPA",
+      "cultureSummary": "Large-scale distributed systems at SDE-2; team-dependent WLB, strong resume signal.",
+      "keyRequirements": [
+        "2+ years professional software development",
+        "2+ years system design",
+        "Programming language proficiency"
+      ],
+      "minQualificationsMet": [
+        "5.3 years software development",
+        "Proven system design and architecture experience",
+        "Proficient in Python/Java"
+      ],
+      "minQualificationsMissing": [],
+      "preferredQualificationsMet": [
+        "2+ years full SDLC/operations",
+        "Bachelor's degree"
+      ],
+      "preferredQualificationsMissing": [],
+      "yoeAssessment": "5.3 YoE vs 2+ yrs req (Fits)",
+      "realityVerdict": "Excellent fit; candidate is well-positioned for an SDE II role given tenure and production experience.",
+      "shortlistProbability": 88,
+      "strategicLane": "FAANG+ Priority",
+      "matchReasons": [
+        "Exceeds all minimum technical and experience thresholds",
+        "Demonstrated ability to own end-to-end production features",
+        "Direct experience with LLM/RAG relevant to modern automation"
+      ],
+      "gapWarnings": [
+        "Requires relocation to Hyderabad",
+        "Candidate may be considered slightly 'over-qualified' but likely acceptable for SDE II"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T08:20:52.786Z"
+    },
+    {
+      "id": "amazon-10605712",
+      "company": "Amazon",
+      "title": "Software Development Engineer, Amazon Business India",
+      "location": "Bengaluru, Karnataka, IND",
+      "postedAtText": "1d ago",
+      "freshnessHours": 32,
+      "applyUrl": "https://www.amazon.jobs/en/jobs/10605712/software-development-engineer-amazon-business-india",
+      "sourceUrls": [
+        {
+          "title": "Amazon Jobs India",
+          "url": "https://www.amazon.jobs/en/jobs/10605712/software-development-engineer-amazon-business-india"
+        }
+      ],
+      "tier": "FAANG+",
+      "estimatedCompLPA": "42–62 LPA",
+      "cultureSummary": "Large-scale distributed systems at SDE-2; team-dependent WLB, strong resume signal.",
+      "keyRequirements": [
+        "3+ years professional software development",
+        "2+ years system design/architecture",
+        "Programming language proficiency"
+      ],
+      "minQualificationsMet": [
+        "3+ years software development experience",
+        "2+ years system design experience",
+        "Proficiency in Python, Java, C++"
+      ],
+      "minQualificationsMissing": [],
+      "preferredQualificationsMet": [
+        "3+ years full SDLC and code review experience",
+        "Bachelor's degree"
+      ],
+      "preferredQualificationsMissing": [],
+      "yoeAssessment": "5.3 YoE vs 3+ yrs req (Fits)",
+      "realityVerdict": "Strong alignment with backend roles and system design needs makes this a high-probability shortlist.",
+      "shortlistProbability": 85,
+      "strategicLane": "FAANG+ Priority",
+      "matchReasons": [
+        "Exceeds minimum tenure requirements significantly",
+        "Demonstrable experience in system design and multi-tenant scaling",
+        "Solid foundation in required backend language stack"
+      ],
+      "gapWarnings": [
+        "Role mentions Mobile/Payments; candidate has zero production mobile experience",
+        "Onsite expectations in Bengaluru require relocation from Kolkata"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T08:20:52.786Z"
+    },
+    {
+      "id": "google-134562225502200518",
+      "company": "Google",
+      "title": "Senior Software Engineer, Google Enterprise Network",
+      "location": "Bengaluru, Karnataka, India",
+      "postedAtText": "Active on Google Careers",
+      "freshnessHours": 36,
+      "applyUrl": "https://www.google.com/about/careers/applications/jobs/results/134562225502200518",
+      "sourceUrls": [
+        {
+          "title": "Google Careers India",
+          "url": "https://www.google.com/about/careers/applications/jobs/results/134562225502200518"
+        }
+      ],
+      "tier": "FAANG+",
+      "estimatedCompLPA": "50–75 LPA",
+      "cultureSummary": "Strong engineering rigor, collaborative code reviews, healthy WLB across Cloud & Core teams.",
+      "keyRequirements": [
+        "Bachelor's degree",
+        "5 years software development in Linux/Unix",
+        "Data structures and algorithms",
+        "Distributed systems and system design"
+      ],
+      "minQualificationsMet": [
+        "Bachelor's degree",
+        "System design and distributed systems expertise"
+      ],
+      "minQualificationsMissing": [
+        "Direct 5 years of professional production development in Linux/Unix environment"
+      ],
+      "preferredQualificationsMet": [
+        "Experience with distributed systems"
+      ],
+      "preferredQualificationsMissing": [
+        "Networking domain expertise",
+        "Large-scale infrastructure/hardware architecture experience"
+      ],
+      "yoeAssessment": "5.3 YoE vs 5+ yrs req (Fits)",
+      "realityVerdict": "Borderline match due to lack of explicit networking/low-level systems depth.",
+      "shortlistProbability": 55,
+      "strategicLane": "FAANG+ Priority",
+      "matchReasons": [
+        "Meets general YoE",
+        "Solid distributed systems understanding"
+      ],
+      "gapWarnings": [
+        "Lacks specific networking/infrastructure domain proof (heavily required for Enterprise Network)",
+        "Linux/Unix systems level dev experience not explicit on resume",
+        "Relocation to Bengaluru required"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T08:20:52.786Z"
+    }
+  ],
+  "tailoredResumes": [],
+  "sweepHistory": [
+    {
+      "id": "sweep-1794903652788",
+      "timestamp": "2026-11-17T08:20:52.788Z",
+      "laneScope": "faang",
+      "recencyWindow": "7d",
+      "roleFocus": "Mid-Level SWE",
+      "companiesTargeted": [
+        "Google",
+        "Microsoft",
+        "Amazon"
+      ],
+      "jobsAdded": 4
+    },
+    {
+      "id": "sweep-1794903478509",
+      "timestamp": "2026-11-17T08:17:58.509Z",
+      "laneScope": "faang",
+      "recencyWindow": "7d",
+      "roleFocus": "Mid-Level SWE",
+      "companiesTargeted": [
+        "Google",
+        "Microsoft",
+        "Amazon"
+      ],
+      "jobsAdded": 4
+    },
+    {
+      "id": "sweep-1794897852564",
+      "timestamp": "2026-11-17T06:44:12.564Z",
+      "laneScope": "faang",
+      "recencyWindow": "72h",
+      "roleFocus": "Mid-Level Software Engineer / SDE-2 (Backend, Distributed Systems, Cloud, AI Platform)",
+      "companiesTargeted": [
+        "Google",
+        "Microsoft",
+        "Amazon",
+        "Meta",
+        "Uber",
+        "Netflix",
+        "LinkedIn"
+      ],
+      "jobsAdded": 4
+    },
+    {
+      "id": "sweep-1794897574486",
+      "timestamp": "2026-11-17T06:39:34.486Z",
+      "laneScope": "warmup",
+      "recencyWindow": "72h",
+      "roleFocus": "Mid-Level Software Engineer / SDE-2 (Backend, Distributed Systems, Cloud, AI Platform)",
+      "companiesTargeted": [
+        "Atlassian",
+        "Snowflake",
+        "Databricks",
+        "Stripe",
+        "Rubrik",
+        "MongoDB",
+        "Cloudflare",
+        "Coinbase",
+        "GitLab",
+        "Razorpay",
+        "CRED",
+        "Okta",
+        "Zscaler",
+        "Pure Storage",
+        "Celonis",
+        "Netskope",
+        "Toast",
+        "Elastic",
+        "Fivetran",
+        "Sumo Logic",
+        "Twilio",
+        "Airbnb",
+        "Druva",
+        "Agoda",
+        "Datadog",
+        "CommerceIQ",
+        "Groww",
+        "Coupang",
+        "Anthropic",
+        "Starburst",
+        "Neo4j",
+        "SingleStore",
+        "Yugabyte",
+        "Together AI",
+        "Mixpanel",
+        "LaunchDarkly",
+        "Samsara",
+        "Tenstorrent",
+        "New Relic",
+        "Fastly",
+        "Figma",
+        "Grafana Labs",
+        "Adyen",
+        "Cockroach Labs",
+        "Duolingo",
+        "Scale AI",
+        "OpenAI",
+        "Cursor",
+        "Notion",
+        "Temporal",
+        "ServiceNow",
+        "Swiggy",
+        "Freshworks",
+        "Whatfix",
+        "Meesho",
+        "Mindtickle",
+        "Intuit",
+        "Adobe",
+        "Walmart Global Tech",
+        "PayPal",
+        "Salesforce",
+        "Flipkart",
+        "PhonePe",
+        "Postman",
+        "BrowserStack",
+        "Confluent",
+        "Nutanix",
+        "Cohesity",
+        "CrowdStrike",
+        "Palo Alto Networks",
+        "NVIDIA",
+        "Arista Networks",
+        "Visa",
+        "American Express",
+        "Rippling"
+      ],
+      "jobsAdded": 9
+    },
+    {
+      "id": "sweep-1794897051191",
+      "timestamp": "2026-11-17T06:30:51.191Z",
+      "laneScope": "warmup",
+      "recencyWindow": "72h",
+      "roleFocus": "Mid-Level Software Engineer / SDE-2 (Backend, Distributed Systems, Cloud, AI Platform)",
+      "companiesTargeted": [
+        "Atlassian",
+        "Snowflake",
+        "Databricks",
+        "Stripe",
+        "Rubrik",
+        "MongoDB",
+        "Cloudflare",
+        "Coinbase",
+        "GitLab",
+        "Razorpay"
+      ],
+      "jobsAdded": 14
+    }
+  ]
+}
