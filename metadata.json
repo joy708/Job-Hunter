@@ -2,5 +2,7 @@
   "name": "RapidApply Radar",
   "description": "Live career-page job discovery, shortlist probability ranking, and tailored resume PDF studio for mid-level SWE roles in India.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

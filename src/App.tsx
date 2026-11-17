@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { CompaniesView } from './components/CompaniesView.tsx';
 import { JobRadarView } from './components/JobRadarView.tsx';
@@ -10,6 +10,8 @@ import { TopBar } from './components/TopBar.tsx';
 import type {
   JobStatus,
   ResumeData,
+  SweepBatchProgress,
+  SweepBatchResult,
   SweepRequest,
   TailoredResumeVersion,
   TargetCompany,
@@ -35,13 +37,25 @@ async function apiJson<T>(url: string, init?: RequestInit): Promise<T> {
       data?.error ||
         (text && !text.trim().startsWith('<')
           ? text.slice(0, 220)
-          : `Server returned HTTP ${res.status}. Try selecting fewer companies (e.g. FAANG+ or Warm-Up only) and retrying.`)
+          : `Server returned HTTP ${res.status}. Try retrying the remaining batch.`)
     );
   }
   if (!data) {
     throw new Error('Server returned an unexpected non-JSON response. Please retry.');
   }
   return data;
+}
+
+function chunkIds(ids: string[], size = 10): string[][] {
+  const chunks: string[][] = [];
+  for (let i = 0; i < ids.length; i += size) {
+    chunks.push(ids.slice(i, i + size));
+  }
+  return chunks;
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export default function App() {
@@ -51,8 +65,10 @@ export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [sweepModalOpen, setSweepModalOpen] = useState(false);
   const [isSweeping, setIsSweeping] = useState(false);
+  const [sweepProgress, setSweepProgress] = useState<SweepBatchProgress | null>(null);
   const [tailoringJobId, setTailoringJobId] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const sweepAbortRef = useRef(false);
 
   const loadInitialWorkspace = useCallback(async () => {
     try {
@@ -70,26 +86,272 @@ export default function App() {
     void loadInitialWorkspace();
   }, [loadInitialWorkspace]);
 
-  const handleRunSweep = async (request: SweepRequest) => {
+  const executeBatchSequence = async (
+    request: SweepRequest,
+    companyIdsToRun: string[],
+    priorTotals?: {
+      companiesChecked: number;
+      totalCompanies: number;
+      discoveredCount: number;
+      skippedMinYoeCount: number;
+      scoredCount: number;
+      addedCount: number;
+      updatedCount: number;
+      completedBatches: number;
+      totalBatches: number;
+    }
+  ) => {
+    if (!workspace) return;
+    const batches = chunkIds(companyIdsToRun, 10);
+    if (batches.length === 0) {
+      setErrorMessage('Select at least one enabled target company before running a sweep.');
+      return;
+    }
+
+    sweepAbortRef.current = false;
     setSweepModalOpen(false);
     setActiveTab('radar');
-    setIsSweeping(true);
     setErrorMessage(null);
-    try {
-      const result = await apiJson<{
-        workspace: WorkspaceState;
-        addedCount: number;
-        discoveredCount: number;
-      }>('/api/jobs/sweep', {
-        method: 'POST',
-        body: JSON.stringify(request),
+
+    const companyNameById = new Map(workspace.companies.map((c) => [c.id, c.name]));
+    const namesFor = (ids: string[]) => ids.map((id) => companyNameById.get(id) ?? id);
+
+    const totalCompanies = priorTotals?.totalCompanies ?? companyIdsToRun.length;
+    const totalBatches = priorTotals?.totalBatches ?? batches.length;
+    const batchOffset = priorTotals?.completedBatches ?? 0;
+
+    let companiesChecked = priorTotals?.companiesChecked ?? 0;
+    let discoveredCount = priorTotals?.discoveredCount ?? 0;
+    let skippedMinYoeCount = priorTotals?.skippedMinYoeCount ?? 0;
+    let scoredCount = priorTotals?.scoredCount ?? 0;
+    let addedCount = priorTotals?.addedCount ?? 0;
+    let updatedCount = priorTotals?.updatedCount ?? 0;
+
+    const runSingleBatch = async (batchIds: string[], batchNumber: number, remainingAfter: string[]) => {
+      setSweepProgress({
+        status: 'running',
+        currentBatch: batchNumber,
+        totalBatches,
+        companiesChecked,
+        totalCompanies,
+        currentBatchNames: namesFor(batchIds),
+        discoveredCount,
+        skippedMinYoeCount,
+        scoredCount,
+        addedCount,
+        updatedCount,
+        remainingCompanyIds: [
+          ...batchIds,
+          ...remainingAfter,
+        ],
+        lastRequest: request,
       });
+
+      const result = await apiJson<SweepBatchResult>('/api/jobs/sweep', {
+        method: 'POST',
+        body: JSON.stringify({
+          ...request,
+          companyIds: batchIds,
+        }),
+      });
+
       setWorkspace(result.workspace);
+      companiesChecked += batchIds.length;
+      discoveredCount += result.discoveredCount ?? 0;
+      skippedMinYoeCount += result.skippedMinYoeCount ?? 0;
+      scoredCount += result.scoredCount ?? 0;
+      addedCount += result.addedCount ?? 0;
+      updatedCount += result.updatedCount ?? 0;
+
+      setSweepProgress({
+        status: 'running',
+        currentBatch: batchNumber,
+        totalBatches,
+        companiesChecked,
+        totalCompanies,
+        currentBatchNames: namesFor(batchIds),
+        discoveredCount,
+        skippedMinYoeCount,
+        scoredCount,
+        addedCount,
+        updatedCount,
+        remainingCompanyIds: remainingAfter,
+        lastRequest: request,
+      });
+
+      return result;
+    };
+
+    // Batch 1 runs immediately so user gets results fast without waiting for all 82 companies
+    setIsSweeping(true);
+    let lastScoredCount = 0;
+    try {
+      const remainingAfterFirst = batches.slice(1).flat();
+      const firstResult = await runSingleBatch(batches[0], batchOffset + 1, remainingAfterFirst);
+      lastScoredCount = firstResult.scoredCount ?? 0;
     } catch (err) {
-      setErrorMessage(err instanceof Error ? err.message : 'Career sweep failed.');
-    } finally {
+      const msg = err instanceof Error ? err.message : 'Career sweep failed.';
+      setErrorMessage(msg);
+      setSweepProgress({
+        status: 'paused',
+        currentBatch: batchOffset + 1,
+        totalBatches,
+        companiesChecked,
+        totalCompanies,
+        currentBatchNames: namesFor(batches[0]),
+        discoveredCount,
+        skippedMinYoeCount,
+        scoredCount,
+        addedCount,
+        updatedCount,
+        remainingCompanyIds: batches.flat(),
+        lastRequest: request,
+      });
       setIsSweeping(false);
+      return;
     }
+    setIsSweeping(false);
+
+    if (batches.length === 1) {
+      setSweepProgress({
+        status: 'completed',
+        currentBatch: totalBatches,
+        totalBatches,
+        companiesChecked,
+        totalCompanies,
+        currentBatchNames: [],
+        discoveredCount,
+        skippedMinYoeCount,
+        scoredCount,
+        addedCount,
+        updatedCount,
+        remainingCompanyIds: [],
+        lastRequest: request,
+      });
+      return;
+    }
+
+    // Batches 2..N run progressively in the background while the user interacts with Batch 1 results
+    for (let idx = 1; idx < batches.length; idx++) {
+      if (sweepAbortRef.current) {
+        setSweepProgress({
+          status: 'stopped',
+          currentBatch: batchOffset + idx,
+          totalBatches,
+          companiesChecked,
+          totalCompanies,
+          currentBatchNames: [],
+          discoveredCount,
+          skippedMinYoeCount,
+          scoredCount,
+          addedCount,
+          updatedCount,
+          remainingCompanyIds: batches.slice(idx).flat(),
+          lastRequest: request,
+        });
+        return;
+      }
+
+      // Pace AI calls to avoid hitting Gemini RPM burst limits; skip cooldown if previous batch made 0 Gemini calls
+      await sleep(lastScoredCount > 0 ? 2400 : 350);
+      if (sweepAbortRef.current) {
+        setSweepProgress({
+          status: 'stopped',
+          currentBatch: batchOffset + idx,
+          totalBatches,
+          companiesChecked,
+          totalCompanies,
+          currentBatchNames: [],
+          discoveredCount,
+          skippedMinYoeCount,
+          scoredCount,
+          addedCount,
+          updatedCount,
+          remainingCompanyIds: batches.slice(idx).flat(),
+          lastRequest: request,
+        });
+        return;
+      }
+
+      const batchIds = batches[idx];
+      const remainingAfter = batches.slice(idx + 1).flat();
+      try {
+        const res = await runSingleBatch(batchIds, batchOffset + idx + 1, remainingAfter);
+        lastScoredCount = res.scoredCount ?? 0;
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : 'Background batch sweep paused.';
+        setErrorMessage(msg);
+        setSweepProgress({
+          status: 'paused',
+          currentBatch: batchOffset + idx + 1,
+          totalBatches,
+          companiesChecked,
+          totalCompanies,
+          currentBatchNames: namesFor(batchIds),
+          discoveredCount,
+          skippedMinYoeCount,
+          scoredCount,
+          addedCount,
+          updatedCount,
+          remainingCompanyIds: batches.slice(idx).flat(),
+          lastRequest: request,
+        });
+        return;
+      }
+    }
+
+    setSweepProgress({
+      status: 'completed',
+      currentBatch: totalBatches,
+      totalBatches,
+      companiesChecked,
+      totalCompanies,
+      currentBatchNames: [],
+      discoveredCount,
+      skippedMinYoeCount,
+      scoredCount,
+      addedCount,
+      updatedCount,
+      remainingCompanyIds: [],
+      lastRequest: request,
+    });
+  };
+
+  const handleRunSweep = async (request: SweepRequest) => {
+    if (!workspace) return;
+    const resolvedCompanyIds =
+      request.companyIds && request.companyIds.length > 0
+        ? request.companyIds
+        : workspace.companies
+            .filter((c) => {
+              if (!c.enabled) return false;
+              if (request.laneScope === 'faang') return c.tier === 'FAANG+';
+              if (request.laneScope === 'warmup') return c.tier === 'Warm-Up Product';
+              return true;
+            })
+            .map((c) => c.id);
+
+    await executeBatchSequence(request, resolvedCompanyIds);
+  };
+
+  const handleStopSweep = () => {
+    sweepAbortRef.current = true;
+  };
+
+  const handleResumeSweep = async () => {
+    if (!sweepProgress || sweepProgress.remainingCompanyIds.length === 0) return;
+    const completedBatches = Math.floor(sweepProgress.companiesChecked / 10);
+    await executeBatchSequence(sweepProgress.lastRequest, sweepProgress.remainingCompanyIds, {
+      companiesChecked: sweepProgress.companiesChecked,
+      totalCompanies: sweepProgress.totalCompanies,
+      discoveredCount: sweepProgress.discoveredCount,
+      skippedMinYoeCount: sweepProgress.skippedMinYoeCount,
+      scoredCount: sweepProgress.scoredCount,
+      addedCount: sweepProgress.addedCount,
+      updatedCount: sweepProgress.updatedCount,
+      completedBatches,
+      totalBatches: sweepProgress.totalBatches,
+    });
   };
 
   const handleTailorJob = async (jobId: string) => {
@@ -200,6 +462,12 @@ export default function App() {
     );
   }
 
+  const isBackgroundSweeping = sweepProgress?.status === 'running' && !isSweeping;
+  const batchLabel =
+    sweepProgress?.status === 'running'
+      ? `Batch ${sweepProgress.currentBatch}/${sweepProgress.totalBatches}...`
+      : undefined;
+
   return (
     <div className="min-h-screen flex bg-slate-50 text-slate-900">
       <Sidebar
@@ -217,6 +485,8 @@ export default function App() {
         <TopBar
           activeTab={activeTab}
           isSweeping={isSweeping}
+          isBackgroundSweeping={isBackgroundSweeping}
+          batchLabel={batchLabel}
           onOpenSweepModal={() => setSweepModalOpen(true)}
           onOpenMobileMenu={() => setMobileMenuOpen(true)}
         />
@@ -227,9 +497,13 @@ export default function App() {
               jobs={workspace.jobs}
               tailoredResumes={workspace.tailoredResumes}
               isSweeping={isSweeping}
+              sweepProgress={sweepProgress}
               tailoringJobId={tailoringJobId}
               errorMessage={errorMessage}
               onDismissError={() => setErrorMessage(null)}
+              onStopSweep={handleStopSweep}
+              onResumeSweep={handleResumeSweep}
+              onDismissSweepProgress={() => setSweepProgress(null)}
               onOpenSweepModal={() => setSweepModalOpen(true)}
               onTailorJob={handleTailorJob}
               onOpenTailoredResume={(resumeId) => {
@@ -275,7 +549,7 @@ export default function App() {
       <SweepModal
         open={sweepModalOpen}
         companies={workspace.companies}
-        isSweeping={isSweeping}
+        isSweeping={isSweeping || isBackgroundSweeping}
         onClose={() => setSweepModalOpen(false)}
         onRunSweep={handleRunSweep}
       />

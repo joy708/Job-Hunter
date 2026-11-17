@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Radar, Search, X } from 'lucide-react';
 import type { RecencyWindow, SweepRequest, TargetCompany } from '../types/workspace.ts';
 
@@ -20,12 +20,26 @@ export function SweepModal({
   const [laneScope, setLaneScope] = useState<'all' | 'warmup' | 'faang'>('all');
   const [recencyWindow, setRecencyWindow] = useState<RecencyWindow>('72h');
   const [roleFocus, setRoleFocus] = useState(
-    'Mid-Level Software Engineer / SDE-2 (Backend, Distributed Systems, Cloud, AI Platform)'
+    'Mid-Level Software Engineer / SDE-2 / MTS / Computer Scientist (Backend, Distributed Systems, Cloud, AI)'
   );
   const [companyQuery, setCompanyQuery] = useState('');
   const [selectedIds, setSelectedIds] = useState<string[]>(() =>
     companies.filter((c) => c.enabled).map((c) => c.id)
   );
+
+  useEffect(() => {
+    if (!open) return;
+    setSelectedIds(
+      companies
+        .filter((c) => {
+          if (!c.enabled) return false;
+          if (laneScope === 'faang') return c.tier === 'FAANG+';
+          if (laneScope === 'warmup') return c.tier === 'Warm-Up Product';
+          return true;
+        })
+        .map((c) => c.id)
+    );
+  }, [open, companies, laneScope]);
 
   if (!open) return null;
 
@@ -106,7 +120,7 @@ export function SweepModal({
               Configure Live Career-Page Sweep
             </h2>
             <p className="text-xs text-slate-500 mt-0.5">
-              Fetches live openings across official career portals &amp; ATS boards in India.
+              Fetches 10 companies first &amp; scores immediately, then sweeps remaining batches of 10 in the background. Skips ≥5 yrs min YoE before AI judging.
             </p>
           </div>
           <button

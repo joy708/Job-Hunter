@@ -125,3 +125,29 @@ export interface SweepRequest {
   roleFocus: string;
   companyIds?: string[];
 }
+
+export interface SweepBatchResult {
+  workspace: WorkspaceState;
+  addedCount: number;
+  updatedCount: number;
+  discoveredCount: number;
+  skippedMinYoeCount: number;
+  scoredCount: number;
+  batchCompanies: string[];
+}
+
+export interface SweepBatchProgress {
+  status: 'running' | 'paused' | 'stopped' | 'completed';
+  currentBatch: number;
+  totalBatches: number;
+  companiesChecked: number;
+  totalCompanies: number;
+  currentBatchNames: string[];
+  discoveredCount: number;
+  skippedMinYoeCount: number;
+  scoredCount: number;
+  addedCount: number;
+  updatedCount: number;
+  remainingCompanyIds: string[];
+  lastRequest: SweepRequest;
+}

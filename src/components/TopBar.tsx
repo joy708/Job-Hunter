@@ -4,6 +4,8 @@ import type { WorkspaceTab } from './Sidebar.tsx';
 interface TopBarProps {
   activeTab: WorkspaceTab;
   isSweeping: boolean;
+  isBackgroundSweeping?: boolean;
+  batchLabel?: string;
   onOpenSweepModal: () => void;
   onOpenMobileMenu: () => void;
 }
@@ -18,10 +20,13 @@ const VIEW_TITLES: Record<WorkspaceTab, { section: string; detail: string }> = {
 export function TopBar({
   activeTab,
   isSweeping,
+  isBackgroundSweeping = false,
+  batchLabel,
   onOpenSweepModal,
   onOpenMobileMenu,
 }: TopBarProps) {
   const title = VIEW_TITLES[activeTab];
+  const busy = isSweeping || isBackgroundSweeping;
 
   return (
     <header className="h-16 shrink-0 bg-white border-b border-slate-200 px-4 sm:px-6 flex items-center justify-between gap-8">
@@ -47,11 +52,13 @@ export function TopBar({
         <button
           type="button"
           onClick={onOpenSweepModal}
-          disabled={isSweeping}
+          disabled={busy}
           className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-700 text-white text-sm font-medium hover:bg-teal-800 disabled:opacity-60 disabled:cursor-not-allowed transition-colors whitespace-nowrap shrink-0"
         >
-          <RefreshCw className={`h-4 w-4 ${isSweeping ? 'animate-spin' : ''}`} />
-          <span>{isSweeping ? 'Sweeping Careers...' : 'Run Career Sweep'}</span>
+          <RefreshCw className={`h-4 w-4 ${busy ? 'animate-spin' : ''}`} />
+          <span>
+            {busy ? batchLabel || 'Sweeping Careers...' : 'Run Career Sweep'}
+          </span>
         </button>
       </div>
     </header>

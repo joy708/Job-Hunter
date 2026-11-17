@@ -30,7 +30,7 @@
     "skills": [
       {
         "category": "Languages",
-        "items": "Python, Java, C++, SQL, JavaScript"
+        "items": "Python, C++, SQL, JavaScript"
       },
       {
         "category": "Software Engineering",
@@ -38,7 +38,7 @@
       },
       {
         "category": "Backend & Frameworks",
-        "items": "FastAPI, Spring Boot, Django, LangGraph, React"
+        "items": "FastAPI, Django, LangGraph, React"
       },
       {
         "category": "Databases & Data Systems",
@@ -259,7 +259,7 @@
       "locationHubs": [
         "Bengaluru"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-meta",
@@ -272,7 +272,7 @@
         "Bengaluru",
         "Gurugram"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-uber",
@@ -285,7 +285,7 @@
         "Bengaluru",
         "Hyderabad"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-netflix",
@@ -298,7 +298,7 @@
         "Mumbai",
         "Bengaluru"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-linkedin",
@@ -310,7 +310,7 @@
       "locationHubs": [
         "Bengaluru"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-okta",
@@ -882,7 +882,7 @@
       "locationHubs": [
         "Bengaluru"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-adobe",
@@ -895,7 +895,7 @@
         "Noida",
         "Bengaluru"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-walmart",
@@ -908,7 +908,7 @@
         "Bengaluru",
         "Chennai"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-paypal",
@@ -921,7 +921,7 @@
         "Bengaluru",
         "Chennai"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-salesforce",
@@ -934,7 +934,7 @@
         "Hyderabad",
         "Bengaluru"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-flipkart",
@@ -946,7 +946,7 @@
       "locationHubs": [
         "Bengaluru"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-phonepe",
@@ -959,7 +959,7 @@
         "Bengaluru",
         "Pune"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-postman",
@@ -972,7 +972,7 @@
         "Bengaluru",
         "Remote India"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-browserstack",
@@ -985,7 +985,7 @@
         "Mumbai",
         "Bengaluru"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-confluent",
@@ -997,7 +997,7 @@
       "locationHubs": [
         "Bengaluru"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-nutanix",
@@ -1010,7 +1010,7 @@
         "Bengaluru",
         "Pune"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-cohesity",
@@ -1023,7 +1023,7 @@
         "Bengaluru",
         "Pune"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-crowdstrike",
@@ -1037,7 +1037,7 @@
         "Bengaluru",
         "Remote India"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-paloaltonetworks",
@@ -1049,7 +1049,7 @@
       "locationHubs": [
         "Bengaluru"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-nvidia",
@@ -1063,7 +1063,7 @@
         "Pune",
         "Hyderabad"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-arista",
@@ -1076,7 +1076,7 @@
         "Bengaluru",
         "Pune"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-visa",
@@ -1088,7 +1088,7 @@
       "locationHubs": [
         "Bengaluru"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-amex",
@@ -1101,7 +1101,7 @@
         "Bengaluru",
         "Gurugram"
       ],
-      "enabled": false
+      "enabled": true
     },
     {
       "id": "co-rippling",
@@ -1113,10 +1113,1364 @@
       "locationHubs": [
         "Bengaluru"
       ],
-      "enabled": false
+      "enabled": true
     }
   ],
   "jobs": [
+    {
+      "id": "li-4469942327",
+      "company": "Visa",
+      "title": "Sr. SW Engineer (3 - 6 years of experience as a Full-stack Developer - .Net , React / Angular, GenAI)",
+      "location": "Bengaluru, Karnataka, India",
+      "postedAtText": "1mo ago",
+      "freshnessHours": 826,
+      "applyUrl": "https://in.linkedin.com/jobs/view/sr-sw-engineer-3-6-years-of-experience-as-a-full-stack-developer-net-react-angular-genai-at-visa-4469942327",
+      "sourceUrls": [
+        {
+          "title": "Visa Careers",
+          "url": "https://in.linkedin.com/jobs/view/sr-sw-engineer-3-6-years-of-experience-as-a-full-stack-developer-net-react-angular-genai-at-visa-4469942327"
+        }
+      ],
+      "tier": "Warm-Up Product",
+      "estimatedCompLPA": "40–52 LPA",
+      "cultureSummary": "High-reliability global payments tech hub in Bengaluru with great WLB.",
+      "keyRequirements": [
+        "3+ years of relevant experience",
+        "Full-stack developer experience",
+        ".Net, React/Angular"
+      ],
+      "minQualificationsMet": [
+        "3+ years of relevant experience",
+        "Bachelor's degree"
+      ],
+      "minQualificationsMissing": [
+        "Full-stack development experience",
+        ".Net framework (Zero production experience)",
+        "React/Angular production experience"
+      ],
+      "preferredQualificationsMet": [],
+      "preferredQualificationsMissing": [
+        ".Net",
+        "Frontend production work"
+      ],
+      "yoeAssessment": "5.3 YoE vs 3+ yrs req (Fits)",
+      "realityVerdict": "Extremely low probability; candidate lacks the specific Microsoft stack and frontend production experience required for this role.",
+      "shortlistProbability": 20,
+      "strategicLane": "Warm-Up First",
+      "matchReasons": [
+        "Meets total years of experience"
+      ],
+      "gapWarnings": [
+        "Missing mandatory .Net/C# stack",
+        "Missing production frontend experience",
+        "No relocation/immigration support provided by company",
+        "JD references Microsoft Azure — verify required depth vs. Joy's GCP/Python/C++/Snowflake background."
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:38:15.127Z"
+    },
+    {
+      "id": "li-4490336023",
+      "company": "PayPal",
+      "title": "Sr Software Engineer",
+      "location": "Bengaluru, Karnataka, India",
+      "postedAtText": "5d ago",
+      "freshnessHours": 130,
+      "applyUrl": "https://in.linkedin.com/jobs/view/sr-software-engineer-at-paypal-4490336023",
+      "sourceUrls": [
+        {
+          "title": "PayPal Careers",
+          "url": "https://in.linkedin.com/jobs/view/sr-software-engineer-at-paypal-4490336023"
+        }
+      ],
+      "tier": "Warm-Up Product",
+      "estimatedCompLPA": "40–50 LPA",
+      "cultureSummary": "Predictable hours, enterprise fintech reliability, Java/Python microservices.",
+      "keyRequirements": [
+        "3+ years relevant experience",
+        "Strong proficiency in Java",
+        "Experience with containerization (Docker, Kubernetes)"
+      ],
+      "minQualificationsMet": [
+        "3+ years relevant experience",
+        "Bachelor's degree"
+      ],
+      "minQualificationsMissing": [
+        "Strong proficiency in Java (Zero production experience)",
+        "Experience with Kubernetes (Zero production experience)"
+      ],
+      "preferredQualificationsMet": [
+        "Experience with distributed systems",
+        "Experience with relational/NoSQL stores",
+        "RBAC knowledge"
+      ],
+      "preferredQualificationsMissing": [
+        "Java/Spring Boot ecosystem",
+        "Kubernetes"
+      ],
+      "yoeAssessment": "5.3 YoE vs 3+ yrs req (Fits)",
+      "realityVerdict": "Major stack mismatch due to lack of professional Java and Kubernetes experience; unlikely to be shortlisted.",
+      "shortlistProbability": 28,
+      "strategicLane": "Warm-Up First",
+      "matchReasons": [
+        "Relevant years of experience",
+        "Good alignment on general backend concepts (distributed systems, RBAC, performance)"
+      ],
+      "gapWarnings": [
+        "Primary stack mismatch: Java/Spring Boot is mandatory",
+        "Kubernetes is missing",
+        "Location: Role is Bengaluru; relocation to Bengaluru required"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:38:15.127Z"
+    },
+    {
+      "id": "li-4489785647",
+      "company": "Uber",
+      "title": "Software Engineer II - Machine Learning Engineer",
+      "location": "Hyderabad, Telangana, India",
+      "postedAtText": "1d ago",
+      "freshnessHours": 33,
+      "applyUrl": "https://in.linkedin.com/jobs/view/software-engineer-ii-machine-learning-engineer-at-uber-4489785647",
+      "sourceUrls": [
+        {
+          "title": "Uber Careers",
+          "url": "https://in.linkedin.com/jobs/view/software-engineer-ii-machine-learning-engineer-at-uber-4489785647"
+        }
+      ],
+      "tier": "FAANG+",
+      "estimatedCompLPA": "48–72 LPA",
+      "cultureSummary": "Deep distributed systems, Go/Java/Python stack, high-bar engineering mentorship.",
+      "keyRequirements": [
+        "2+ years Software Engineering experience",
+        "Python/C/C++/Java/Go",
+        "ML packages (TensorFlow/PyTorch/etc)",
+        "SQL/Kafka/Cassandra",
+        "Production ML lifecycle at scale"
+      ],
+      "minQualificationsMet": [
+        "5.3 years SE experience",
+        "Python/Java/C++",
+        "SQL",
+        "Production scale experience"
+      ],
+      "minQualificationsMissing": [
+        "Kafka/Cassandra/Hive production experience",
+        "Deep Learning (TensorFlow/PyTorch) production model training",
+        "Hybrid onsite commitment in Hyderabad"
+      ],
+      "preferredQualificationsMet": [
+        "LLMs/RAG experience",
+        "GenAI integration"
+      ],
+      "preferredQualificationsMissing": [
+        "Modern deep learning architectures",
+        "Research or applied focus on large-scale ML systems"
+      ],
+      "yoeAssessment": "5.3 years vs 2-4 years req (Fits)",
+      "realityVerdict": "Missing critical streaming and deep learning frameworks makes this a low-probability match for a dedicated ML Engineer role.",
+      "shortlistProbability": 42,
+      "strategicLane": "FAANG+ Priority",
+      "matchReasons": [
+        "Direct backend and GenAI/RAG experience",
+        "Strong cloud infrastructure experience (GCP)"
+      ],
+      "gapWarnings": [
+        "Candidate lacks mandatory Kafka/Streaming and Deep Learning/CUDA experience",
+        "Requires full-time relocation to Hyderabad for hybrid onsite"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:09:48.520Z"
+    },
+    {
+      "id": "li-4489941527",
+      "company": "Visa",
+      "title": "Sr Software Engineer (3-5 yrs of exp - Full stack development, Java, React, Gen AI)",
+      "location": "Bengaluru, Karnataka, India",
+      "postedAtText": "6d ago",
+      "freshnessHours": 154,
+      "applyUrl": "https://in.linkedin.com/jobs/view/sr-software-engineer-3-5-yrs-of-exp-full-stack-development-java-react-gen-ai-at-visa-4489941527",
+      "sourceUrls": [
+        {
+          "title": "Visa Careers",
+          "url": "https://in.linkedin.com/jobs/view/sr-software-engineer-3-5-yrs-of-exp-full-stack-development-java-react-gen-ai-at-visa-4489941527"
+        }
+      ],
+      "tier": "Warm-Up Product",
+      "estimatedCompLPA": "40–52 LPA",
+      "cultureSummary": "High-reliability global payments tech hub in Bengaluru with great WLB.",
+      "keyRequirements": [
+        "4+ years of relevant experience",
+        "Expertise in Java, JavaScript, Spring Boot, SQL",
+        "2+ years in React"
+      ],
+      "minQualificationsMet": [
+        "4+ years of relevant experience",
+        "Bachelor's degree"
+      ],
+      "minQualificationsMissing": [
+        "Java (Zero production experience)",
+        "Spring Boot (Zero production experience)",
+        "React (Zero production experience)"
+      ],
+      "preferredQualificationsMet": [
+        "Experience in large-scale applications",
+        "SQL experience"
+      ],
+      "preferredQualificationsMissing": [
+        "Java/Spring Boot",
+        "Frontend framework production experience"
+      ],
+      "yoeAssessment": "5.3 YoE vs 4+ yrs req (Fits)",
+      "realityVerdict": "Hard rejection due to complete lack of the mandatory Java/Spring Boot/React production stack.",
+      "shortlistProbability": 15,
+      "strategicLane": "Warm-Up First",
+      "matchReasons": [
+        "Meets experience threshold"
+      ],
+      "gapWarnings": [
+        "Missing primary stack: Java, Spring Boot, and React production experience",
+        "Role is hybrid 3 days in office; candidate is in Kolkata"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:38:15.127Z"
+    },
+    {
+      "id": "li-4490752501",
+      "company": "PayPal",
+      "title": "Software Engineer",
+      "location": "Bengaluru, Karnataka, India",
+      "postedAtText": "4d ago",
+      "freshnessHours": 106,
+      "applyUrl": "https://in.linkedin.com/jobs/view/software-engineer-at-paypal-4490752501",
+      "sourceUrls": [
+        {
+          "title": "PayPal Careers",
+          "url": "https://in.linkedin.com/jobs/view/software-engineer-at-paypal-4490752501"
+        }
+      ],
+      "tier": "Warm-Up Product",
+      "estimatedCompLPA": "40–50 LPA",
+      "cultureSummary": "Predictable hours, enterprise fintech reliability, Java/Python microservices.",
+      "keyRequirements": [
+        "1+ years relevant experience",
+        "Expertise in React, Next.js and Express"
+      ],
+      "minQualificationsMet": [
+        "1+ years relevant experience",
+        "Bachelor's degree"
+      ],
+      "minQualificationsMissing": [
+        "Expertise in React, Next.js, and Express (Resume lists React but lacks production-proven experience)"
+      ],
+      "preferredQualificationsMet": [],
+      "preferredQualificationsMissing": [
+        "React, Next.js, Express production experience"
+      ],
+      "yoeAssessment": "5.3 YoE vs 1+ yrs req (Over-leveled)",
+      "realityVerdict": "Highly likely to be rejected for being over-leveled and lacking the specific JavaScript backend stack required.",
+      "shortlistProbability": 35,
+      "strategicLane": "Warm-Up First",
+      "matchReasons": [
+        "Fits industry experience requirement",
+        "Has general backend and system design background"
+      ],
+      "gapWarnings": [
+        "Candidate is significantly over-qualified for a junior 1+ year role",
+        "Lack of production experience in Express.js is a primary stack blocker",
+        "JD references Java (Industry) — verify required depth vs. Joy's GCP/Python/C++/Snowflake background.",
+        "JD references Kafka / Streaming / Spark — verify required depth vs. Joy's GCP/Python/C++/Snowflake background."
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:38:15.127Z"
+    },
+    {
+      "id": "amazon-10603987",
+      "company": "Amazon",
+      "title": "Software Development Engineer II, Amazon Now (Tez)",
+      "location": "Bengaluru, Karnataka, IND",
+      "postedAtText": "4d ago",
+      "freshnessHours": 105,
+      "applyUrl": "https://www.amazon.jobs/en/jobs/10603987/software-development-engineer-ii-amazon-now-tez",
+      "sourceUrls": [
+        {
+          "title": "Amazon Jobs India",
+          "url": "https://www.amazon.jobs/en/jobs/10603987/software-development-engineer-ii-amazon-now-tez"
+        }
+      ],
+      "tier": "FAANG+",
+      "estimatedCompLPA": "42–62 LPA",
+      "cultureSummary": "Large-scale distributed systems at SDE-2; team-dependent WLB, strong resume signal.",
+      "keyRequirements": [
+        "3+ years professional software development",
+        "2+ years system design",
+        "Programming proficiency"
+      ],
+      "minQualificationsMet": [
+        "3+ years professional experience",
+        "Design experience",
+        "Programming proficiency"
+      ],
+      "minQualificationsMissing": [],
+      "preferredQualificationsMet": [],
+      "preferredQualificationsMissing": [],
+      "yoeAssessment": "5.3 YoE vs 3+ yrs req (Fits)",
+      "realityVerdict": "Highly qualified for SDE II; solid background for a large-scale commerce platform.",
+      "shortlistProbability": 80,
+      "strategicLane": "FAANG+ Priority",
+      "matchReasons": [
+        "Meets all requirements",
+        "Solid distributed systems experience"
+      ],
+      "gapWarnings": [
+        "Requires relocation to Bengaluru"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
+    {
+      "id": "amazon-10603992",
+      "company": "Amazon",
+      "title": "Software Development Engineer, IN Amazon Business",
+      "location": "Bengaluru, Karnataka, IND",
+      "postedAtText": "4d ago",
+      "freshnessHours": 105,
+      "applyUrl": "https://www.amazon.jobs/en/jobs/10603992/software-development-engineer-in-amazon-business",
+      "sourceUrls": [
+        {
+          "title": "Amazon Jobs India",
+          "url": "https://www.amazon.jobs/en/jobs/10603992/software-development-engineer-in-amazon-business"
+        }
+      ],
+      "tier": "FAANG+",
+      "estimatedCompLPA": "42–62 LPA",
+      "cultureSummary": "Large-scale distributed systems at SDE-2; team-dependent WLB, strong resume signal.",
+      "keyRequirements": [
+        "3+ years professional software development",
+        "2+ years system design",
+        "Programming proficiency"
+      ],
+      "minQualificationsMet": [
+        "3+ years professional experience",
+        "Design experience",
+        "Programming proficiency"
+      ],
+      "minQualificationsMissing": [],
+      "preferredQualificationsMet": [
+        "Full SDLC"
+      ],
+      "preferredQualificationsMissing": [],
+      "yoeAssessment": "5.3 YoE vs 3+ yrs req (Fits)",
+      "realityVerdict": "Solid match; well-aligned with enterprise software development needs.",
+      "shortlistProbability": 77,
+      "strategicLane": "FAANG+ Priority",
+      "matchReasons": [
+        "Meets all basic qualifications"
+      ],
+      "gapWarnings": [
+        "Requires relocation to Bengaluru"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
+    {
+      "id": "amazon-10601867",
+      "company": "Amazon",
+      "title": "Software Development Engineer, ESI",
+      "location": "Hyderabad, Telangana, IND",
+      "postedAtText": "5d ago",
+      "freshnessHours": 129,
+      "applyUrl": "https://www.amazon.jobs/en/jobs/10601876/software-development-engineer-esi",
+      "sourceUrls": [
+        {
+          "title": "Amazon Jobs India",
+          "url": "https://www.amazon.jobs/en/jobs/10601876/software-development-engineer-esi"
+        }
+      ],
+      "tier": "FAANG+",
+      "estimatedCompLPA": "42–62 LPA",
+      "cultureSummary": "Large-scale distributed systems at SDE-2; team-dependent WLB, strong resume signal.",
+      "keyRequirements": [
+        "3+ years professional software development",
+        "2+ years system design",
+        "3+ years Video Games Industry experience",
+        "Programming proficiency"
+      ],
+      "minQualificationsMet": [
+        "3+ years experience",
+        "Design experience"
+      ],
+      "minQualificationsMissing": [
+        "3+ years Video Games Industry experience"
+      ],
+      "preferredQualificationsMet": [],
+      "preferredQualificationsMissing": [
+        "Video games industry domain"
+      ],
+      "yoeAssessment": "5.3 YoE vs 3+ yrs req (Fits)",
+      "realityVerdict": "Unlikely to be shortlisted due to explicit domain mismatch regarding Video Games industry experience.",
+      "shortlistProbability": 25,
+      "strategicLane": "FAANG+ Priority",
+      "matchReasons": [
+        "Meets general SDE requirements"
+      ],
+      "gapWarnings": [
+        "Significant domain mismatch (Video Games industry experience missing)"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
+    {
+      "id": "amazon-10600856",
+      "company": "Amazon",
+      "title": "Software Dev Engineer II, 3P Pricing",
+      "location": "Bengaluru, Karnataka, IND",
+      "postedAtText": "5d ago",
+      "freshnessHours": 129,
+      "applyUrl": "https://www.amazon.jobs/en/jobs/10600856/software-dev-engineer-ii-3p-pricing",
+      "sourceUrls": [
+        {
+          "title": "Amazon Jobs India",
+          "url": "https://www.amazon.jobs/en/jobs/10600856/software-dev-engineer-ii-3p-pricing"
+        }
+      ],
+      "tier": "FAANG+",
+      "estimatedCompLPA": "42–62 LPA",
+      "cultureSummary": "Large-scale distributed systems at SDE-2; team-dependent WLB, strong resume signal.",
+      "keyRequirements": [
+        "3+ years professional software development",
+        "2+ years system design",
+        "Programming proficiency"
+      ],
+      "minQualificationsMet": [
+        "3+ years experience",
+        "Design experience",
+        "Bachelor's degree"
+      ],
+      "minQualificationsMissing": [],
+      "preferredQualificationsMet": [
+        "Full SDLC"
+      ],
+      "preferredQualificationsMissing": [],
+      "yoeAssessment": "5.3 YoE vs 3+ yrs req (Fits)",
+      "realityVerdict": "Solid match for SDE II; backend experience aligns well with the team's needs.",
+      "shortlistProbability": 77,
+      "strategicLane": "FAANG+ Priority",
+      "matchReasons": [
+        "Meets requirements"
+      ],
+      "gapWarnings": [
+        "Requires relocation to Bengaluru"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
+    {
+      "id": "amazon-10605713",
+      "company": "Amazon",
+      "title": "SDE II, Amazon Business India",
+      "location": "Bengaluru, Karnataka, IND",
+      "postedAtText": "1d ago",
+      "freshnessHours": 33,
+      "applyUrl": "https://www.amazon.jobs/en/jobs/10605713/sde-ii-amazon-business-india",
+      "sourceUrls": [
+        {
+          "title": "Amazon Jobs India",
+          "url": "https://www.amazon.jobs/en/jobs/10605713/sde-ii-amazon-business-india"
+        }
+      ],
+      "tier": "FAANG+",
+      "estimatedCompLPA": "42–62 LPA",
+      "cultureSummary": "Large-scale distributed systems at SDE-2; team-dependent WLB, strong resume signal.",
+      "keyRequirements": [
+        "3+ years professional software development",
+        "2+ years system design",
+        "Programming proficiency"
+      ],
+      "minQualificationsMet": [
+        "3+ years professional experience",
+        "Design experience",
+        "Programming proficiency"
+      ],
+      "minQualificationsMissing": [],
+      "preferredQualificationsMet": [
+        "Full SDLC experience"
+      ],
+      "preferredQualificationsMissing": [],
+      "yoeAssessment": "5.3 YoE vs 3+ yrs req (Fits)",
+      "realityVerdict": "Solid match for SDE II; experience aligns well with backend development expectations.",
+      "shortlistProbability": 76,
+      "strategicLane": "FAANG+ Priority",
+      "matchReasons": [
+        "Meets all requirements",
+        "Solid distributed systems exposure"
+      ],
+      "gapWarnings": [
+        "Requires relocation to Bengaluru"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
+    {
+      "id": "gh-stripe-6606581",
+      "company": "Stripe",
+      "title": "Full Stack Engineer, Money as a Service",
+      "location": "In-person",
+      "postedAtText": "14d ago",
+      "freshnessHours": 326,
+      "applyUrl": "https://stripe.com/jobs/search?gh_jid=6606581",
+      "sourceUrls": [
+        {
+          "title": "Stripe Greenhouse Careers",
+          "url": "https://stripe.com/jobs/search?gh_jid=6606581"
+        }
+      ],
+      "tier": "Warm-Up Product",
+      "estimatedCompLPA": "52–75 LPA",
+      "cultureSummary": "Clear written engineering culture, API reliability focus, reasonable hours.",
+      "keyRequirements": [
+        "2-12+ years industry software engineering experience"
+      ],
+      "minQualificationsMet": [
+        "5.3+ years experience",
+        "Data modeling experience",
+        "Generalist capability"
+      ],
+      "minQualificationsMissing": [],
+      "preferredQualificationsMet": [],
+      "preferredQualificationsMissing": [
+        "Deep frontend framework ownership (React/TypeScript)"
+      ],
+      "yoeAssessment": "5.3 YoE vs 2-12+ yrs req (Fits)",
+      "realityVerdict": "Strong contender for Stripe's generalist track; candidate hits the YoE sweet spot, but will need to showcase stronger frontend depth in technical interviews.",
+      "shortlistProbability": 75,
+      "strategicLane": "Warm-Up First",
+      "matchReasons": [
+        "Meets all requirements",
+        "High-scale backend experience"
+      ],
+      "gapWarnings": [
+        "Requires relocation; note that Stripe emphasizes deep full-stack proficiency beyond the resume's currently focused backend-heavy bullets"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
+    {
+      "id": "amazon-10594183",
+      "company": "Amazon",
+      "title": "Software Dev Engineer II, Amazon India CFX team ",
+      "location": "Gurugram, Haryana, IND",
+      "postedAtText": "9h ago",
+      "freshnessHours": 9,
+      "applyUrl": "https://www.amazon.jobs/en/jobs/10594183/software-dev-engineer-ii-amazon-india-cfx-team",
+      "sourceUrls": [
+        {
+          "title": "Amazon Jobs India",
+          "url": "https://www.amazon.jobs/en/jobs/10594183/software-dev-engineer-ii-amazon-india-cfx-team"
+        }
+      ],
+      "tier": "FAANG+",
+      "estimatedCompLPA": "42–62 LPA",
+      "cultureSummary": "Large-scale distributed systems at SDE-2; team-dependent WLB, strong resume signal.",
+      "keyRequirements": [
+        "3+ years professional software development",
+        "2+ years system design/architecture experience",
+        "Proficiency in at least one programming language"
+      ],
+      "minQualificationsMet": [
+        "3+ years professional experience",
+        "Programming proficiency (Python/Java)"
+      ],
+      "minQualificationsMissing": [
+        "Concrete 2+ years of architectural/design ownership proven in production"
+      ],
+      "preferredQualificationsMet": [
+        "Full SDLC experience"
+      ],
+      "preferredQualificationsMissing": [
+        "Specific Amazon team domain knowledge"
+      ],
+      "yoeAssessment": "5.3 YoE vs 4-8 yrs req (Fits)",
+      "realityVerdict": "Strong candidate for SDE II; however, Amazon's high bar for system design depth may pose a hurdle given the current resume's scope.",
+      "shortlistProbability": 64,
+      "strategicLane": "FAANG+ Priority",
+      "matchReasons": [
+        "Meets YoE requirement",
+        "Strong backend/cloud/distributed systems foundation",
+        "Proven performance optimization experience"
+      ],
+      "gapWarnings": [
+        "Requires relocation to Gurugram if not remote",
+        "Ensure design bullets explicitly highlight ownership of high-scale architectural trade-offs"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
+    {
+      "id": "gh-mongodb-8208074",
+      "company": "MongoDB",
+      "title": "Software Engineer 3",
+      "location": "Gurugram",
+      "postedAtText": "19h ago",
+      "freshnessHours": 19,
+      "applyUrl": "https://www.mongodb.com/careers/job/?gh_jid=8239047",
+      "sourceUrls": [
+        {
+          "title": "MongoDB Greenhouse Careers",
+          "url": "https://www.mongodb.com/careers/job/?gh_jid=8239047"
+        }
+      ],
+      "tier": "Warm-Up Product",
+      "estimatedCompLPA": "44–62 LPA",
+      "cultureSummary": "Healthy engineering culture, strong database internals & cloud platform teams.",
+      "keyRequirements": [
+        "3-4 years JVM/Java",
+        "Spring ecosystem",
+        "LLM integration",
+        "Testing frameworks"
+      ],
+      "minQualificationsMet": [
+        "Java experience",
+        "LLM/RAG integration experience",
+        "Backend architecture"
+      ],
+      "minQualificationsMissing": [
+        "Spring ecosystem is implied but not explicitly proven in production",
+        "Specific database modernization frameworks"
+      ],
+      "preferredQualificationsMet": [
+        "LLM expertise"
+      ],
+      "preferredQualificationsMissing": [
+        "Advanced database modernization tooling"
+      ],
+      "yoeAssessment": "5.3 YoE vs 3-4 yrs req (Fits)",
+      "realityVerdict": "Good alignment on Java and LLMs, highly relevant for this modernization platform team.",
+      "shortlistProbability": 48,
+      "strategicLane": "Warm-Up First",
+      "matchReasons": [
+        "Strong overlap with LLM/RAG work",
+        "Java/Backend background"
+      ],
+      "gapWarnings": [
+        "Onsite/Hybrid in Gurugram",
+        "Need to confirm specific Spring production scope"
+      ],
+      "status": "Tailored",
+      "discoveredAt": "2026-11-17T09:07:18.645Z",
+      "tailoredResumeId": "cv-mongodb-1794908233727"
+    },
+    {
+      "id": "gh-mongodb-8127772",
+      "company": "MongoDB",
+      "title": "Software Engineer 3, AI Framework Integrations",
+      "location": "Gurugram",
+      "postedAtText": "19h ago",
+      "freshnessHours": 19,
+      "applyUrl": "https://www.mongodb.com/careers/job/?gh_jid=8127772",
+      "sourceUrls": [
+        {
+          "title": "MongoDB Greenhouse Careers",
+          "url": "https://www.mongodb.com/careers/job/?gh_jid=8127772"
+        }
+      ],
+      "tier": "Warm-Up Product",
+      "estimatedCompLPA": "44–62 LPA",
+      "cultureSummary": "Healthy engineering culture, strong database internals & cloud platform teams.",
+      "keyRequirements": [
+        "3+ years backend/libraries",
+        "Python/TypeScript",
+        "AI builder/RAG experience"
+      ],
+      "minQualificationsMet": [
+        "3+ years experience",
+        "Python expertise",
+        "RAG/Agentic AI experience"
+      ],
+      "minQualificationsMissing": [
+        "No Go/Kubernetes production exposure"
+      ],
+      "preferredQualificationsMet": [
+        "RAG/Agentic AI experience"
+      ],
+      "preferredQualificationsMissing": [
+        "Go/Kubernetes",
+        "MCP server experience"
+      ],
+      "yoeAssessment": "5.3 YoE vs 3+ yrs req (Fits)",
+      "realityVerdict": "Strong candidate due to direct LLM/RAG and Python alignment.",
+      "shortlistProbability": 64,
+      "strategicLane": "Warm-Up First",
+      "matchReasons": [
+        "Excellent match for AI Framework integration focus",
+        "Python/Backend expertise"
+      ],
+      "gapWarnings": [
+        "Onsite/Hybrid in Gurugram",
+        "Lacks Go/K8s but these are 'nice to have'"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
+    {
+      "id": "google-76723548046926534",
+      "company": "Google",
+      "title": "Software Engineer III, Core Systems",
+      "location": "Bengaluru, Karnataka, India",
+      "postedAtText": "Active on Google Careers",
+      "freshnessHours": 36,
+      "applyUrl": "https://www.google.com/about/careers/applications/jobs/results/76723548046926534",
+      "sourceUrls": [
+        {
+          "title": "Google Careers India",
+          "url": "https://www.google.com/about/careers/applications/jobs/results/76723548046926534"
+        }
+      ],
+      "tier": "FAANG+",
+      "estimatedCompLPA": "50–75 LPA",
+      "cultureSummary": "Strong engineering rigor, collaborative code reviews, healthy WLB across Cloud & Core teams.",
+      "keyRequirements": [
+        "2 years SWE experience",
+        "Java/C++/Python",
+        "Apache Spark"
+      ],
+      "minQualificationsMet": [
+        "YoE requirement",
+        "Java/Python expertise"
+      ],
+      "minQualificationsMissing": [
+        "No production Apache Spark experience"
+      ],
+      "preferredQualificationsMet": [
+        "Masters degree"
+      ],
+      "preferredQualificationsMissing": [
+        "Apache Spark"
+      ],
+      "yoeAssessment": "5.3 YoE + M.Tech vs 2 yrs req (Fits)",
+      "realityVerdict": "Viable candidate, though lack of Spark experience may be a bottleneck at Google.",
+      "shortlistProbability": 64,
+      "strategicLane": "FAANG+ Priority",
+      "matchReasons": [
+        "Meets core SWE requirements",
+        "Advanced degree"
+      ],
+      "gapWarnings": [
+        "Onsite Bengaluru",
+        "Missing specific Spark/Big Data processing in production"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
+    {
+      "id": "google-107449265193657030",
+      "company": "Google",
+      "title": "Software Engineer III, AI/ML, Search for Agents",
+      "location": "Bengaluru, Karnataka, India",
+      "postedAtText": "Active on Google Careers",
+      "freshnessHours": 36,
+      "applyUrl": "https://www.google.com/about/careers/applications/jobs/results/107449265193657030",
+      "sourceUrls": [
+        {
+          "title": "Google Careers India",
+          "url": "https://www.google.com/about/careers/applications/jobs/results/107449265193657030"
+        }
+      ],
+      "tier": "FAANG+",
+      "estimatedCompLPA": "50–75 LPA",
+      "cultureSummary": "Strong engineering rigor, collaborative code reviews, healthy WLB across Cloud & Core teams.",
+      "keyRequirements": [
+        "2 years SWE experience",
+        "1 year recommendation systems",
+        "1 year end-to-end ML"
+      ],
+      "minQualificationsMet": [
+        "2 years SWE",
+        "End-to-end ML (RAG/Vertex AI)"
+      ],
+      "minQualificationsMissing": [
+        "No explicit 'recommendation system' production deployment"
+      ],
+      "preferredQualificationsMet": [
+        "Masters degree",
+        "Search quality/NLP"
+      ],
+      "preferredQualificationsMissing": [
+        "Explicit large-scale search ranking systems"
+      ],
+      "yoeAssessment": "5.3 YoE + M.Tech vs 2 yrs req (Fits)",
+      "realityVerdict": "Highly competitive candidate due to strong RAG and ML pipeline experience.",
+      "shortlistProbability": 64,
+      "strategicLane": "FAANG+ Priority",
+      "matchReasons": [
+        "Strong ML infrastructure alignment",
+        "Direct RAG/Vertex AI experience"
+      ],
+      "gapWarnings": [
+        "Onsite Bengaluru",
+        "Need to map existing RAG work to search quality metrics"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
+    {
+      "id": "gh-mongodb-8221290",
+      "company": "MongoDB",
+      "title": "Software Engineer 3 - Enterprise Architecture",
+      "location": "Gurugram",
+      "postedAtText": "19h ago",
+      "freshnessHours": 19,
+      "applyUrl": "https://www.mongodb.com/careers/job/?gh_jid=8221290",
+      "sourceUrls": [
+        {
+          "title": "MongoDB Greenhouse Careers",
+          "url": "https://www.mongodb.com/careers/job/?gh_jid=8221290"
+        }
+      ],
+      "tier": "Warm-Up Product",
+      "estimatedCompLPA": "44–62 LPA",
+      "cultureSummary": "Healthy engineering culture, strong database internals & cloud platform teams.",
+      "keyRequirements": [
+        "AI experimentation",
+        "Prototyping",
+        "Backend API design"
+      ],
+      "minQualificationsMet": [
+        "Backend development",
+        "AI experimentation",
+        "FastAPI/System design"
+      ],
+      "minQualificationsMissing": [
+        "No significant Kubernetes or CI/CD internal tool building"
+      ],
+      "preferredQualificationsMet": [
+        "FastAPI",
+        "LangGraph",
+        "Vector databases"
+      ],
+      "preferredQualificationsMissing": [
+        "Next.js/React frontend",
+        "Kubernetes"
+      ],
+      "yoeAssessment": "5.3 YoE vs requirements (Fits)",
+      "realityVerdict": "Very strong functional overlap with current AI work, though missing frontend/K8s bonus items.",
+      "shortlistProbability": 58,
+      "strategicLane": "Warm-Up First",
+      "matchReasons": [
+        "Direct overlap with LangGraph/FastAPI/RAG",
+        "Prototyping speed"
+      ],
+      "gapWarnings": [
+        "Onsite/Hybrid in Gurugram",
+        "Frontend/Full-stack gaps",
+        "JD references AWS — verify required depth vs. Joy's GCP/Python/Java/Snowflake background.",
+        "JD references Microsoft Azure — verify required depth vs. Joy's GCP/Python/Java/Snowflake background."
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
+    {
+      "id": "google-97699748755972806",
+      "company": "Google",
+      "title": "Web Solutions Engineer, Technology and Insights Partnership Systems, Youtube India",
+      "location": "Bengaluru, Karnataka, India",
+      "postedAtText": "Active on Google Careers",
+      "freshnessHours": 36,
+      "applyUrl": "https://www.google.com/about/careers/applications/jobs/results/97699748755972806",
+      "sourceUrls": [
+        {
+          "title": "Google Careers India",
+          "url": "https://www.google.com/about/careers/applications/jobs/results/97699748755972806"
+        }
+      ],
+      "tier": "FAANG+",
+      "estimatedCompLPA": "50–75 LPA",
+      "cultureSummary": "Strong engineering rigor, collaborative code reviews, healthy WLB across Cloud & Core teams.",
+      "keyRequirements": [
+        "4+ years backend/full-stack development",
+        "Distributed data processing experience",
+        "Database technologies"
+      ],
+      "minQualificationsMet": [
+        "4+ years development experience",
+        "Database experience (SQL/NoSQL)"
+      ],
+      "minQualificationsMissing": [
+        "Explicit production Kafka/Spark experience",
+        "gRPC/Protocol Buffers production usage"
+      ],
+      "preferredQualificationsMet": [
+        "Database optimization",
+        "LLM/RAG experience"
+      ],
+      "preferredQualificationsMissing": [
+        "Kafka/Spark ecosystem mastery"
+      ],
+      "yoeAssessment": "5.3 YoE vs 4+ yrs req (Fits)",
+      "realityVerdict": "Good candidate, but high competition makes the lack of core streaming (Kafka) experience a potential differentiator in a negative way.",
+      "shortlistProbability": 48,
+      "strategicLane": "FAANG+ Priority",
+      "matchReasons": [
+        "Strong AI/RAG background",
+        "Meets YoE requirement"
+      ],
+      "gapWarnings": [
+        "Requires relocation to Bengaluru",
+        "Missing specific streaming technologies (Kafka/Spark) mentioned in requirements"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
+    {
+      "id": "gh-rubrik-8327940",
+      "company": "Rubrik",
+      "title": "Software Engineer - Cloud Native Protection",
+      "location": "Bangalore ",
+      "postedAtText": "5d ago",
+      "freshnessHours": 124,
+      "applyUrl": "https://www.rubrik.com/company/careers/departments/job.8327940?gh_jid=8327940",
+      "sourceUrls": [
+        {
+          "title": "Rubrik Greenhouse Careers",
+          "url": "https://www.rubrik.com/company/careers/departments/job.8327940?gh_jid=8327940"
+        }
+      ],
+      "tier": "Warm-Up Product",
+      "estimatedCompLPA": "45–65 LPA",
+      "cultureSummary": "Strong distributed systems & cloud data security engineering in Bengaluru & Pune.",
+      "keyRequirements": [
+        "2+ years relevant work experience",
+        "Programming proficiency"
+      ],
+      "minQualificationsMet": [
+        "5.3+ years experience",
+        "Programming proficiency"
+      ],
+      "minQualificationsMissing": [
+        "Production experience with Golang, Kubernetes, and Public Cloud (AWS/Azure)"
+      ],
+      "preferredQualificationsMet": [],
+      "preferredQualificationsMissing": [
+        "Golang",
+        "Kubernetes",
+        "AWS/Azure"
+      ],
+      "yoeAssessment": "5.3 YoE vs 2+ yrs req (Fits)",
+      "realityVerdict": "Borderline; while YoE is fine, missing the core stack (Go/K8s/AWS) often results in a rejection at Rubrik.",
+      "shortlistProbability": 45,
+      "strategicLane": "Warm-Up First",
+      "matchReasons": [
+        "Meets YoE requirement"
+      ],
+      "gapWarnings": [
+        "Missing primary stack: Go and Kubernetes internals are heavily weighted by this team"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
+    {
+      "id": "amazon-10603674",
+      "company": "Amazon",
+      "title": "Software Development Engineer II, Amazon Music International Tech",
+      "location": "Bengaluru, Karnataka, IND",
+      "postedAtText": "5d ago",
+      "freshnessHours": 129,
+      "applyUrl": "https://www.amazon.jobs/en/jobs/10603674/software-development-engineer-ii-amazon-music-international-tech",
+      "sourceUrls": [
+        {
+          "title": "Amazon Jobs India",
+          "url": "https://www.amazon.jobs/en/jobs/10603674/software-development-engineer-ii-amazon-music-international-tech"
+        }
+      ],
+      "tier": "FAANG+",
+      "estimatedCompLPA": "42–62 LPA",
+      "cultureSummary": "Large-scale distributed systems at SDE-2; team-dependent WLB, strong resume signal.",
+      "keyRequirements": [
+        "3+ years professional software development",
+        "2+ years system design",
+        "Programming proficiency"
+      ],
+      "minQualificationsMet": [
+        "3+ years professional experience",
+        "Design experience"
+      ],
+      "minQualificationsMissing": [
+        "Mobile (iOS/Android) development experience"
+      ],
+      "preferredQualificationsMet": [],
+      "preferredQualificationsMissing": [
+        "Mobile/Client-side engineering"
+      ],
+      "yoeAssessment": "5.3 YoE vs 3+ yrs req (Fits)",
+      "realityVerdict": "Weak fit due to lack of client-side/mobile experience, which is central to this team.",
+      "shortlistProbability": 40,
+      "strategicLane": "FAANG+ Priority",
+      "matchReasons": [
+        "Solid backend foundation"
+      ],
+      "gapWarnings": [
+        "Missing mobile/client-side expertise; role requires shipping on iOS/Android clients"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
+    {
+      "id": "amazon-10605092",
+      "company": "Amazon",
+      "title": "Software Development Engineer, SW-Device OS",
+      "location": "Bengaluru, Karnataka, IND",
+      "postedAtText": "4d ago",
+      "freshnessHours": 105,
+      "applyUrl": "https://www.amazon.jobs/en/jobs/10605092/software-development-engineer-sw-device-os",
+      "sourceUrls": [
+        {
+          "title": "Amazon Jobs India",
+          "url": "https://www.amazon.jobs/en/jobs/10605092/software-development-engineer-sw-device-os"
+        }
+      ],
+      "tier": "FAANG+",
+      "estimatedCompLPA": "42–62 LPA",
+      "cultureSummary": "Large-scale distributed systems at SDE-2; team-dependent WLB, strong resume signal.",
+      "keyRequirements": [
+        "3+ years professional software development",
+        "2+ years system design",
+        "Programming proficiency"
+      ],
+      "minQualificationsMet": [
+        "3+ years experience",
+        "Design experience"
+      ],
+      "minQualificationsMissing": [
+        "Embedded systems/OS production experience"
+      ],
+      "preferredQualificationsMet": [],
+      "preferredQualificationsMissing": [
+        "Embedded software domain"
+      ],
+      "yoeAssessment": "5.3 YoE vs 3+ yrs req (Fits)",
+      "realityVerdict": "Poor fit for this specific role; candidate is a backend/cloud engineer, while role is for device-OS/embedded systems.",
+      "shortlistProbability": 35,
+      "strategicLane": "FAANG+ Priority",
+      "matchReasons": [
+        "General SDE competency"
+      ],
+      "gapWarnings": [
+        "Domain mismatch; role is embedded/Device OS, resume is enterprise cloud/backend"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
+    {
+      "id": "gh-rubrik-8161018",
+      "company": "Rubrik",
+      "title": "Database Reliability Engineer/Database Engineer (Rubrik Security Cloud Platform)",
+      "location": "Bengaluru",
+      "postedAtText": "14d ago",
+      "freshnessHours": 324,
+      "applyUrl": "https://www.rubrik.com/company/careers/departments/job.8161018?gh_jid=8161018",
+      "sourceUrls": [
+        {
+          "title": "Rubrik Greenhouse Careers",
+          "url": "https://www.rubrik.com/company/careers/departments/job.8161018?gh_jid=8161018"
+        }
+      ],
+      "tier": "Warm-Up Product",
+      "estimatedCompLPA": "45–65 LPA",
+      "cultureSummary": "Strong distributed systems & cloud data security engineering in Bengaluru & Pune.",
+      "keyRequirements": [
+        "Experience managing database infrastructure/reliability"
+      ],
+      "minQualificationsMet": [
+        "Database experience (SQL/BigQuery/PostgreSQL)"
+      ],
+      "minQualificationsMissing": [
+        "Hands-on ClickHouse experience",
+        "CDC/Kafka pipelines",
+        "Terraform/IaC production ownership"
+      ],
+      "preferredQualificationsMet": [],
+      "preferredQualificationsMissing": [
+        "ClickHouse, Kafka/Debezium, Apache Iceberg, Terraform"
+      ],
+      "yoeAssessment": "5.3 YoE vs unspecified (Fits)",
+      "realityVerdict": "Poor match; candidate lacks the specific DRE (Database Reliability Engineering) stack (ClickHouse/Kafka/Terraform) required.",
+      "shortlistProbability": 30,
+      "strategicLane": "Warm-Up First",
+      "matchReasons": [
+        "Relational DB knowledge"
+      ],
+      "gapWarnings": [
+        "Missing mandatory DRE infrastructure stack (Kafka, ClickHouse, Terraform)"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
+    {
+      "id": "gh-mongodb-8071475",
+      "company": "MongoDB",
+      "title": "Senior Platform Engineer",
+      "location": "Gurugram",
+      "postedAtText": "19h ago",
+      "freshnessHours": 19,
+      "applyUrl": "https://www.mongodb.com/careers/job/?gh_jid=8071475",
+      "sourceUrls": [
+        {
+          "title": "MongoDB Greenhouse Careers",
+          "url": "https://www.mongodb.com/careers/job/?gh_jid=8071475"
+        }
+      ],
+      "tier": "Warm-Up Product",
+      "estimatedCompLPA": "44–62 LPA",
+      "cultureSummary": "Healthy engineering culture, strong database internals & cloud platform teams.",
+      "keyRequirements": [
+        "Go (Golang)",
+        "Kubernetes production ownership",
+        "AWS",
+        "Large-scale distributed systems",
+        "Observability (Prometheus/Grafana)"
+      ],
+      "minQualificationsMet": [
+        "Distributed systems experience",
+        "Backend programming"
+      ],
+      "minQualificationsMissing": [
+        "No production Go experience",
+        "No production Kubernetes cluster management",
+        "No AWS experience"
+      ],
+      "preferredQualificationsMet": [],
+      "preferredQualificationsMissing": [
+        "Go (Golang)",
+        "Kubernetes (internals/operations)",
+        "Terraform",
+        "AWS"
+      ],
+      "yoeAssessment": "5.3 YoE vs Senior Platform Engineer expectation (Fits)",
+      "realityVerdict": "Missing too many hard infrastructure requirements (Go/K8s/AWS) for a Platform Engineer role at MongoDB.",
+      "shortlistProbability": 28,
+      "strategicLane": "Warm-Up First",
+      "matchReasons": [
+        "Backend experience",
+        "Understanding of distributed systems"
+      ],
+      "gapWarnings": [
+        "Mandatory Go requirement missing",
+        "Mandatory Kubernetes operations missing",
+        "Mandatory AWS missing",
+        "Onsite/hybrid in Gurugram"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
+    {
+      "id": "gh-databricks-8602402002",
+      "company": "Databricks",
+      "title": "Senior Software Engineer - Multi Cloud Efficiency",
+      "location": "Bengaluru, India",
+      "postedAtText": "10h ago",
+      "freshnessHours": 10,
+      "applyUrl": "https://databricks.com/company/careers/open-positions/job?gh_jid=8602402002",
+      "sourceUrls": [
+        {
+          "title": "Databricks Greenhouse Careers",
+          "url": "https://databricks.com/company/careers/open-positions/job?gh_jid=8602402002"
+        }
+      ],
+      "tier": "Warm-Up Product",
+      "estimatedCompLPA": "50–78 LPA",
+      "cultureSummary": "High-caliber data/AI platform engineering, strong Python/distributed systems alignment.",
+      "keyRequirements": [
+        "End-to-End System Design",
+        "Scaling & Optimization",
+        "Component Ownership",
+        "Cloud Efficiency"
+      ],
+      "minQualificationsMet": [
+        "System design experience",
+        "Scaling services"
+      ],
+      "minQualificationsMissing": [
+        "No production experience with AWS or Azure",
+        "Lack of large-scale infrastructure efficiency ownership"
+      ],
+      "preferredQualificationsMet": [],
+      "preferredQualificationsMissing": [
+        "Experience at massive cloud scale",
+        "Specific cost-attribution tooling exposure"
+      ],
+      "yoeAssessment": "5.3 YoE vs Senior expectation (High requirement/Scope mismatch - Low Score)",
+      "realityVerdict": "Candidate lacks the massive-scale cloud efficiency and primary AWS/Azure stack needed for this Senior-level role.",
+      "shortlistProbability": 20,
+      "strategicLane": "Warm-Up First",
+      "matchReasons": [
+        "Solid backend foundation",
+        "GCP experience"
+      ],
+      "gapWarnings": [
+        "Candidate is Kolkata-based; role is Bengaluru onsite",
+        "Missing primary cloud providers AWS/Azure",
+        "YoE is on the lower end for Senior title at Databricks"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
+    {
+      "id": "gh-rubrik-8349847",
+      "company": "Rubrik",
+      "title": "Software Engineer ",
+      "location": "bangalore",
+      "postedAtText": "9h ago",
+      "freshnessHours": 9,
+      "applyUrl": "https://www.rubrik.com/company/careers/departments/job.8349847?gh_jid=8349847",
+      "sourceUrls": [
+        {
+          "title": "Rubrik Greenhouse Careers",
+          "url": "https://www.rubrik.com/company/careers/departments/job.8349847?gh_jid=8349847"
+        }
+      ],
+      "tier": "Warm-Up Product",
+      "estimatedCompLPA": "45–65 LPA",
+      "cultureSummary": "Strong distributed systems & cloud data security engineering in Bengaluru & Pune.",
+      "keyRequirements": [
+        "Hands-on Golang",
+        "Identity protocols (OIDC/OAuth/SAML)",
+        "Active Directory",
+        "Applied cryptography",
+        "Security engineering"
+      ],
+      "minQualificationsMet": [
+        "Solid understanding of OS/networking",
+        "Linux knowledge"
+      ],
+      "minQualificationsMissing": [
+        "Strong hands-on Golang",
+        "Identity protocols",
+        "Active Directory",
+        "Applied cryptography/PKI",
+        "Security engineering focus"
+      ],
+      "preferredQualificationsMet": [],
+      "preferredQualificationsMissing": [
+        "Golang",
+        "Identity expertise",
+        "PKI/Security specialization"
+      ],
+      "yoeAssessment": "5.3 YoE vs unspecified (Fits)",
+      "realityVerdict": "Candidate lacks the core, mandatory Golang and Identity stack requirements; near-zero chance of shortlist.",
+      "shortlistProbability": 15,
+      "strategicLane": "Warm-Up First",
+      "matchReasons": [
+        "System engineering fundamentals"
+      ],
+      "gapWarnings": [
+        "Zero production experience in Golang and Identity protocols is a hard blocker"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
+    {
+      "id": "gh-rubrik-7956918",
+      "company": "Rubrik",
+      "title": "Software Engineer - IAM",
+      "location": "Pune",
+      "postedAtText": "14d ago",
+      "freshnessHours": 324,
+      "applyUrl": "https://www.rubrik.com/company/careers/departments/job.7956918?gh_jid=7956918",
+      "sourceUrls": [
+        {
+          "title": "Rubrik Greenhouse Careers",
+          "url": "https://www.rubrik.com/company/careers/departments/job.7956918?gh_jid=7956918"
+        }
+      ],
+      "tier": "Warm-Up Product",
+      "estimatedCompLPA": "45–65 LPA",
+      "cultureSummary": "Strong distributed systems & cloud data security engineering in Bengaluru & Pune.",
+      "keyRequirements": [
+        "Hands-on Golang",
+        "Identity protocols",
+        "Active Directory",
+        "Applied cryptography",
+        "Security engineering"
+      ],
+      "minQualificationsMet": [
+        "Networking fundamentals",
+        "Linux"
+      ],
+      "minQualificationsMissing": [
+        "Golang",
+        "Identity protocols (OIDC/SAML)",
+        "PKI/Applied Cryptography",
+        "Active Directory"
+      ],
+      "preferredQualificationsMet": [],
+      "preferredQualificationsMissing": [
+        "Golang",
+        "Identity stack",
+        "Security Engineering"
+      ],
+      "yoeAssessment": "5.3 YoE vs unspecified (Fits)",
+      "realityVerdict": "Candidate lacks the core, mandatory Golang and Identity stack requirements.",
+      "shortlistProbability": 15,
+      "strategicLane": "Warm-Up First",
+      "matchReasons": [
+        "General system understanding"
+      ],
+      "gapWarnings": [
+        "Hard blocker: Zero Golang and Identity/Security protocol experience"
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
+    {
+      "id": "gh-rubrik-8318044",
+      "company": "Rubrik",
+      "title": "Sr AI Engineer, Agentic Systems",
+      "location": "Bengaluru, India",
+      "postedAtText": "1d ago",
+      "freshnessHours": 24,
+      "applyUrl": "https://www.rubrik.com/company/careers/departments/job.8318044?gh_jid=8318044",
+      "sourceUrls": [
+        {
+          "title": "Rubrik Greenhouse Careers",
+          "url": "https://www.rubrik.com/company/careers/departments/job.8318044?gh_jid=8318044"
+        }
+      ],
+      "tier": "Warm-Up Product",
+      "estimatedCompLPA": "45–65 LPA",
+      "cultureSummary": "Strong distributed systems & cloud data security engineering in Bengaluru & Pune.",
+      "keyRequirements": [
+        "7+ years production experience",
+        "2+ years building AI agents",
+        "Full stack background"
+      ],
+      "minQualificationsMet": [
+        "Hands-on AI/RAG agent development"
+      ],
+      "minQualificationsMissing": [
+        "Total YoE is 5.3; role requires 7+",
+        "Missing 'full stack' production ownership"
+      ],
+      "preferredQualificationsMet": [
+        "LLM/Agentic systems"
+      ],
+      "preferredQualificationsMissing": [
+        "Approval UIs/Dashboard frontend ownership"
+      ],
+      "yoeAssessment": "5.3 YoE vs 7+ yrs req (Under-leveled - Low Score)",
+      "realityVerdict": "Fails the mandatory 7-year experience floor for this senior agentic systems role.",
+      "shortlistProbability": 15,
+      "strategicLane": "Warm-Up First",
+      "matchReasons": [
+        "Relevant AI experience"
+      ],
+      "gapWarnings": [
+        "YoE hard floor not met",
+        "Missing significant full-stack/frontend production ownership",
+        "Hybrid / in-office days specified in Bengaluru, India (requires relocation from Kolkata, India)."
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
+    },
     {
       "id": "google-75184274717713094",
       "company": "Google",
@@ -1177,7 +2531,7 @@
       "title": "Software Development Engineer, CS ARIA",
       "location": "Hyderabad, Telangana, IND",
       "postedAtText": "4d ago",
-      "freshnessHours": 104,
+      "freshnessHours": 105,
       "applyUrl": "https://www.amazon.jobs/en/jobs/10604005/software-development-engineer-cs-aria",
       "sourceUrls": [
         {
@@ -1191,34 +2545,31 @@
       "keyRequirements": [
         "2+ years professional software development",
         "2+ years system design",
-        "Programming language proficiency"
+        "Programming proficiency"
       ],
       "minQualificationsMet": [
-        "5.3 years software development",
-        "Proven system design and architecture experience",
-        "Proficient in Python/Java"
+        "5.3+ years experience",
+        "Design/System architecture experience",
+        "Programming proficiency"
       ],
       "minQualificationsMissing": [],
       "preferredQualificationsMet": [
-        "2+ years full SDLC/operations",
-        "Bachelor's degree"
+        "Full SDLC"
       ],
       "preferredQualificationsMissing": [],
       "yoeAssessment": "5.3 YoE vs 2+ yrs req (Fits)",
-      "realityVerdict": "Excellent fit; candidate is well-positioned for an SDE II role given tenure and production experience.",
-      "shortlistProbability": 88,
+      "realityVerdict": "Strong profile for the role, though slightly over-leveled for a 2-year requirement.",
+      "shortlistProbability": 78,
       "strategicLane": "FAANG+ Priority",
       "matchReasons": [
-        "Exceeds all minimum technical and experience thresholds",
-        "Demonstrated ability to own end-to-end production features",
-        "Direct experience with LLM/RAG relevant to modern automation"
+        "Surpasses base experience level",
+        "Relevant experience in multi-tenant/backend services"
       ],
       "gapWarnings": [
-        "Requires relocation to Hyderabad",
-        "Candidate may be considered slightly 'over-qualified' but likely acceptable for SDE II"
+        "Requires relocation to Hyderabad"
       ],
       "status": "New",
-      "discoveredAt": "2026-11-17T08:20:52.786Z"
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
     },
     {
       "id": "amazon-10605712",
@@ -1226,7 +2577,7 @@
       "title": "Software Development Engineer, Amazon Business India",
       "location": "Bengaluru, Karnataka, IND",
       "postedAtText": "1d ago",
-      "freshnessHours": 32,
+      "freshnessHours": 33,
       "applyUrl": "https://www.amazon.jobs/en/jobs/10605712/software-development-engineer-amazon-business-india",
       "sourceUrls": [
         {
@@ -1239,35 +2590,34 @@
       "cultureSummary": "Large-scale distributed systems at SDE-2; team-dependent WLB, strong resume signal.",
       "keyRequirements": [
         "3+ years professional software development",
-        "2+ years system design/architecture",
-        "Programming language proficiency"
+        "2+ years system design",
+        "Programming proficiency"
       ],
       "minQualificationsMet": [
-        "3+ years software development experience",
-        "2+ years system design experience",
-        "Proficiency in Python, Java, C++"
+        "3+ years professional experience",
+        "Design experience",
+        "Programming proficiency"
       ],
       "minQualificationsMissing": [],
       "preferredQualificationsMet": [
-        "3+ years full SDLC and code review experience",
-        "Bachelor's degree"
+        "Full SDLC experience"
       ],
-      "preferredQualificationsMissing": [],
+      "preferredQualificationsMissing": [
+        "Prior mobile/payment domain experience"
+      ],
       "yoeAssessment": "5.3 YoE vs 3+ yrs req (Fits)",
-      "realityVerdict": "Strong alignment with backend roles and system design needs makes this a high-probability shortlist.",
-      "shortlistProbability": 85,
+      "realityVerdict": "Solid match for SDE role, probability hinges on technical interview performance regarding system design depth.",
+      "shortlistProbability": 76,
       "strategicLane": "FAANG+ Priority",
       "matchReasons": [
-        "Exceeds minimum tenure requirements significantly",
-        "Demonstrable experience in system design and multi-tenant scaling",
-        "Solid foundation in required backend language stack"
+        "Fits all basic qualifications",
+        "Proven backend production experience"
       ],
       "gapWarnings": [
-        "Role mentions Mobile/Payments; candidate has zero production mobile experience",
-        "Onsite expectations in Bengaluru require relocation from Kolkata"
+        "Requires relocation to Bengaluru"
       ],
       "status": "New",
-      "discoveredAt": "2026-11-17T08:20:52.786Z"
+      "discoveredAt": "2026-11-17T09:07:18.645Z"
     },
     {
       "id": "google-134562225502200518",
@@ -1323,8 +2673,271 @@
       "discoveredAt": "2026-11-17T08:20:52.786Z"
     }
   ],
-  "tailoredResumes": [],
+  "tailoredResumes": [
+    {
+      "id": "cv-mongodb-1794908233727",
+      "jobId": "gh-mongodb-8208074",
+      "company": "MongoDB",
+      "jobTitle": "Software Engineer 3",
+      "versionLabel": "v2 · MongoDB",
+      "updatedAt": "2026-11-17T09:37:13.727Z",
+      "changeSummary": [
+        "Prioritized Java and backend architectural contributions to align with the Software Engineer 3 role requirements.",
+        "Highlighted LLM-powered RAG integration and performance optimization work to showcase readiness for modern backend platforms.",
+        "Refined bullet points to emphasize system reliability, concurrency handling, and performance tuning consistent with MongoDB engineering standards.",
+        "Reorganized skill sections to foreground JVM-based development and data-intensive systems."
+      ],
+      "highlightedBulletIndices": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "atsKeywordsMatched": [
+        "Java",
+        "Spring Boot",
+        "Backend Systems",
+        "Distributed Systems",
+        "LLM",
+        "RAG",
+        "API Design",
+        "Performance Optimization",
+        "Scalability"
+      ],
+      "resumeData": {
+        "fullName": "Joy Brahma",
+        "email": "brahma.joy.jb@gmail.com",
+        "phone": "+91 83368 34988",
+        "linkedinLabel": "LinkedIn",
+        "location": "Kolkata, India",
+        "summary": "Software Engineer with 5+ years of experience designing and scaling high-performance, multi-tenant backend systems. Expert in Java-based development and building robust, distributed architectures. Proven track record in integrating LLM/RAG capabilities into production workflows and optimizing system performance to handle significant concurrency increases.",
+        "experience": [
+          {
+            "id": "exp-deloitte-usi",
+            "role": "Engineer-2 (Software Engineer)",
+            "company": "Deloitte USI — Prism Portfolio (HealthPrism, PeoplePrism, Project Omega)",
+            "period": "Jul 2021 – Present",
+            "bullets": [
+              "Designed and optimized Java-based backend services for multi-tenant analytics platforms, ensuring high scalability and reliability across production workloads with 3x higher concurrency.",
+              "Developed and optimized an LLM-powered natural-language-to-SQL analytics system by improving session management and parallel tool execution, achieving 40% faster p50 response times.",
+              "Designed and implemented a RAG-based metadata query sub-agent using Vertex AI, seamlessly integrating advanced retrieval capabilities into existing backend workflows.",
+              "Reduced p95 API latency by 30% and lowered Snowflake compute costs by implementing centralized Redis caching with event-driven invalidation.",
+              "Re-architected backend service initialization, achieving 3x faster startup times and enabling lower minimum replicas, which reduced infrastructure costs by $20K+ annually.",
+              "Led Snowflake performance and cost optimization strategies using materialized views and workload-specific warehousing, reducing compute expenditure by 20%.",
+              "Designed and enforced fine-grained RBAC across multi-tenant services, ensuring secure access control without impacting API request latency.",
+              "Diagnosed and resolved critical production regression and scaling issues as system concurrency increased 3x, maintaining system uptime and stability.",
+              "Collaborated with MLOps and Data Science teams to develop automated quality-control pipelines, reducing data release timelines by 50%.",
+              "Primary code reviewer for backend services, ensuring adherence to design patterns, maintainability, and high-quality software engineering standards."
+            ]
+          }
+        ],
+        "skills": [
+          {
+            "category": "Languages",
+            "items": "Java, Python, C++, SQL, JavaScript"
+          },
+          {
+            "category": "Backend & Frameworks",
+            "items": "Spring Boot, FastAPI, LangGraph, Django"
+          },
+          {
+            "category": "AI/ML",
+            "items": "LLMs, RAG, Vertex AI, Natural Language Processing"
+          },
+          {
+            "category": "Systems & Infrastructure",
+            "items": "System Design, Distributed Systems, Snowflake, Redis, GCP, Docker"
+          },
+          {
+            "category": "Software Engineering",
+            "items": "Data Structures & Algorithms, API Design, Performance Optimization, Testing, Concurrency"
+          }
+        ],
+        "education": [
+          {
+            "id": "edu-iiitm",
+            "institution": "ABV-IIITM, Gwalior",
+            "period": "2019 – 2021",
+            "degree": "M.Tech in Information Security"
+          },
+          {
+            "id": "edu-iem",
+            "institution": "Institute of Engineering and Management, Kolkata (MAKAUT)",
+            "period": "2013 – 2017",
+            "degree": "B.Tech in Computer Science and Engineering"
+          }
+        ],
+        "publications": [
+          {
+            "id": "pub-ieee-iot",
+            "title": "Preserving Contextual Privacy for Smart Home IoT Devices with Dynamic Traffic Shaping",
+            "venue": "IEEE Internet of Things Journal, Nov 2021"
+          }
+        ],
+        "achievements": [
+          "Awarded 3 Outstanding Performance Awards, 5 Applause Awards, and multiple Spot Awards at Deloitte.",
+          "Google Cloud Associate Cloud Engineer certified.",
+          "SnowPro Core certified."
+        ]
+      }
+    },
+    {
+      "id": "cv-mongodb-1794908211358",
+      "jobId": "gh-mongodb-8208074",
+      "company": "MongoDB",
+      "jobTitle": "Software Engineer 3",
+      "versionLabel": "v1 · MongoDB",
+      "updatedAt": "2026-11-17T09:36:51.358Z",
+      "changeSummary": [
+        "Refocused professional summary to highlight backend distributed systems expertise and LLM integration capabilities specifically for the MongoDB ecosystem.",
+        "Prioritized experience bullets emphasizing JVM/Java development, high-concurrency systems, and RAG/LLM application architectural design.",
+        "Reordered the skills section to place Java, Spring, and Backend Frameworks at the forefront for immediate relevance to MongoDB requirements.",
+        "Maintained all performance metrics and factual achievements while tightening phrasing to emphasize architectural impact and service reliability."
+      ],
+      "highlightedBulletIndices": [
+        0,
+        1,
+        2,
+        4
+      ],
+      "atsKeywordsMatched": [
+        "Java",
+        "Spring Boot",
+        "LLM",
+        "RAG",
+        "Backend Architecture",
+        "Distributed Systems",
+        "API Latency",
+        "Scalability"
+      ],
+      "resumeData": {
+        "fullName": "Joy Brahma",
+        "email": "brahma.joy.jb@gmail.com",
+        "phone": "+91 83368 34988",
+        "linkedinLabel": "LinkedIn",
+        "location": "Kolkata, India",
+        "summary": "Software Engineer with 5+ years of experience designing and scaling high-performance backend systems. Proven track record in developing robust Java-based architectures and integrating advanced LLM/RAG solutions to solve complex data challenges. Adept at optimizing system performance, reducing latency, and enhancing reliability in multi-tenant, cloud-native environments.",
+        "experience": [
+          {
+            "id": "exp-deloitte-usi",
+            "role": "Engineer-2 (Software Engineer)",
+            "company": "Deloitte USI — Prism Portfolio (HealthPrism, PeoplePrism, Project Omega)",
+            "period": "Jul 2021 – Present",
+            "bullets": [
+              "Designed and optimized Java-based backend services for high-concurrency multi-tenant analytics platforms, ensuring robust scalability and system reliability.",
+              "Developed an LLM-powered natural-language-to-SQL system, optimizing session management and tool execution to achieve 40% faster p50 response times.",
+              "Engineered a RAG-based metadata query sub-agent using Vertex AI, seamlessly integrating complex retrieval workflows into existing backend infrastructure.",
+              "Reduced p95 API latency by 30% and lowered Snowflake compute costs through the implementation of event-driven Redis caching mechanisms.",
+              "Re-architected backend service initialization, achieving 3× faster startup times and reducing annual infrastructure costs by over $20K.",
+              "Owned full-cycle production deployments and incident resolution, successfully diagnosing bottlenecks as system concurrency increased 3×.",
+              "Led Snowflake performance optimization using materialized views and workload-specific warehouses, reducing compute expenditure by 20%.",
+              "Designed and enforced fine-grained RBAC and asynchronous audit pipelines, mitigating cross-tenant risks while maintaining sub-millisecond overhead.",
+              "Collaborated with MLOps teams to automate quality-control pipelines, effectively reducing data release timelines by 50%.",
+              "Mentored engineering teams through technical sessions on distributed system design, design patterns, and production-grade software engineering."
+            ]
+          }
+        ],
+        "skills": [
+          {
+            "category": "Languages & Frameworks",
+            "items": "Java, Spring Boot, Python, FastAPI, C++, JavaScript"
+          },
+          {
+            "category": "AI/ML & Data Engineering",
+            "items": "LLMs, RAG, Vertex AI, LangGraph, Snowflake, Redis, PostgreSQL"
+          },
+          {
+            "category": "Systems & Architecture",
+            "items": "Distributed Systems, API Design, System Design, Concurrency, Performance Optimization"
+          },
+          {
+            "category": "Cloud & Infrastructure",
+            "items": "GCP, Docker, CI/CD, Autoscaling, Monitoring & Alerting"
+          }
+        ],
+        "education": [
+          {
+            "id": "edu-iiitm",
+            "institution": "ABV-IIITM, Gwalior",
+            "period": "2019 – 2021",
+            "degree": "M.Tech in Information Security"
+          },
+          {
+            "id": "edu-iem",
+            "institution": "Institute of Engineering and Management, Kolkata (MAKAUT)",
+            "period": "2013 – 2017",
+            "degree": "B.Tech in Computer Science and Engineering"
+          }
+        ],
+        "publications": [
+          {
+            "id": "pub-ieee-iot",
+            "title": "Preserving Contextual Privacy for Smart Home IoT Devices with Dynamic Traffic Shaping",
+            "venue": "IEEE Internet of Things Journal, Nov 2021"
+          }
+        ],
+        "achievements": [
+          "Awarded 3 Outstanding Performance Awards, 5 Applause Awards, and multiple Spot Awards at Deloitte.",
+          "Google Cloud Associate Cloud Engineer certified.",
+          "SnowPro Core certified."
+        ]
+      }
+    }
+  ],
   "sweepHistory": [
+    {
+      "id": "sweep-1794908295130",
+      "timestamp": "2026-11-17T09:38:15.130Z",
+      "laneScope": "all",
+      "recencyWindow": "7d",
+      "roleFocus": "Backend SWE",
+      "companiesTargeted": [
+        "Groww",
+        "PayPal",
+        "Visa"
+      ],
+      "jobsAdded": 4
+    },
+    {
+      "id": "sweep-1794906588525",
+      "timestamp": "2026-11-17T09:09:48.525Z",
+      "laneScope": "all",
+      "recencyWindow": "7d",
+      "roleFocus": "SWE / MTS / Computer Scientist",
+      "companiesTargeted": [
+        "Meta",
+        "Uber",
+        "LinkedIn",
+        "Intuit",
+        "Adobe",
+        "PayPal",
+        "Flipkart",
+        "Postman",
+        "Nutanix",
+        "Visa"
+      ],
+      "jobsAdded": 4
+    },
+    {
+      "id": "sweep-1794906438649",
+      "timestamp": "2026-11-17T09:07:18.649Z",
+      "laneScope": "all",
+      "recencyWindow": "7d",
+      "roleFocus": "SWE / MTS / Computer Scientist",
+      "companiesTargeted": [
+        "Google",
+        "Amazon",
+        "Atlassian",
+        "Snowflake",
+        "Databricks",
+        "Stripe",
+        "Rubrik",
+        "MongoDB",
+        "Salesforce",
+        "NVIDIA"
+      ],
+      "jobsAdded": 28
+    },
     {
       "id": "sweep-1794903652788",
       "timestamp": "2026-11-17T08:20:52.788Z",
@@ -1473,5 +3086,6 @@
       ],
       "jobsAdded": 14
     }
-  ]
+  ],
+  "schemaVersion": 3
 }

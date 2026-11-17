@@ -18,7 +18,7 @@ function getAiClient(): GoogleGenAI {
   return new GoogleGenAI({
     apiKey,
     httpOptions: {
-      timeout: 16000,
+      timeout: 28000,
       headers: {
         'User-Agent': 'aistudio-build',
       },
@@ -332,13 +332,19 @@ interface RawScoredItem {
   gapWarnings: string[];
 }
 
+export interface SweepCareerResult {
+  jobs: JobOpportunity[];
+  targetedNames: string[];
+  discoveredCount: number;
+  skippedMinYoeCount: number;
+  scoredCount: number;
+}
+
 export async function sweepCareerPages(
   masterResume: ResumeData,
   companies: TargetCompany[],
   request: SweepRequest
-): Promise<{ jobs: JobOpportunity[]; targetedNames: string[] }> {
-  const ai = getAiClient();
-
+): Promise<SweepCareerResult> {
   const filteredCompanies = companies.filter((c) => {
     if (request.companyIds && request.companyIds.length > 0) {
       return request.companyIds.includes(c.id);
@@ -355,7 +361,7 @@ export async function sweepCareerPages(
 
   const targetedNames = filteredCompanies.map((c) => c.name);
 
-  // Step 1: Fetch real live postings + FULL JD qualification sections directly from official portals
+  // Step 1: Fetch exhaustive live postings + FULL JD qualification sections directly from official portals
   const scraped: ScrapedPosting[] = await scrapeLiveCareerPortals(
     filteredCompanies,
     request.recencyWindow,
@@ -363,12 +369,45 @@ export async function sweepCareerPages(
   );
 
   if (scraped.length === 0) {
-    throw new Error(
-      'No open mid-level SWE roles in India with full job descriptions were found across the selected portals right now. Try expanding your company selection or freshness window.'
-    );
+    return {
+      jobs: [],
+      targetedNames,
+      discoveredCount: 0,
+      skippedMinYoeCount: 0,
+      scoredCount: 0,
+    };
   }
 
   const { yoeYears, hasMasters } = estimateCandidateProfile(masterResume);
+
+  // Step 2: Pre-filter BEFORE calling Gemini Judge — never score roles whose minimum qualification is >= 5 years
+  const eligiblePostings: ScrapedPosting[] = [];
+  let skippedMinYoeCount = 0;
+
+  for (const post of scraped) {
+    const effectiveMinY =
+      hasMasters && post.signals.minYearsWithMasters !== null
+        ? post.signals.minYearsWithMasters
+        : post.signals.minYearsRequired;
+
+    if (effectiveMinY !== null && effectiveMinY >= 5) {
+      skippedMinYoeCount++;
+      continue;
+    }
+    eligiblePostings.push(post);
+  }
+
+  if (eligiblePostings.length === 0) {
+    return {
+      jobs: [],
+      targetedNames,
+      discoveredCount: scraped.length,
+      skippedMinYoeCount,
+      scoredCount: 0,
+    };
+  }
+
+  const ai = getAiClient();
 
   const resumeContext = [
     `Candidate: ${masterResume.fullName} (~${yoeYears} years total full-time industry experience: ${masterResume.experience.map((e) => e.period).join(', ')}; Base Location: ${masterResume.location}; Holds Master's Degree: ${hasMasters ? 'Yes (M.Tech Information Security)' : 'No'})`,
@@ -415,12 +454,12 @@ export async function sweepCareerPages(
     },
   };
 
-  // Score up to 8 diverse roles in a single focused Gemini call (avoids multi-request 429 rate bursts)
-  const BATCH_SIZE = 8;
+  // Batch up to 18 eligible (<5 YoE min) postings from the 10-company sweep into a single structured Gemini Judge request
+  const BATCH_SIZE = 18;
   const scoredList: RawScoredItem[] = [];
 
-  for (let i = 0; i < scraped.length; i += BATCH_SIZE) {
-    const batch = scraped.slice(i, i + BATCH_SIZE);
+  for (let i = 0; i < eligiblePostings.length; i += BATCH_SIZE) {
+    const batch = eligiblePostings.slice(i, i + BATCH_SIZE);
     const jobsForScoring = batch.map((j) => ({
       id: j.id,
       company: j.company,
@@ -435,32 +474,33 @@ export async function sweepCareerPages(
         workModeHint: j.signals.workModeHint,
         detectedStackMentions: j.signals.detectedMandatoryStacks,
       },
-      fullJobDescription: j.fullJdText,
+      fullJobDescription: j.fullJdText.slice(0, 2400),
     }));
 
-    const scoringPrompt = `You are a blunt, uncompromising FAANG/product technical recruiting auditor evaluating whether ${masterResume.fullName} will ACTUALLY get shortlisted for each India opening. Do NOT give false hopes or optimistic inflation.
+    const scoringPrompt = `You are a blunt, uncompromising FAANG/product technical recruiting judge evaluating whether ${masterResume.fullName} will ACTUALLY get shortlisted for each India opening. Do NOT give false hopes or optimistic inflation.
 
 CANDIDATE GROUND TRUTH (DO NOT ASSUME UNLISTED PRODUCTION EXPERIENCE):
 - Total Industry YoE: ~${yoeYears} years (Jul 2021 – Present at Deloitte USI; M.Tech 2019–2021 counts as education, NOT industry YoE unless JD explicitly credits a Master's degree as an alternate track).
 - Degrees: M.Tech in Information Security (ABV-IIITM Gwalior) + B.Tech in CSE.
-- Proven Production Stack: Python, Java, C++, SQL, JavaScript; FastAPI, Spring Boot, Django, LangGraph; Snowflake, BigQuery, PostgreSQL, Redis; GCP, Docker, CI/CD, Autoscaling; LLMs, RAG, Vertex AI; Multi-tenant RBAC, async audit pipelines, latency/cost optimization.
-- NOT PROVEN IN PRODUCTION ON RESUME (must go to Missing / Gap if JD asks for them!): Go (Golang), Rust, Ruby on Rails, C#/.NET, iOS/Swift, Android/Kotlin, AWS, Microsoft Azure, Kubernetes/Helm/Terraform, Kafka/Flink/Spark/Airflow, PyTorch/TensorFlow/CUDA model training, or Frontend UI/TypeScript architecture ownership (React is only in Skills with zero frontend work bullets).
+- Proven Production Stack: Python, C++, SQL, JavaScript; FastAPI, Django, LangGraph; Snowflake, BigQuery, PostgreSQL, Redis; GCP, Docker, CI/CD, Autoscaling; LLMs, RAG, Vertex AI; Multi-tenant RBAC, async audit pipelines, latency/cost optimization.
+- NOT PROVEN IN INDUSTRY PRODUCTION (must go to Missing / Gap if JD asks for them!): Java (no hands-on industry/production experience), Spring Boot (no hands-on industry/production experience), Go (Golang), Rust, Ruby on Rails, C#/.NET, iOS/Swift, Android/Kotlin, AWS, Microsoft Azure, Kubernetes/Helm/Terraform, Kafka/Flink/Spark/Airflow, PyTorch/TensorFlow/CUDA model training, or Frontend UI/TypeScript architecture ownership (React is only in Skills with zero frontend work bullets).
 - Candidate Location: ${masterResume.location} (if JD is Bengaluru/Hyderabad/Pune/NCR onsite or hybrid, note relocation/onsite commitment in gapWarnings).
 
-MANDATORY AUDIT CHECKLIST PER JOB (keep each bullet crisp <= 14 words, max 6 items per list so JSON is compact):
+MANDATORY AUDIT CHECKLIST PER JOB (keep each bullet crisp <= 14 words, max 6 items per list so structured JSON stays compact):
 1. Extract EVERY Minimum / Basic / Required qualification from fullJobDescription. Check whether the resume has concrete production proof:
    - Proven items -> minQualificationsMet
    - Missing, unproven, or partial items -> minQualificationsMissing (be brutally honest!)
 2. Extract EVERY Preferred / Bonus / Nice-to-Have qualification and split into preferredQualificationsMet vs preferredQualificationsMissing.
 3. Audit Years of Experience strictly in yoeAssessment using extractedSignals and fullJobDescription:
-   - Format like: "${yoeYears} YoE vs 3+ yrs req (Fits)" or "${yoeYears} YoE + M.Tech vs 5+ yrs w/ Master's (Fits)" or "${yoeYears} YoE vs 7+ yrs req (Short by ~1.7 yrs)" or "${yoeYears} YoE vs 1-3 yrs target (Over-leveled)".
-   - NEVER claim YoE fits if JD requires 6+ (without Master's track), 7+, or 8+ years!
-4. Check Work Mode, Location, Domain & Role Scope: note onsite/hybrid/relocation, on-call/SRE ops focus, or domain mismatch (e.g., frontend/mobile/embedded/data-science-only) in gapWarnings and minQualificationsMissing when mandatory.
+   - Format like: "${yoeYears} YoE vs 3+ yrs req (Fits)" or "${yoeYears} YoE + M.Tech vs 3+ yrs w/ Master's (Fits)" or "${yoeYears} YoE vs 5+ yrs / Senior expectation (Higher YoE — Low Score)" or "${yoeYears} YoE vs 1-3 yrs target (Over-leveled)".
+   - CRITICAL YOE POLICY: Roles expecting 5+ years of minimum experience or Senior/Lead multi-team architecting scope (implied higher YOE) MUST receive VERY LOW scores (10–28)!
+4. Check Work Mode, Location, Domain & Role Scope: note onsite/hybrid/relocation, on-call/SRE ops focus, or domain mismatch (e.g., Java/Spring-Boot-only, frontend/mobile/embedded/data-science-only) in gapWarnings and minQualificationsMissing when mandatory.
 5. Apply STRICT CALIBRATED SCORING CAPS for shortlistProbability (0 to 100):
-   - 15–44 (Low Odds): Missing ANY mandatory core Minimum Qualification (e.g., requires 7+/8+ YoE, or primary stack/domain Joy lacks like Go, Rust, Ruby, iOS/Android, Frontend-only, Kubernetes internals).
-   - 45–64 (Borderline / Stretch): Fits YoE, or slight YoE gap (6+ yrs), and missing 1 secondary minimum qualification or key primary cloud/streaming tool (e.g., AWS+Kafka shop vs Joy's GCP+Snowflake+Redis+Python/Java).
-   - 65–76 (Viable Match): Meets ALL Minimum Qualifications and YoE, but meets <50% of Preferred Qualifications.
-   - 77–89 (Strong Shortlist): Meets ALL Minimum Qualifications, matches YoE cleanly, AND meets >=50% of Preferred Qualifications (direct overlap with Python/Java, FastAPI/Spring Boot, GCP/Snowflake/BigQuery/Redis, Multi-tenant RBAC, or LLM/RAG).
+   - 10–28 (Higher YoE / Major Blocker): JD requires or implies 5+ / 6+ / 7+ / 8+ years experience, Senior/Lead architecture track expecting higher YoE, or hard primary stack blocker.
+   - 29–44 (Low Odds): Missing ANY mandatory core Minimum Qualification or primary stack/domain Joy lacks (Java/Spring Boot-only backend, Go, Rust, Ruby, iOS/Android, Frontend-only, Kubernetes internals).
+   - 45–64 (Borderline / Stretch): Fits YoE (<5 yrs min), and missing 1 secondary minimum qualification or key primary cloud/streaming tool (e.g., AWS+Kafka shop vs Joy's GCP+Snowflake+Redis+Python/FastAPI/Django).
+   - 65–76 (Viable Match): Meets ALL Minimum Qualifications and YoE cleanly, but meets <50% of Preferred Qualifications.
+   - 77–89 (Strong Shortlist): Meets ALL Minimum Qualifications, matches YoE cleanly, AND meets >=50% of Preferred Qualifications (direct overlap with Python, C++, FastAPI/Django, GCP/Snowflake/BigQuery/Redis, Multi-tenant RBAC, or LLM/RAG).
    - NEVER score above 90 unless virtually every single minimum and preferred requirement matches directly.
 6. Write a blunt 1-sentence realityVerdict summarizing the real shortlist outlook.
 
@@ -477,7 +517,7 @@ ${JSON.stringify(jobsForScoring)}`;
     });
     scoredList.push(...batchScored);
 
-    if (i + BATCH_SIZE < scraped.length) {
+    if (i + BATCH_SIZE < eligiblePostings.length) {
       await sleep(1200);
     }
   }
@@ -488,54 +528,60 @@ ${JSON.stringify(jobsForScoring)}`;
   }
 
   const nowIso = new Date().toISOString();
-  const jobs: JobOpportunity[] = scraped.map((post) => {
-    const matchedCompany = filteredCompanies.find(
-      (c) => c.name.toLowerCase() === post.company.toLowerCase()
-    );
-    const tier = matchedCompany?.tier ?? 'Warm-Up Product';
-    const strategicLane = tier === 'FAANG+' ? 'FAANG+ Priority' : 'Warm-Up First';
-    const scored = scoreById.get(post.id);
+  const auditedPairs: Array<{ job: JobOpportunity; excludeMinFive: boolean }> =
+    eligiblePostings.map((post) => {
+      const matchedCompany = filteredCompanies.find(
+        (c) => c.name.toLowerCase() === post.company.toLowerCase()
+      );
+      const tier = matchedCompany?.tier ?? 'Warm-Up Product';
+      const strategicLane = tier === 'FAANG+' ? 'FAANG+ Priority' : 'Warm-Up First';
+      const scored = scoreById.get(post.id);
 
-    const minMet = [...(scored?.minQualificationsMet ?? [])];
-    const minMissing = [...(scored?.minQualificationsMissing ?? [])];
-    const prefMet = [...(scored?.preferredQualificationsMet ?? [])];
-    const prefMissing = [...(scored?.preferredQualificationsMissing ?? [])];
-    const gapWarnings = [...(scored?.gapWarnings ?? [])];
-    let yoeAssessment = scored?.yoeAssessment ?? `${yoeYears} YoE vs. role requirements`;
-    let realityVerdict =
-      scored?.realityVerdict ??
-      (minMissing.length > 0
-        ? `Gap warning: missing ${minMissing.length} minimum qualification(s).`
-        : 'Meets listed minimum qualifications.');
+      const minMet = [...(scored?.minQualificationsMet ?? [])];
+      const minMissing = [...(scored?.minQualificationsMissing ?? [])];
+      const prefMet = [...(scored?.preferredQualificationsMet ?? [])];
+      const prefMissing = [...(scored?.preferredQualificationsMissing ?? [])];
+      const gapWarnings = [...(scored?.gapWarnings ?? [])];
+      let yoeAssessment = scored?.yoeAssessment ?? `${yoeYears} YoE vs. role requirements`;
+      let realityVerdict =
+        scored?.realityVerdict ??
+        (minMissing.length > 0
+          ? `Gap warning: missing ${minMissing.length} minimum qualification(s).`
+          : 'Meets listed minimum qualifications.');
 
-    let calibratedProb = Number(scored?.shortlistProbability) || 50;
+      let calibratedProb = Number(scored?.shortlistProbability) || 50;
 
-    // 1. Deterministic YoE Guardrail
-    const effectiveMinY =
-      hasMasters && post.signals.minYearsWithMasters !== null
-        ? post.signals.minYearsWithMasters
-        : post.signals.minYearsRequired;
+      // 1. Deterministic Higher-YoE Judge Guardrail:
+      // If Gemini detected a >=5+ YoE minimum qualification shortfall or higher-YoE senior expectation, force very low score (<= 28)
+      const yoeLower = `${yoeAssessment} ${minMissing.join(' ')} ${realityVerdict}`.toLowerCase();
+      const higherYoeDetectedByJudge =
+        /\b([5-9]|1\d)\+?\s*(?:-\s*\d+\s*)?years?\s*(?:req|required|minimum|min|exp)/i.test(
+          yoeLower
+        ) && /(shortfall|under-?leveled|higher\s*yoe|low\s*score|short\s*by|exceeds)/i.test(yoeLower);
 
-    if (effectiveMinY !== null) {
-      if (effectiveMinY >= 7 && yoeYears < effectiveMinY) {
-        const yoeGapText = `Requires ${effectiveMinY}+ years experience (Joy has ~${yoeYears} YoE)`;
-        if (!minMissing.some((item) => /year|yoe|\d\+/i.test(item))) {
-          minMissing.unshift(yoeGapText);
+      const effectiveMinY =
+        hasMasters && post.signals.minYearsWithMasters !== null
+          ? post.signals.minYearsWithMasters
+          : post.signals.minYearsRequired;
+
+      // Also catch if Gemini specifically reports a >=5 yr minimum in minQualificationsMissing
+      const minFiveMissingByJudge = minMissing.some((item) =>
+        /\b([5-9]|1\d)\+?\s*years?\b/i.test(item)
+      );
+
+      if (higherYoeDetectedByJudge || minFiveMissingByJudge) {
+        calibratedProb = Math.min(calibratedProb, 26);
+        if (!/higher yoe|shortfall|under-leveled/i.test(yoeAssessment)) {
+          yoeAssessment = `${yoeAssessment} (Higher YoE — Low Score)`;
         }
-        if (/fits|match/i.test(yoeAssessment)) {
-          yoeAssessment = `${yoeYears} YoE vs ${effectiveMinY}+ yrs required (Under-leveled)`;
-        }
-        calibratedProb = Math.min(calibratedProb, 38);
-      } else if (effectiveMinY === 6 && yoeYears < 6) {
-        const slightGapText = `Requires 6+ years experience (Joy has ~${yoeYears} YoE — slight shortfall)`;
-        if (
-          !minMissing.some((item) => /year|yoe|6\+/i.test(item)) &&
-          !gapWarnings.some((item) => /year|yoe|6\+/i.test(item))
-        ) {
-          gapWarnings.unshift(slightGapText);
-        }
-        calibratedProb = Math.min(calibratedProb, 56);
       } else if (
+        effectiveMinY === null &&
+        /\b(senior|sr\.?|lead|smts|iii|3)\b/i.test(post.title)
+      ) {
+        // Senior/SMTS/Computer Scientist 2 without explicit <5 YoE number: keep conservative unless clearly matched
+        calibratedProb = Math.min(calibratedProb, 58);
+      } else if (
+        effectiveMinY !== null &&
         post.signals.maxYearsRequired !== null &&
         post.signals.maxYearsRequired <= 3 &&
         yoeYears > post.signals.maxYearsRequired + 1.5
@@ -546,107 +592,121 @@ ${JSON.stringify(jobsForScoring)}`;
         }
         calibratedProb = Math.min(calibratedProb, 68);
       }
-    }
 
-    // 2. Deterministic Title-Domain Mismatch Guardrail
-    if (
-      /\b(frontend|front-end|ui engineer|ios|android|mobile|ruby|golang|rust|\.net|c#)\b/i.test(
-        post.title
-      )
-    ) {
-      calibratedProb = Math.min(calibratedProb, 44);
-      if (minMissing.length === 0) {
-        minMissing.push(`Role title (${post.title}) targets a primary stack outside Joy's core backend profile`);
-      }
-      if (!/low odds|mismatch|missing/i.test(realityVerdict)) {
-        realityVerdict = `Low odds: ${post.title} focuses on a primary stack/domain outside Joy's production backend experience.`;
-      }
-    }
-
-    // 3. Deterministic Minimum-Qual Missing Count Caps
-    if (minMissing.length >= 2) {
-      calibratedProb = Math.min(calibratedProb, 50);
-    } else if (minMissing.length === 1) {
-      calibratedProb = Math.min(calibratedProb, 64);
-    }
-
-    // 4. Ensure Detected Non-Resume Stacks & Work Mode are NEVER Silently Ignored
-    const combinedAuditText = [
-      ...minMissing,
-      ...prefMissing,
-      ...gapWarnings,
-      realityVerdict,
-    ]
-      .join(' ')
-      .toLowerCase();
-
-    const unownedStackChecks: Array<{ label: string; keywordRx: RegExp }> = [
-      { label: 'Go (Golang)', keywordRx: /\bgo\b|golang/i },
-      { label: 'Rust', keywordRx: /\brust\b/i },
-      { label: 'Ruby', keywordRx: /\bruby\b/i },
-      { label: 'C# / .NET', keywordRx: /c#|\.net|dotnet/i },
-      { label: 'Mobile (iOS / Android)', keywordRx: /ios|android|swift|kotlin/i },
-      { label: 'Kubernetes', keywordRx: /kubernetes|k8s/i },
-      { label: 'Kafka / Streaming / Spark', keywordRx: /kafka|spark|flink|airflow|streaming/i },
-      { label: 'Terraform / IaC', keywordRx: /terraform|helm|ansible|iac/i },
-      { label: 'AWS', keywordRx: /\baws\b|amazon web/i },
-      { label: 'Microsoft Azure', keywordRx: /azure/i },
-      { label: 'PyTorch / Deep Learning', keywordRx: /pytorch|tensorflow|deep learning|cuda/i },
-    ];
-
-    for (const stackCheck of unownedStackChecks) {
+      // 2. Deterministic Title-Domain Mismatch Guardrail
       if (
-        post.signals.detectedMandatoryStacks.includes(stackCheck.label) &&
-        !stackCheck.keywordRx.test(combinedAuditText)
+        /\b(frontend|front-end|ui engineer|ios|android|mobile|ruby|golang|rust|\.net|c#)\b/i.test(
+          post.title
+        )
+      ) {
+        calibratedProb = Math.min(calibratedProb, 44);
+        if (minMissing.length === 0) {
+          minMissing.push(
+            `Role title (${post.title}) targets a primary stack outside Joy's core backend profile`
+          );
+        }
+        if (!/low odds|mismatch|missing/i.test(realityVerdict)) {
+          realityVerdict = `Low odds: ${post.title} focuses on a primary stack/domain outside Joy's production backend experience.`;
+        }
+      }
+
+      // 3. Deterministic Minimum-Qual Missing Count Caps
+      if (minMissing.length >= 2) {
+        calibratedProb = Math.min(calibratedProb, 48);
+      } else if (minMissing.length === 1) {
+        calibratedProb = Math.min(calibratedProb, 64);
+      }
+
+      // 4. Ensure Detected Non-Resume Stacks & Work Mode are NEVER Silently Ignored
+      const combinedAuditText = [
+        ...minMissing,
+        ...prefMissing,
+        ...gapWarnings,
+        realityVerdict,
+      ]
+        .join(' ')
+        .toLowerCase();
+
+      const unownedStackChecks: Array<{ label: string; keywordRx: RegExp }> = [
+        { label: 'Spring Boot', keywordRx: /spring\s*boot|spring\s*framework/i },
+        { label: 'Java (Industry)', keywordRx: /\bjava\b(?!script)/i },
+        { label: 'Go (Golang)', keywordRx: /\bgo\b|golang/i },
+        { label: 'Rust', keywordRx: /\brust\b/i },
+        { label: 'Ruby', keywordRx: /\bruby\b/i },
+        { label: 'C# / .NET', keywordRx: /c#|\.net|dotnet/i },
+        { label: 'Mobile (iOS / Android)', keywordRx: /ios|android|swift|kotlin/i },
+        { label: 'Kubernetes', keywordRx: /kubernetes|k8s/i },
+        { label: 'Kafka / Streaming / Spark', keywordRx: /kafka|spark|flink|airflow|streaming/i },
+        { label: 'Terraform / IaC', keywordRx: /terraform|helm|ansible|iac/i },
+        { label: 'AWS', keywordRx: /\baws\b|amazon web/i },
+        { label: 'Microsoft Azure', keywordRx: /azure/i },
+        { label: 'PyTorch / Deep Learning', keywordRx: /pytorch|tensorflow|deep learning|cuda/i },
+      ];
+
+      for (const stackCheck of unownedStackChecks) {
+        if (
+          post.signals.detectedMandatoryStacks.includes(stackCheck.label) &&
+          !stackCheck.keywordRx.test(combinedAuditText)
+        ) {
+          gapWarnings.push(
+            `JD references ${stackCheck.label} — verify required depth vs. Joy's GCP/Python/C++/Snowflake background.`
+          );
+        }
+      }
+
+      if (
+        post.signals.workModeHint &&
+        !/remote/i.test(post.signals.workModeHint) &&
+        !/remote/i.test(post.location) &&
+        !/onsite|hybrid|in-office|relocat|kolkata/i.test(combinedAuditText)
       ) {
         gapWarnings.push(
-          `JD references ${stackCheck.label} — verify required depth vs. Joy's GCP/Python/Java/Snowflake background.`
+          `${post.signals.workModeHint} in ${post.location} (requires relocation from ${masterResume.location}).`
         );
       }
-    }
 
-    if (
-      post.signals.workModeHint &&
-      !/remote/i.test(post.signals.workModeHint) &&
-      !/remote/i.test(post.location) &&
-      !/onsite|hybrid|in-office|relocat|kolkata/i.test(combinedAuditText)
-    ) {
-      gapWarnings.push(
-        `${post.signals.workModeHint} in ${post.location} (requires relocation from ${masterResume.location}).`
-      );
-    }
+      return {
+        excludeMinFive: false,
+        job: {
+          id: post.id,
+          company: post.company,
+          title: post.title,
+          location: post.location,
+          postedAtText: post.postedAtText,
+          freshnessHours: post.freshnessHours,
+          applyUrl: post.applyUrl,
+          sourceUrls: [post.source],
+          tier,
+          estimatedCompLPA: matchedCompany?.compBandLPA || '40–60 LPA',
+          cultureSummary:
+            matchedCompany?.cultureNote || 'Product engineering culture with >40 LPA India bands.',
+          keyRequirements: (scored?.keyRequirements ?? []).slice(0, 8),
+          minQualificationsMet: minMet,
+          minQualificationsMissing: minMissing,
+          preferredQualificationsMet: prefMet,
+          preferredQualificationsMissing: prefMissing,
+          yoeAssessment,
+          realityVerdict,
+          shortlistProbability: Math.max(10, Math.min(90, Math.round(calibratedProb))),
+          strategicLane,
+          matchReasons: (scored?.matchReasons ?? []).slice(0, 4),
+          gapWarnings: gapWarnings.slice(0, 6),
+          status: 'New',
+          discoveredAt: nowIso,
+        },
+      };
+    });
 
-    return {
-      id: post.id,
-      company: post.company,
-      title: post.title,
-      location: post.location,
-      postedAtText: post.postedAtText,
-      freshnessHours: post.freshnessHours,
-      applyUrl: post.applyUrl,
-      sourceUrls: [post.source],
-      tier,
-      estimatedCompLPA: matchedCompany?.compBandLPA || '40–60 LPA',
-      cultureSummary:
-        matchedCompany?.cultureNote || 'Product engineering culture with >40 LPA India bands.',
-      keyRequirements: (scored?.keyRequirements ?? []).slice(0, 8),
-      minQualificationsMet: minMet,
-      minQualificationsMissing: minMissing,
-      preferredQualificationsMet: prefMet,
-      preferredQualificationsMissing: prefMissing,
-      yoeAssessment,
-      realityVerdict,
-      shortlistProbability: Math.max(10, Math.min(90, Math.round(calibratedProb))),
-      strategicLane,
-      matchReasons: (scored?.matchReasons ?? []).slice(0, 4),
-      gapWarnings: gapWarnings.slice(0, 6),
-      status: 'New',
-      discoveredAt: nowIso,
-    };
-  });
-
+  const jobs = auditedPairs.filter((p) => !p.excludeMinFive).map((p) => p.job);
   jobs.sort((a, b) => b.shortlistProbability - a.shortlistProbability);
-  return { jobs, targetedNames };
+
+  return {
+    jobs,
+    targetedNames,
+    discoveredCount: scraped.length,
+    skippedMinYoeCount,
+    scoredCount: jobs.length,
+  };
 }
 
 interface RawTailoredOutput {
@@ -671,6 +731,7 @@ export async function tailorResumeForJob(
   const systemInstruction = `You are a precision resume editor tailoring a software engineer's CV for a specific job opening.
 CRITICAL TRUTH & GROUNDING RULES:
 - NEVER fabricate companies, roles, dates, certifications, projects, technologies, or metrics not present in the Master Resume.
+- NEVER claim or imply hands-on industry/production experience in Java or Spring Boot.
 - Preserve every factual metric ($20K+ annually, 30% p95 API latency, 40% faster p50, 3x faster startup, 20% Snowflake compute, 50% data release timeline, 3x concurrency, 3 Outstanding Performance Awards, 5 Applause Awards).
 - Keep the resume crisp enough to fit comfortably on a single A4/Letter page: keep the summary 3-4 sentences and keep 9-11 tightly worded experience bullets.
 - Reorder and lightly sharpen phrasing in the summary, top experience bullets, and skill categories to align naturally with the target job's terminology and priorities.`;

@@ -8,7 +8,7 @@ interface CompaniesViewProps {
 }
 
 const LIVE_FEED_PATTERN =
-  /(greenhouse\.io|lever\.co|ashbyhq\.com|google\.com\/about\/careers|apply\.careers\.microsoft\.com|amazon\.jobs|atlassian\.com\/company\/careers|careers\.servicenow\.com|careers\.swiggy\.com|freshworks\.com\/company\/careers|whatfix\.com\/careers)/i;
+  /(greenhouse\.io|lever\.co|ashbyhq\.com|google\.com\/about\/careers|apply\.careers\.microsoft\.com|amazon\.jobs|atlassian\.com\/company\/careers|careers\.servicenow\.com|careers\.swiggy\.com|freshworks\.com\/company\/careers|whatfix\.com\/careers|careers\.adobe\.com|metacareers\.com|uber\.com|jobs\.netflix\.com|careers\.linkedin\.com|jobs\.intuit\.com|careers\.walmart\.com|careers\.pypl\.com|careers\.salesforce\.com|flipkartcareers\.com|phonepe\.com|postman\.com|browserstack\.com|careers\.confluent\.io|nutanix\.com|cohesity\.com|crowdstrike\.com|jobs\.paloaltonetworks\.com|nvidia\.com|arista\.com|visa\.co\.in|americanexpress\.com|rippling\.com)/i;
 
 export function CompaniesView({ companies, onSaveCompanies }: CompaniesViewProps) {
   const [name, setName] = useState('');

@@ -17,6 +17,7 @@ import {
 import type {
   JobOpportunity,
   JobStatus,
+  SweepBatchProgress,
   TailoredResumeVersion,
 } from '../types/workspace.ts';
 import { exportResumeToPdf } from '../utils/pdfExport.ts';
@@ -25,9 +26,13 @@ interface JobRadarViewProps {
   jobs: JobOpportunity[];
   tailoredResumes: TailoredResumeVersion[];
   isSweeping: boolean;
+  sweepProgress: SweepBatchProgress | null;
   tailoringJobId: string | null;
   errorMessage: string | null;
   onDismissError: () => void;
+  onStopSweep: () => void;
+  onResumeSweep: () => void;
+  onDismissSweepProgress: () => void;
   onOpenSweepModal: () => void;
   onTailorJob: (jobId: string) => Promise<void>;
   onOpenTailoredResume: (resumeId: string) => void;
@@ -49,9 +54,13 @@ export function JobRadarView({
   jobs,
   tailoredResumes,
   isSweeping,
+  sweepProgress,
   tailoringJobId,
   errorMessage,
   onDismissError,
+  onStopSweep,
+  onResumeSweep,
+  onDismissSweepProgress,
   onOpenSweepModal,
   onTailorJob,
   onOpenTailoredResume,
@@ -141,6 +150,93 @@ export function JobRadarView({
           >
             Dismiss
           </button>
+        </div>
+      )}
+
+      {sweepProgress && (
+        <div
+          className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 rounded-lg border px-4 py-3 text-xs ${
+            sweepProgress.status === 'running'
+              ? 'border-teal-200 bg-teal-50/70 text-slate-800'
+              : sweepProgress.status === 'completed'
+              ? 'border-emerald-200 bg-emerald-50/70 text-slate-800'
+              : 'border-amber-200 bg-amber-50/70 text-slate-800'
+          }`}
+        >
+          <div className="flex items-start gap-2.5 min-w-0">
+            {sweepProgress.status === 'running' ? (
+              <Loader2 className="h-4 w-4 animate-spin text-teal-700 mt-0.5 shrink-0" />
+            ) : sweepProgress.status === 'completed' ? (
+              <CheckCircle2 className="h-4 w-4 text-emerald-700 mt-0.5 shrink-0" />
+            ) : (
+              <AlertCircle className="h-4 w-4 text-amber-700 mt-0.5 shrink-0" />
+            )}
+            <div className="min-w-0 space-y-0.5">
+              <div className="font-medium text-slate-900 flex flex-wrap items-center gap-x-2 gap-y-0.5">
+                <span>
+                  {sweepProgress.status === 'running'
+                    ? `Batch ${sweepProgress.currentBatch} of ${sweepProgress.totalBatches} sweeping`
+                    : sweepProgress.status === 'completed'
+                    ? 'Full batched sweep complete'
+                    : sweepProgress.status === 'paused'
+                    ? `Sweep paused at batch ${sweepProgress.currentBatch} of ${sweepProgress.totalBatches}`
+                    : `Sweep stopped at batch ${sweepProgress.currentBatch} of ${sweepProgress.totalBatches}`}
+                </span>
+                <span aria-hidden="true">·</span>
+                <span className="font-mono tabular-nums">
+                  {sweepProgress.companiesChecked}/{sweepProgress.totalCompanies} companies
+                </span>
+                <span aria-hidden="true">·</span>
+                <span className="font-mono tabular-nums">
+                  Found {sweepProgress.discoveredCount}
+                </span>
+                <span aria-hidden="true">·</span>
+                <span className="font-mono tabular-nums text-slate-600">
+                  Skipped {sweepProgress.skippedMinYoeCount} (≥5 yrs min YoE)
+                </span>
+                <span aria-hidden="true">·</span>
+                <span className="font-mono tabular-nums text-teal-800">
+                  Scored {sweepProgress.scoredCount} ({sweepProgress.addedCount} new, {sweepProgress.updatedCount} refreshed)
+                </span>
+              </div>
+              {sweepProgress.status === 'running' && sweepProgress.currentBatchNames.length > 0 && (
+                <p className="text-[11px] text-slate-600 truncate">
+                  Active batch: {sweepProgress.currentBatchNames.join(', ')}
+                </p>
+              )}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            {sweepProgress.status === 'running' && (
+              <button
+                type="button"
+                onClick={onStopSweep}
+                className="px-3 py-1 rounded-md border border-slate-300 bg-white text-xs font-medium text-slate-700 hover:bg-slate-50 whitespace-nowrap"
+              >
+                Stop Sweep
+              </button>
+            )}
+            {(sweepProgress.status === 'paused' || sweepProgress.status === 'stopped') &&
+              sweepProgress.remainingCompanyIds.length > 0 && (
+                <button
+                  type="button"
+                  onClick={onResumeSweep}
+                  className="px-3 py-1 rounded-md bg-teal-700 text-white text-xs font-medium hover:bg-teal-800 whitespace-nowrap"
+                >
+                  Resume Remaining ({Math.ceil(sweepProgress.remainingCompanyIds.length / 10)} batches)
+                </button>
+              )}
+            {sweepProgress.status !== 'running' && (
+              <button
+                type="button"
+                onClick={onDismissSweepProgress}
+                className="text-xs font-medium text-slate-600 hover:text-slate-900 hover:underline px-1.5 py-1"
+              >
+                Dismiss
+              </button>
+            )}
+          </div>
         </div>
       )}
 
@@ -249,13 +345,13 @@ export function JobRadarView({
 
       {/* Main High-Density Queue Table */}
       <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
-        {isSweeping ? (
+        {isSweeping && jobs.length === 0 ? (
           <div className="divide-y divide-slate-200">
             <div className="px-5 py-3 bg-slate-50 text-xs font-medium text-slate-600 flex items-center gap-2">
               <Loader2 className="h-3.5 w-3.5 animate-spin text-teal-700" />
               <span>
-                Fetching full JDs across live career portals and auditing Minimum &amp; Preferred
-                Qualifications against your resume...
+                Running first batch of 10 career portals and judging Minimum &amp; Preferred
+                Qualifications (&lt;5 yrs min YoE)...
               </span>
             </div>
             {[0, 1, 2, 3, 4].map((row) => (

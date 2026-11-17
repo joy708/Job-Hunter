@@ -20,7 +20,17 @@ export interface ScrapedPosting {
   fullJdText: string;
   signals: DeterministicJdSignals;
   source: GroundedSource;
-  _provider: 'gh' | 'sr' | 'msft' | 'lever' | 'ashby' | 'amazon' | 'google' | 'atlassian';
+  _provider:
+    | 'gh'
+    | 'sr'
+    | 'msft'
+    | 'lever'
+    | 'ashby'
+    | 'amazon'
+    | 'google'
+    | 'atlassian'
+    | 'adobe'
+    | 'linkedin';
   _boardSlug?: string;
   _remoteId?: string;
 }
@@ -29,7 +39,29 @@ const HEADERS = {
   'User-Agent':
     'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
   Accept: 'application/json, text/html;q=0.9, */*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9',
 };
+
+const WORD_TO_NUM: Record<string, number> = {
+  one: 1,
+  two: 2,
+  three: 3,
+  four: 4,
+  five: 5,
+  six: 6,
+  seven: 7,
+  eight: 8,
+  nine: 9,
+  ten: 10,
+};
+
+function parseYearToken(raw: string | undefined): number | null {
+  if (!raw) return null;
+  const lower = raw.toLowerCase().trim();
+  if (lower in WORD_TO_NUM) return WORD_TO_NUM[lower];
+  const n = Number(lower);
+  return Number.isFinite(n) ? n : null;
+}
 
 function decodeHtmlEntities(input: string): string {
   const decodeOnce = (str: string) =>
@@ -43,13 +75,14 @@ function decodeHtmlEntities(input: string): string {
       .replace(/&#(\d+);/g, (_m, dec) => String.fromCharCode(Number(dec)))
       .replace(/&#x([0-9a-f]+);/gi, (_m, hex) => String.fromCharCode(parseInt(hex, 16)));
 
-  // Run two passes to clean double-encoded Greenhouse entities (e.g. &amp;nbsp; or &amp;lt;p&amp;gt;)
   return decodeOnce(decodeOnce(input));
 }
 
 function stripHtmlPreserveLines(rawHtml: string): string {
   const decoded = decodeHtmlEntities(rawHtml);
   return decoded
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
     .replace(/<\/(p|div|li|h1|h2|h3|h4|h5|tr|section)>/gi, '\n')
     .replace(/<br\s*\/?>/gi, '\n')
     .replace(/<li[^>]*>/gi, '\n- ')
@@ -60,18 +93,13 @@ function stripHtmlPreserveLines(rawHtml: string): string {
     .trim();
 }
 
-/**
- * Extracts clean plain-text JD prioritizing Responsibilities, Minimum Qualifications,
- * Preferred Qualifications, and Work Mode / Location constraints up to 5,200 chars.
- */
 function extractHighSignalJd(rawText: string, maxChars = 3400): string {
   let clean = stripHtmlPreserveLines(rawText);
 
-  // Strip trailing EEO / legal boilerplate if it appears well into the JD
   const eeoMatch = clean.match(
     /\n\s*(?:equal\s+(?:employment\s+)?opportunity|eeo\s+statement|commitment\s+to\s+diversity|accommodation\s+statement|applicant\s+privacy)\b/i
   );
-  if (eeoMatch?.index && eeoMatch.index > 1100) {
+  if (eeoMatch?.index && eeoMatch.index > 900) {
     clean = clean.slice(0, eeoMatch.index).trim();
   }
 
@@ -91,6 +119,22 @@ function extractHighSignalJd(rawText: string, maxChars = 3400): string {
   return clean.slice(0, maxChars).trim();
 }
 
+function splitPreferredSection(cleanJdText: string): {
+  coreText: string;
+  preferredText: string;
+} {
+  const prefMatch = cleanJdText.match(
+    /(?:^|\n)\s*(?:preferred\s+qualifications|nice\s+to\s+have|bonus\s+(?:points|qualifications|skills)|desired\s+qualifications|preferred\s+skills|good\s+to\s+have)\s*:?/i
+  );
+  if (prefMatch?.index && prefMatch.index > 180) {
+    return {
+      coreText: cleanJdText.slice(0, prefMatch.index),
+      preferredText: cleanJdText.slice(prefMatch.index),
+    };
+  }
+  return { coreText: cleanJdText, preferredText: '' };
+}
+
 export function extractDeterministicSignals(
   cleanJdText: string,
   title: string
@@ -100,54 +144,64 @@ export function extractDeterministicSignals(
   let minYearsWithMasters: number | null = null;
   let maxYearsRequired: number | null = null;
 
-  // Detect explicit Master's degree alternate YoE track (e.g. "8+ years ... OR Master's Degree ... 5+ years")
-  const mastersAltRegex =
-    /(\d{1,2})\s*\+?\s*years?[^\n.]{0,180}?\bOR\b[^\n.]{0,160}?\bMaster(?:'s)?\b[^\n.]{0,160}?(\d{1,2})\s*\+?\s*years?/gi;
+  const { coreText } = splitPreferredSection(cleanJdText);
+
+  const numToken = '(\\d{1,2}|one|two|three|four|five|six|seven|eight|nine|ten)';
+
+  // Detect explicit Master's degree alternate YoE track in core/minimum qualifications
+  const mastersAltRegex = new RegExp(
+    `${numToken}\\s*\\+?\\s*years?[^\\n.]{0,180}?\\bOR\\b[^\\n.]{0,160}?\\bMaster(?:'s)?\\b[^\\n.]{0,160}?${numToken}\\s*\\+?\\s*years?`,
+    'gi'
+  );
   let mm: RegExpExecArray | null;
-  while ((mm = mastersAltRegex.exec(cleanJdText)) !== null) {
-    const bachelorsYrs = Number(mm[1]);
-    const mastersYrs = Number(mm[2]);
-    if (mastersYrs > 0 && mastersYrs < bachelorsYrs && mastersYrs <= 20) {
+  while ((mm = mastersAltRegex.exec(coreText)) !== null) {
+    const bachelorsYrs = parseYearToken(mm[1]);
+    const mastersYrs = parseYearToken(mm[2]);
+    if (bachelorsYrs && mastersYrs && mastersYrs > 0 && mastersYrs < bachelorsYrs && mastersYrs <= 20) {
       minYearsWithMasters =
         minYearsWithMasters === null ? mastersYrs : Math.max(minYearsWithMasters, mastersYrs);
     }
   }
 
-  // Also detect reverse phrasing: "Master's Degree and 5+ years ... OR Bachelor's and 8+ years"
-  const mastersFirstRegex =
-    /\bMaster(?:'s)?\b[^\n.]{0,140}?(\d{1,2})\s*\+?\s*years?[^\n.]{0,140}?\bOR\b[^\n.]{0,140}?(\d{1,2})\s*\+?\s*years?/gi;
-  while ((mm = mastersFirstRegex.exec(cleanJdText)) !== null) {
-    const mastersYrs = Number(mm[1]);
-    const bachelorsYrs = Number(mm[2]);
-    if (mastersYrs > 0 && mastersYrs < bachelorsYrs && mastersYrs <= 20) {
+  const mastersFirstRegex = new RegExp(
+    `\\bMaster(?:'s)?\\b[^\\n.]{0,140}?${numToken}\\s*\\+?\\s*years?[^\\n.]{0,140}?\\bOR\\b[^\\n.]{0,140}?${numToken}\\s*\\+?\\s*years?`,
+    'gi'
+  );
+  while ((mm = mastersFirstRegex.exec(coreText)) !== null) {
+    const mastersYrs = parseYearToken(mm[1]);
+    const bachelorsYrs = parseYearToken(mm[2]);
+    if (bachelorsYrs && mastersYrs && mastersYrs > 0 && mastersYrs < bachelorsYrs && mastersYrs <= 20) {
       minYearsWithMasters =
         minYearsWithMasters === null ? mastersYrs : Math.max(minYearsWithMasters, mastersYrs);
     }
   }
 
-  // Match general phrases like "5+ years", "3-5 years", "minimum of 8 years", "at least 7 years"
-  const yoeRegex =
-    /(?:minimum\s+(?:of\s+)?|at\s+least\s+)?(\d{1,2})\s*(?:[-–to]+\s*(\d{1,2}))?\s*\+?\s*years?\b([^\n.]{0,90})/gi;
+  const yoeRegex = new RegExp(
+    `(?:minimum\\s+(?:of\\s+)?|at\\s+least\\s+)?${numToken}\\s*(?:[-–to]+\\s*${numToken})?\\s*\\+?\\s*years?\\b([^\\n.]{0,90})`,
+    'gi'
+  );
 
+  // 1) Extract minimum YoE strictly from non-preferred / core requirements
   let m: RegExpExecArray | null;
-  while ((m = yoeRegex.exec(cleanJdText)) !== null) {
-    const num1 = Number(m[1]);
-    const num2 = m[2] ? Number(m[2]) : null;
+  while ((m = yoeRegex.exec(coreText)) !== null) {
+    const num1 = parseYearToken(m[1]);
+    const num2 = parseYearToken(m[2]);
     const tail = m[3] || '';
     const fullSnippet = m[0].trim();
 
     if (
+      !num1 ||
+      num1 > 20 ||
       /\b(company|founded|history|market|warranty|retention|million|billion|customers|old|age)\b/i.test(
         fullSnippet
       )
     ) {
       continue;
     }
-    if (num1 > 20 || num1 === 0) continue;
 
-    const contextWindow = `${cleanJdText.slice(Math.max(0, m.index - 55), m.index)} ${tail}`;
+    const contextWindow = `${coreText.slice(Math.max(0, m.index - 55), m.index)} ${tail}`;
     if (
-      /\b(experience|software|engineering|development|coding|building|backend|frontend|systems|industry|data|ml|ai|cloud|java|python|go|c\+\+|related|relevant|role|field|degree|practical|hands[- ]on|professional)\b/i.test(
+      /\b(experience|software|engineering|development|coding|building|backend|frontend|systems|industry|data|ml|ai|cloud|java|python|go|c\+\+|related|relevant|role|field|degree|practical|hands[- ]on|professional|work|programming|technical)\b/i.test(
         contextWindow
       )
     ) {
@@ -158,6 +212,31 @@ export function extractDeterministicSignals(
       if (num2 !== null && num2 <= 25 && (maxYearsRequired === null || num2 > maxYearsRequired)) {
         maxYearsRequired = num2;
       }
+    }
+  }
+
+  // 2) Also record any YoE mentions across the entire JD for Gemini Judge visibility
+  const fullYoeRegex = new RegExp(yoeRegex.source, 'gi');
+  while ((m = fullYoeRegex.exec(cleanJdText)) !== null) {
+    const num1 = parseYearToken(m[1]);
+    const tail = m[3] || '';
+    const fullSnippet = m[0].trim();
+    if (
+      !num1 ||
+      num1 > 20 ||
+      /\b(company|founded|history|market|warranty|retention|million|billion|customers|old|age)\b/i.test(
+        fullSnippet
+      )
+    ) {
+      continue;
+    }
+    const contextWindow = `${cleanJdText.slice(Math.max(0, m.index - 55), m.index)} ${tail}`;
+    if (
+      /\b(experience|software|engineering|development|coding|building|backend|frontend|systems|industry|data|ml|ai|cloud|java|python|go|c\+\+|related|relevant|role|field|degree|practical|hands[- ]on|professional|work|programming|technical)\b/i.test(
+        contextWindow
+      )
+    ) {
+      explicitYearsFound.push(fullSnippet.slice(0, 115));
     }
   }
 
@@ -185,6 +264,8 @@ export function extractDeterministicSignals(
       /\b(golang|go\s+programming|fluency\s+in\s+go|proficiency\s+in\s+go|experience\s+(?:with|in)\s+go|written\s+in\s+go|services\s+in\s+go|work\s+in\s+go|include\s+go\b|go,\s*(?:java|python|c\+\+|rust|node|typescript)|(?:java|python|c\+\+|rust),?\s+go\b)\b/i,
       'Go (Golang)',
     ],
+    [/\b(spring\s*boot|spring\s*framework|spring\s*mvc)\b/i, 'Spring Boot'],
+    [/\bjava\b(?!script)/i, 'Java (Industry)'],
     [/\b(rust\s+programming|experience\s+(?:with|in)\s+rust|written\s+in\s+rust|fluency\s+in\s+rust)\b/i, 'Rust'],
     [/\b(kubernetes|k8s)\b/i, 'Kubernetes'],
     [/\b(kafka|flink|spark|airflow)\b/i, 'Kafka / Streaming / Spark'],
@@ -202,7 +283,7 @@ export function extractDeterministicSignals(
   }
 
   return {
-    explicitYearsFound: Array.from(new Set(explicitYearsFound)).slice(0, 6),
+    explicitYearsFound: Array.from(new Set(explicitYearsFound)).slice(0, 8),
     minYearsRequired,
     minYearsWithMasters,
     maxYearsRequired,
@@ -212,25 +293,30 @@ export function extractDeterministicSignals(
 }
 
 function isIndiaLocation(text: string): boolean {
-  return /\b(india|bengaluru|bangalore|hyderabad|pune|gurugram|gurgaon|noida|chennai|mumbai|kolkata|remote\s*-\s*india|in-)\b/i.test(
+  return /\b(india|bengaluru|bangalore|hyderabad|pune|gurugram|gurgaon|noida|chennai|mumbai|kolkata|remote\s*-\s*india|in-|ind)\b/i.test(
     text
   );
 }
 
-function isMidLevelSweTitle(title: string): boolean {
+export function isMidLevelSweTitle(title: string): boolean {
   const lower = title.toLowerCase();
+
+  // Exclude clearly non-engineering, intern/campus, and Principal+/Director+/Staff-Engineer+ roles.
+  // Note: DO NOT exclude standalone "staff" because "Member of Technical Staff" (MTS/SMTS) contains "staff".
   const excluded =
-    /\b(intern|internship|university|new grad|graduate|campus|apprentice|staff|principal|distinguished|fellow|director|vp|vice president|head of|engineering manager|senior manager|manager|sales|account executive|recruiter|talent|counsel|legal|marketing|designer|product manager|technical writer|support|solutions architect|auditor|finance|analyst|sap|phd|courseware|solutions consultant|customer engineer|field engineer|administrator|business systems|demo engineering|cloud operations|operations engineer|release engineer|qa |quality assurance|developer advocate|evangelist|pre-?sales|network engineer|security analyst|sme|specialist)\b/i;
+    /\b(intern|internship|university|new grad|graduate|campus|apprentice|principal|distinguished|fellow|director|vp|vice president|head of|engineering manager|senior manager|manager|sales|account executive|recruiter|talent|counsel|legal|marketing|designer|product manager|technical writer|support|solutions architect|auditor|finance|analyst|sap|phd|courseware|solutions consultant|customer engineer|field engineer|administrator|business systems|demo engineering|cloud operations|operations engineer|release engineer|qa\b|quality assurance|developer advocate|evangelist|pre-?sales|network engineer|security analyst|sme|specialist|senior staff|sr\.? staff|staff\s+(?:software|backend|frontend|systems|cloud|platform|data|ml|ai|security|sre|engineer|developer)|architect|chief)\b/i;
   if (excluded.test(lower)) return false;
 
+  // Exclude explicit extreme level bands (L6/L7/IV/SDE-4/MTS-4/CS-3+)
+  if (/\b(sde[- ]?(?:iv|4)|swe[- ]?(?:iv|4)|engineer\s*(?:iv|4)|mts[- ]?4|computer scientist\s*(?:iii|3|iv|4)|l6|l7)\b/i.test(lower)) {
+    return false;
+  }
+
   const isEng =
-    /\b(software|backend|back-end|platform|distributed|systems|cloud|full.?stack|sde|swe|developer|api|infrastructure|data engineer|ai engineer|ml engineer|machine learning|site reliability|sre)\b/i.test(
+    /\b(software|backend|back-end|platform|distributed|systems|cloud|full.?stack|frontend|front-end|sde|swe|developer|api|infrastructure|data engineer|ai engineer|ml engineer|machine learning|mlops|devops|security engineer|product engineer|founding engineer|site reliability|sre|computer scientist|member of technical staff|mts|smts|applied scientist|research scientist|research engineer)\b/i.test(
       lower
     );
-  if (!isEng) return false;
-
-  if (/\b(senior staff|sr\.? staff|architect|chief|iii|iv|l6|l7)\b/i.test(lower)) return false;
-  return true;
+  return isEng;
 }
 
 function hoursAgoFromIso(dateStr: string | number | undefined): {
@@ -257,16 +343,31 @@ function hoursAgoFromIso(dateStr: string | number | undefined): {
   return { hours: diffHours, label: `${Math.round(days / 30)}mo ago` };
 }
 
-async function fetchJsonSafe<T>(url: string, timeoutMs = 8000): Promise<T | null> {
+async function fetchJsonSafe<T>(url: string, timeoutMs = 8500): Promise<T | null> {
   try {
     const res = await fetch(url, { headers: HEADERS, signal: AbortSignal.timeout(timeoutMs) });
     if (!res.ok) return null;
     const text = await res.text();
-    if (!text.trim().startsWith('{') && !text.trim().startsWith('[')) return null;
-    return JSON.parse(text) as T;
+    const trimmed = text.trim();
+    if (!trimmed.startsWith('{') && !trimmed.startsWith('[')) return null;
+    return JSON.parse(trimmed) as T;
   } catch {
     return null;
   }
+}
+
+async function fetchTextSafe(url: string, timeoutMs = 8500): Promise<string | null> {
+  try {
+    const res = await fetch(url, { headers: HEADERS, signal: AbortSignal.timeout(timeoutMs) });
+    if (!res.ok) return null;
+    return await res.text();
+  } catch {
+    return null;
+  }
+}
+
+function sleep(ms: number): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export const GREENHOUSE_BOARDS: Record<string, string> = {
@@ -334,6 +435,35 @@ export const SMARTRECRUITERS_BOARDS: Record<string, string> = {
   swiggy: 'Swiggy',
   freshworks: 'Freshworks',
   whatfix: 'Whatfix',
+};
+
+export const LINKEDIN_COMPANY_IDS: Record<string, string> = {
+  meta: '10667',
+  uber: '1815218',
+  netflix: '165158',
+  linkedin: '1337',
+  intuit: '1666',
+  adobe: '1480',
+  'walmart global tech': '2646',
+  paypal: '1482',
+  salesforce: '3185',
+  flipkart: '321062',
+  nvidia: '3608',
+  visa: '2190',
+};
+
+const LINKEDIN_SUBTITLE_TOKENS: Record<string, string[]> = {
+  phonepe: ['phonepe'],
+  postman: ['postman'],
+  browserstack: ['browserstack'],
+  confluent: ['confluent'],
+  nutanix: ['nutanix'],
+  cohesity: ['cohesity'],
+  crowdstrike: ['crowdstrike'],
+  'palo alto networks': ['palo alto'],
+  'arista networks': ['arista'],
+  'american express': ['american express'],
+  rippling: ['rippling'],
 };
 
 const EMPTY_SIGNALS: DeterministicJdSignals = {
@@ -482,18 +612,24 @@ async function fetchSmartRecruitersBoard(
     releasedDate?: string;
     location?: { city?: string; country?: string };
   }
-  const data = await fetchJsonSafe<{ content?: SrJob[] }>(
-    `https://api.smartrecruiters.com/v1/companies/${companySlug}/postings?limit=40&country=in`
-  );
-  if (!Array.isArray(data?.content)) return [];
+  const seen = new Set<string>();
+  const results: ScrapedPosting[] = [];
 
-  return data.content
-    .filter((j) => isMidLevelSweTitle(j.name))
-    .map((j) => {
+  for (const offset of [0, 100]) {
+    const data = await fetchJsonSafe<{ content?: SrJob[] }>(
+      `https://api.smartrecruiters.com/v1/companies/${companySlug}/postings?limit=100&offset=${offset}&country=in`
+    );
+    const page = data?.content;
+    if (!Array.isArray(page) || page.length === 0) break;
+
+    for (const j of page) {
+      if (seen.has(j.id)) continue;
+      seen.add(j.id);
+      if (!isMidLevelSweTitle(j.name)) continue;
       const { hours, label } = hoursAgoFromIso(j.releasedDate);
       const url = `https://jobs.smartrecruiters.com/${companySlug}/${j.id}`;
       const loc = j.location?.city ? `${j.location.city}, India` : 'India';
-      return {
+      results.push({
         id: `sr-${companySlug}-${j.id}`,
         company: companyName,
         title: j.name,
@@ -507,8 +643,13 @@ async function fetchSmartRecruitersBoard(
         _provider: 'sr',
         _boardSlug: companySlug,
         _remoteId: j.id,
-      };
-    });
+      });
+    }
+
+    if (page.length < 100) break;
+  }
+
+  return results;
 }
 
 async function fetchAtlassian(): Promise<ScrapedPosting[]> {
@@ -568,38 +709,62 @@ async function fetchAmazon(): Promise<ScrapedPosting[]> {
     description?: string;
     description_short?: string;
   }
-  const data = await fetchJsonSafe<{ jobs?: AmazonJob[] }>(
-    'https://www.amazon.jobs/en/search.json?base_query=Software+Development+Engineer&country=IND&result_limit=25&sort=recent'
-  );
-  if (!data?.jobs) return [];
 
-  return data.jobs
-    .filter((j) => isMidLevelSweTitle(j.title))
-    .map((j) => {
-      const { hours, label } = hoursAgoFromIso(j.posted_date);
-      const url = `https://www.amazon.jobs${j.job_path}`;
-      const combined = [
-        j.description || j.description_short ? `Description:\n${j.description || j.description_short}` : '',
-        j.basic_qualifications ? `Minimum / Basic Qualifications:\n${j.basic_qualifications}` : '',
-        j.preferred_qualifications ? `Preferred Qualifications:\n${j.preferred_qualifications}` : '',
-      ]
-        .filter(Boolean)
-        .join('\n\n');
-      const fullJdText = extractHighSignalJd(combined);
-      return {
-        id: `amazon-${j.id_icims}`,
-        company: 'Amazon',
-        title: j.title,
-        location: j.normalized_location || 'Bengaluru / Hyderabad, India',
-        postedAtText: label,
-        freshnessHours: hours,
-        applyUrl: url,
-        fullJdText,
-        signals: extractDeterministicSignals(fullJdText, j.title),
-        source: { title: 'Amazon Jobs India', url },
-        _provider: 'amazon',
-      };
-    });
+  const queries = [
+    { q: 'Software+Development+Engineer', offsets: [0, 25, 50] },
+    { q: 'Software+Engineer', offsets: [0, 25] },
+    { q: 'Applied+Scientist', offsets: [0] },
+  ];
+
+  const seen = new Set<string>();
+  const results: ScrapedPosting[] = [];
+
+  for (const { q, offsets } of queries) {
+    for (const offset of offsets) {
+      const data = await fetchJsonSafe<{ jobs?: AmazonJob[] }>(
+        `https://www.amazon.jobs/en/search.json?base_query=${q}&country=IND&result_limit=25&offset=${offset}&sort=recent`
+      );
+      const jobs = data?.jobs;
+      if (!Array.isArray(jobs) || jobs.length === 0) break;
+
+      for (const j of jobs) {
+        if (!j.id_icims || seen.has(j.id_icims)) continue;
+        seen.add(j.id_icims);
+        if (!isMidLevelSweTitle(j.title)) continue;
+
+        const { hours, label } = hoursAgoFromIso(j.posted_date);
+        const url = `https://www.amazon.jobs${j.job_path}`;
+        const combined = [
+          j.description || j.description_short
+            ? `Description:\n${j.description || j.description_short}`
+            : '',
+          j.basic_qualifications ? `Minimum / Basic Qualifications:\n${j.basic_qualifications}` : '',
+          j.preferred_qualifications
+            ? `Preferred Qualifications:\n${j.preferred_qualifications}`
+            : '',
+        ]
+          .filter(Boolean)
+          .join('\n\n');
+        const fullJdText = extractHighSignalJd(combined);
+        results.push({
+          id: `amazon-${j.id_icims}`,
+          company: 'Amazon',
+          title: j.title,
+          location: j.normalized_location || 'Bengaluru / Hyderabad, India',
+          postedAtText: label,
+          freshnessHours: hours,
+          applyUrl: url,
+          fullJdText,
+          signals: extractDeterministicSignals(fullJdText, j.title),
+          source: { title: 'Amazon Jobs India', url },
+          _provider: 'amazon',
+        });
+      }
+      if (jobs.length < 25) break;
+    }
+  }
+
+  return results;
 }
 
 async function fetchMicrosoft(): Promise<ScrapedPosting[]> {
@@ -609,144 +774,233 @@ async function fetchMicrosoft(): Promise<ScrapedPosting[]> {
     locations?: string[];
     postedTs?: number;
   }
-  const data = await fetchJsonSafe<{ data?: { positions?: MsftPos[] } }>(
-    'https://apply.careers.microsoft.com/api/pcsx/search?domain=microsoft.com&query=Software%20Engineer&location=India&start=0&sort_by=timestamp'
-  );
-  const positions = data?.data?.positions;
-  if (!Array.isArray(positions)) return [];
 
-  return positions
-    .filter((p) => isIndiaLocation((p.locations || []).join(' ')) && isMidLevelSweTitle(p.name))
-    .map((p) => {
-      const { hours, label } = hoursAgoFromIso(p.postedTs);
-      const url = `https://apply.careers.microsoft.com/careers/job/${p.id}`;
-      return {
-        id: `msft-${p.id}`,
-        company: 'Microsoft',
-        title: p.name,
-        location: (p.locations || [])[0] || 'Hyderabad / Bengaluru, India',
-        postedAtText: label,
-        freshnessHours: hours,
-        applyUrl: url,
-        fullJdText: '',
-        signals: EMPTY_SIGNALS,
-        source: { title: 'Microsoft Careers India', url },
-        _provider: 'msft',
-        _remoteId: String(p.id),
-      };
-    });
+  const queries = [
+    { q: 'Software%20Engineer', starts: [0, 20, 40] },
+    { q: 'Engineer', starts: [0, 20] },
+  ];
+
+  const seen = new Set<number>();
+  const results: ScrapedPosting[] = [];
+
+  for (const { q, starts } of queries) {
+    for (const start of starts) {
+      const data = await fetchJsonSafe<{ data?: { positions?: MsftPos[] } }>(
+        `https://apply.careers.microsoft.com/api/pcsx/search?domain=microsoft.com&query=${q}&location=India&start=${start}&sort_by=timestamp`
+      );
+      const positions = data?.data?.positions;
+      if (!Array.isArray(positions) || positions.length === 0) break;
+
+      for (const p of positions) {
+        if (seen.has(p.id)) continue;
+        seen.add(p.id);
+        if (!isIndiaLocation((p.locations || []).join(' ')) || !isMidLevelSweTitle(p.name)) continue;
+
+        const { hours, label } = hoursAgoFromIso(p.postedTs);
+        const url = `https://apply.careers.microsoft.com/careers/job/${p.id}`;
+        results.push({
+          id: `msft-${p.id}`,
+          company: 'Microsoft',
+          title: p.name,
+          location: (p.locations || [])[0] || 'Hyderabad / Bengaluru, India',
+          postedAtText: label,
+          freshnessHours: hours,
+          applyUrl: url,
+          fullJdText: '',
+          signals: EMPTY_SIGNALS,
+          source: { title: 'Microsoft Careers India', url },
+          _provider: 'msft',
+          _remoteId: String(p.id),
+        });
+      }
+      if (positions.length < 15) break;
+    }
+  }
+
+  return results;
 }
 
 async function fetchGoogle(): Promise<ScrapedPosting[]> {
-  try {
-    const res = await fetch(
-      'https://www.google.com/about/careers/applications/jobs/results/?location=India&q=Software%20Engineer',
-      { headers: HEADERS, signal: AbortSignal.timeout(9000) }
+  const queries = ['Software%20Engineer', 'Systems%20Engineer', 'Engineering'];
+  const seen = new Set<string>();
+  const results: ScrapedPosting[] = [];
+
+  for (const q of queries) {
+    const html = await fetchTextSafe(
+      `https://www.google.com/about/careers/applications/jobs/results/?location=India&q=${q}`,
+      9000
     );
-    if (!res.ok) return [];
-    const html = await res.text();
+    if (!html) continue;
+
     const ds = html.match(
       /AF_initDataCallback\(\{key:\s*'ds:1'[\s\S]*?data:([\s\S]*?),\s*sideChannel:/
     );
-    if (!ds?.[1]) return [];
-    const parsed = JSON.parse(ds[1]) as unknown[][];
-    const items = Array.isArray(parsed?.[0]) ? (parsed[0] as unknown[][]) : [];
+    if (!ds?.[1]) continue;
 
-    const results: ScrapedPosting[] = [];
-    for (const item of items) {
-      const jobId = String(item[0] ?? '');
-      const title = String(item[1] ?? '');
-      if (!jobId || !title || !isMidLevelSweTitle(title)) continue;
+    try {
+      const parsed = JSON.parse(ds[1]) as unknown[][];
+      const items = Array.isArray(parsed?.[0]) ? (parsed[0] as unknown[][]) : [];
 
-      const locsRaw = Array.isArray(item[9]) ? (item[9] as unknown[][]) : [];
-      const firstLoc = String(locsRaw[0]?.[0] ?? 'Bengaluru / Hyderabad, India');
-      const respHtml = Array.isArray(item[3]) ? String(item[3][1] ?? '') : '';
-      const qualHtml = Array.isArray(item[4]) ? String(item[4][1] ?? '') : '';
-      const combined = [
-        qualHtml ? `Minimum & Preferred Qualifications:\n${qualHtml}` : '',
-        respHtml ? `Responsibilities:\n${respHtml}` : '',
-      ]
-        .filter(Boolean)
-        .join('\n\n');
-      const fullJdText = extractHighSignalJd(combined);
-      const url = `https://www.google.com/about/careers/applications/jobs/results/${jobId}`;
+      for (const item of items) {
+        const jobId = String(item[0] ?? '');
+        const title = String(item[1] ?? '');
+        if (!jobId || seen.has(jobId) || !title || !isMidLevelSweTitle(title)) continue;
+        seen.add(jobId);
 
-      results.push({
-        id: `google-${jobId}`,
-        company: 'Google',
-        title,
-        location: firstLoc,
-        postedAtText: 'Active on Google Careers',
-        freshnessHours: 36,
-        applyUrl: url,
-        fullJdText,
-        signals: extractDeterministicSignals(fullJdText, title),
-        source: { title: 'Google Careers India', url },
-        _provider: 'google',
-      });
+        const locsRaw = Array.isArray(item[9]) ? (item[9] as unknown[][]) : [];
+        const firstLoc = String(locsRaw[0]?.[0] ?? 'Bengaluru / Hyderabad, India');
+        const respHtml = Array.isArray(item[3]) ? String(item[3][1] ?? '') : '';
+        const qualHtml = Array.isArray(item[4]) ? String(item[4][1] ?? '') : '';
+        const combined = [
+          qualHtml ? `Minimum & Preferred Qualifications:\n${qualHtml}` : '',
+          respHtml ? `Responsibilities:\n${respHtml}` : '',
+        ]
+          .filter(Boolean)
+          .join('\n\n');
+        const fullJdText = extractHighSignalJd(combined);
+        const url = `https://www.google.com/about/careers/applications/jobs/results/${jobId}`;
+
+        results.push({
+          id: `google-${jobId}`,
+          company: 'Google',
+          title,
+          location: firstLoc,
+          postedAtText: 'Active on Google Careers',
+          freshnessHours: 36,
+          applyUrl: url,
+          fullJdText,
+          signals: extractDeterministicSignals(fullJdText, title),
+          source: { title: 'Google Careers India', url },
+          _provider: 'google',
+        });
+      }
+    } catch {
+      // Ignore malformed ds:1 block
     }
-    return results;
-  } catch {
-    return [];
   }
+
+  return results;
 }
 
-async function hydrateFullJobDetails(posts: ScrapedPosting[]): Promise<void> {
-  await Promise.all(
-    posts.map(async (post) => {
-      if (post._provider === 'gh' && post._boardSlug && post._remoteId) {
-        const detail = await fetchJsonSafe<{ content?: string }>(
-          `https://boards-api.greenhouse.io/v1/boards/${post._boardSlug}/jobs/${post._remoteId}`,
-          6000
-        );
-        if (detail?.content) {
-          post.fullJdText = extractHighSignalJd(detail.content);
-          post.signals = extractDeterministicSignals(post.fullJdText, post.title);
-        }
-      } else if (post._provider === 'sr' && post._boardSlug && post._remoteId) {
-        interface SrDetail {
-          jobAd?: {
-            sections?: {
-              jobDescription?: { text?: string };
-              qualifications?: { text?: string };
-              additionalInformation?: { text?: string };
-            };
-          };
-        }
-        const detail = await fetchJsonSafe<SrDetail>(
-          `https://api.smartrecruiters.com/v1/companies/${post._boardSlug}/postings/${post._remoteId}`,
-          6000
-        );
-        const sections = detail?.jobAd?.sections;
-        if (sections) {
-          const combined = [
-            sections.qualifications?.text
-              ? `Qualifications:\n${sections.qualifications.text}`
-              : '',
-            sections.jobDescription?.text
-              ? `Description:\n${sections.jobDescription.text}`
-              : '',
-            sections.additionalInformation?.text
-              ? `Additional:\n${sections.additionalInformation.text}`
-              : '',
-          ]
-            .filter(Boolean)
-            .join('\n\n');
-          post.fullJdText = extractHighSignalJd(combined);
-          post.signals = extractDeterministicSignals(post.fullJdText, post.title);
-        }
-      } else if (post._provider === 'msft' && post._remoteId) {
-        const detail = await fetchJsonSafe<{ data?: { jobDescription?: string } }>(
-          `https://apply.careers.microsoft.com/api/pcsx/position_details?position_id=${post._remoteId}&domain=microsoft.com`,
-          6000
-        );
-        if (detail?.data?.jobDescription) {
-          post.fullJdText = extractHighSignalJd(detail.data.jobDescription);
-          post.signals = extractDeterministicSignals(post.fullJdText, post.title);
-        }
+async function fetchAdobe(): Promise<ScrapedPosting[]> {
+  // Adobe's Phenom SSR HTML ignores rk=l-india unless invoked via client widgets;
+  // LinkedIn f_C=1480 with engineering keywords reliably returns Adobe India Computer Scientist / MTS / ML roles + full JDs.
+  return fetchLinkedInCompany('Adobe', LINKEDIN_COMPANY_IDS.adobe);
+}
+
+function parseLinkedInCards(
+  html: string,
+  companyName: string,
+  requiredTokens?: string[]
+): ScrapedPosting[] {
+  const results: ScrapedPosting[] = [];
+  const cards = html.split('<li');
+
+  for (let i = 1; i < cards.length; i++) {
+    const card = cards[i];
+    const idMatch =
+      card.match(/urn:li:jobPosting:(\d+)/) ||
+      card.match(/linkedin\.com\/jobs\/view\/[^"]*?-(\d+)/);
+    const jobId = idMatch?.[1];
+    if (!jobId) continue;
+
+    const titleMatch = card.match(
+      /<h3[^>]*class="[^"]*base-search-card__title[^"]*"[^>]*>([\s\S]*?)<\/h3>/i
+    );
+    const title = titleMatch ? stripHtmlPreserveLines(titleMatch[1]).replace(/\s+/g, ' ').trim() : '';
+    if (!title || !isMidLevelSweTitle(title)) continue;
+
+    const subtitleMatch = card.match(
+      /<h4[^>]*class="[^"]*base-search-card__subtitle[^"]*"[^>]*>([\s\S]*?)<\/h4>/i
+    );
+    const subtitle = subtitleMatch
+      ? stripHtmlPreserveLines(subtitleMatch[1]).replace(/\s+/g, ' ').trim()
+      : '';
+
+    if (requiredTokens && requiredTokens.length > 0) {
+      const subLower = subtitle.toLowerCase();
+      if (!requiredTokens.some((tok) => subLower.includes(tok))) {
+        continue;
       }
-    })
-  );
+    }
+
+    const locMatch = card.match(
+      /<span[^>]*class="[^"]*job-search-card__location[^"]*"[^>]*>([\s\S]*?)<\/span>/i
+    );
+    const location = locMatch
+      ? stripHtmlPreserveLines(locMatch[1]).replace(/\s+/g, ' ').trim()
+      : 'India';
+    if (!isIndiaLocation(location)) continue;
+
+    const timeMatch = card.match(/<time[^>]*datetime="([^"]+)"/i);
+    const { hours, label } = hoursAgoFromIso(timeMatch?.[1]);
+
+    const linkMatch = card.match(/href="(https:\/\/[^"]*linkedin\.com\/jobs\/view\/[^"]+)"/i);
+    const applyUrl = linkMatch ? decodeHtmlEntities(linkMatch[1].split('?')[0]) : `https://www.linkedin.com/jobs/view/${jobId}`;
+
+    results.push({
+      id: `li-${jobId}`,
+      company: companyName,
+      title,
+      location,
+      postedAtText: label,
+      freshnessHours: hours,
+      applyUrl,
+      fullJdText: '',
+      signals: EMPTY_SIGNALS,
+      source: { title: `${companyName} Careers`, url: applyUrl },
+      _provider: 'linkedin',
+      _remoteId: jobId,
+    });
+  }
+
+  return results;
+}
+
+async function fetchLinkedInCompany(
+  companyName: string,
+  companyId?: string,
+  requiredTokens?: string[]
+): Promise<ScrapedPosting[]> {
+  const seen = new Set<string>();
+  const results: ScrapedPosting[] = [];
+
+  for (const start of [0, 25]) {
+    const url = companyId
+      ? `https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?f_C=${companyId}&keywords=Software%20Engineer&location=India&start=${start}`
+      : `https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?keywords=${encodeURIComponent(
+          `${companyName} engineer`
+        )}&location=India&start=${start}`;
+
+    const html = await fetchTextSafe(url, 8500);
+    if (!html || !html.includes('base-search-card')) break;
+
+    const parsed = parseLinkedInCards(html, companyName, requiredTokens);
+    for (const item of parsed) {
+      if (seen.has(item.id)) continue;
+      seen.add(item.id);
+      results.push(item);
+    }
+
+    const cardCount = (html.match(/base-search-card__title/g) || []).length;
+    if (cardCount < 20) break;
+    await sleep(300);
+  }
+
+  // If f_C + "Software Engineer" yielded few cards (e.g. MTS-heavy orgs), also run a broader f_C + "Engineer" pass
+  if (companyId && results.length < 3) {
+    const url = `https://www.linkedin.com/jobs-guest/jobs/api/seeMoreJobPostings/search?f_C=${companyId}&keywords=Engineer&location=India&start=0`;
+    const html = await fetchTextSafe(url, 8500);
+    if (html && html.includes('base-search-card')) {
+      for (const item of parseLinkedInCards(html, companyName, requiredTokens)) {
+        if (seen.has(item.id)) continue;
+        seen.add(item.id);
+        results.push(item);
+      }
+    }
+  }
+
+  return results;
 }
 
 async function runWithConcurrency<T, R>(
@@ -766,8 +1020,130 @@ async function runWithConcurrency<T, R>(
   return results;
 }
 
+async function hydrateFullJobDetails(posts: ScrapedPosting[]): Promise<void> {
+  const fastPosts = posts.filter((p) => p._provider !== 'linkedin');
+  const linkedInPosts = posts.filter((p) => p._provider === 'linkedin');
+
+  await runWithConcurrency(fastPosts, 8, async (post) => {
+    if (post._provider === 'gh' && post._boardSlug && post._remoteId) {
+      const detail = await fetchJsonSafe<{ content?: string }>(
+        `https://boards-api.greenhouse.io/v1/boards/${post._boardSlug}/jobs/${post._remoteId}`,
+        6500
+      );
+      if (detail?.content) {
+        post.fullJdText = extractHighSignalJd(detail.content);
+        post.signals = extractDeterministicSignals(post.fullJdText, post.title);
+      }
+    } else if (post._provider === 'sr' && post._boardSlug && post._remoteId) {
+      interface SrDetail {
+        jobAd?: {
+          sections?: {
+            jobDescription?: { text?: string };
+            qualifications?: { text?: string };
+            additionalInformation?: { text?: string };
+          };
+        };
+      }
+      const detail = await fetchJsonSafe<SrDetail>(
+        `https://api.smartrecruiters.com/v1/companies/${post._boardSlug}/postings/${post._remoteId}`,
+        6500
+      );
+      const sections = detail?.jobAd?.sections;
+      if (sections) {
+        const combined = [
+          sections.qualifications?.text ? `Qualifications:\n${sections.qualifications.text}` : '',
+          sections.jobDescription?.text ? `Description:\n${sections.jobDescription.text}` : '',
+          sections.additionalInformation?.text
+            ? `Additional:\n${sections.additionalInformation.text}`
+            : '',
+        ]
+          .filter(Boolean)
+          .join('\n\n');
+        post.fullJdText = extractHighSignalJd(combined);
+        post.signals = extractDeterministicSignals(post.fullJdText, post.title);
+      }
+    } else if (post._provider === 'msft' && post._remoteId) {
+      const detail = await fetchJsonSafe<{ data?: { jobDescription?: string } }>(
+        `https://apply.careers.microsoft.com/api/pcsx/position_details?position_id=${post._remoteId}&domain=microsoft.com`,
+        6500
+      );
+      if (detail?.data?.jobDescription) {
+        post.fullJdText = extractHighSignalJd(detail.data.jobDescription);
+        post.signals = extractDeterministicSignals(post.fullJdText, post.title);
+      }
+    }
+  });
+
+  // Polite concurrency + jitter for LinkedIn guest job detail pages to prevent 429
+  await runWithConcurrency(linkedInPosts, 2, async (post) => {
+    if (!post._remoteId) return;
+    await sleep(280);
+    const html = await fetchTextSafe(
+      `https://www.linkedin.com/jobs-guest/jobs/api/jobPosting/${post._remoteId}`,
+      7500
+    );
+    if (!html) return;
+
+    const markupMatch = html.match(
+      /<div[^>]*class="[^"]*show-more-less-html__markup[^"]*"[^>]*>([\s\S]*?)<\/div>\s*<\/section>/i
+    ) ||
+      html.match(
+        /<div[^>]*class="[^"]*description__text[^"]*"[^>]*>([\s\S]*?)<\/div>\s*<\/section>/i
+      );
+
+    if (markupMatch?.[1]) {
+      post.fullJdText = extractHighSignalJd(markupMatch[1]);
+      post.signals = extractDeterministicSignals(post.fullJdText, post.title);
+    }
+
+    const extMatch = html.match(/<code[^>]*id="applyUrl"[^>]*><!--"(https?:\/\/[^"]+)"--><\/code>/i);
+    if (extMatch?.[1]) {
+      const extUrl = decodeHtmlEntities(extMatch[1]);
+      if (extUrl.startsWith('http')) {
+        post.applyUrl = extUrl;
+        post.source = { title: `${post.company} Careers`, url: extUrl };
+      }
+    }
+  });
+}
+
 function isSeniorTitle(title: string): boolean {
-  return /\b(senior|sr\.?|lead)\b/i.test(title);
+  return /\b(senior|sr\.?|lead|smts|staff|iii|3)\b/i.test(title);
+}
+
+async function scrapeSingleCompany(company: TargetCompany): Promise<ScrapedPosting[]> {
+  const key = company.name.toLowerCase().trim();
+  if (key === 'google') return fetchGoogle();
+  if (key === 'microsoft') return fetchMicrosoft();
+  if (key === 'amazon') return fetchAmazon();
+  if (key === 'atlassian') return fetchAtlassian();
+  if (key === 'adobe') return fetchAdobe();
+  if (GREENHOUSE_BOARDS[key]) return fetchGreenhouseBoard(company.name, GREENHOUSE_BOARDS[key]);
+  if (LEVER_BOARDS[key]) return fetchLeverBoard(company.name, LEVER_BOARDS[key]);
+  if (ASHBY_BOARDS[key]) return fetchAshbyBoard(company.name, ASHBY_BOARDS[key]);
+  if (SMARTRECRUITERS_BOARDS[key]) {
+    return fetchSmartRecruitersBoard(company.name, SMARTRECRUITERS_BOARDS[key]);
+  }
+  if (LINKEDIN_COMPANY_IDS[key]) {
+    return fetchLinkedInCompany(company.name, LINKEDIN_COMPANY_IDS[key]);
+  }
+  if (LINKEDIN_SUBTITLE_TOKENS[key]) {
+    return fetchLinkedInCompany(company.name, undefined, LINKEDIN_SUBTITLE_TOKENS[key]);
+  }
+
+  const domainLower = company.careersDomain.toLowerCase();
+  const ghMatch = domainLower.match(/greenhouse\.io\/(?:v1\/boards\/)?([a-z0-9_-]+)/);
+  if (ghMatch?.[1]) return fetchGreenhouseBoard(company.name, ghMatch[1]);
+
+  const leverMatch = domainLower.match(/lever\.co\/([a-z0-9_-]+)/);
+  if (leverMatch?.[1]) return fetchLeverBoard(company.name, leverMatch[1]);
+
+  const ashbyMatch = domainLower.match(/ashbyhq\.com\/([a-z0-9_-]+)/);
+  if (ashbyMatch?.[1]) return fetchAshbyBoard(company.name, ashbyMatch[1]);
+
+  // Any custom company added by the user gets checked via LinkedIn company-name search
+  const fallbackToken = key.split(/\s+/)[0];
+  return fetchLinkedInCompany(company.name, undefined, fallbackToken ? [fallbackToken] : undefined);
 }
 
 export async function scrapeLiveCareerPortals(
@@ -777,72 +1153,67 @@ export async function scrapeLiveCareerPortals(
 ): Promise<ScrapedPosting[]> {
   void roleFocus;
 
-  const allBatches = await runWithConcurrency(companies, 14, async (company) => {
-    const key = company.name.toLowerCase().trim();
-    if (key === 'google') return fetchGoogle();
-    if (key === 'microsoft') return fetchMicrosoft();
-    if (key === 'amazon') return fetchAmazon();
-    if (key === 'atlassian') return fetchAtlassian();
-    if (GREENHOUSE_BOARDS[key]) return fetchGreenhouseBoard(company.name, GREENHOUSE_BOARDS[key]);
-    if (LEVER_BOARDS[key]) return fetchLeverBoard(company.name, LEVER_BOARDS[key]);
-    if (ASHBY_BOARDS[key]) return fetchAshbyBoard(company.name, ASHBY_BOARDS[key]);
-    if (SMARTRECRUITERS_BOARDS[key]) {
-      return fetchSmartRecruitersBoard(company.name, SMARTRECRUITERS_BOARDS[key]);
+  // Separate LinkedIn-backed companies from direct ATS/API companies so LinkedIn stays polite (concurrency 2)
+  const linkedInCompanies: TargetCompany[] = [];
+  const directCompanies: TargetCompany[] = [];
+
+  for (const c of companies) {
+    const key = c.name.toLowerCase().trim();
+    const isDirect =
+      key === 'google' ||
+      key === 'microsoft' ||
+      key === 'amazon' ||
+      key === 'atlassian' ||
+      Boolean(GREENHOUSE_BOARDS[key]) ||
+      Boolean(LEVER_BOARDS[key]) ||
+      Boolean(ASHBY_BOARDS[key]) ||
+      Boolean(SMARTRECRUITERS_BOARDS[key]) ||
+      /greenhouse\.io|lever\.co|ashbyhq\.com/i.test(c.careersDomain);
+
+    if (isDirect) directCompanies.push(c);
+    else linkedInCompanies.push(c);
+  }
+
+  const [directBatches, linkedInBatches] = await Promise.all([
+    runWithConcurrency(directCompanies, 8, scrapeSingleCompany),
+    runWithConcurrency(linkedInCompanies, 2, async (c) => {
+      const res = await scrapeSingleCompany(c);
+      await sleep(320);
+      return res;
+    }),
+  ]);
+
+  const perCompanyCap = 12;
+  const cappedByCompany: ScrapedPosting[] = [];
+  const seenTitleKeys = new Set<string>();
+  for (const batch of [...directBatches, ...linkedInBatches]) {
+    if (batch.length === 0) continue;
+    const sorted = [...batch].sort((a, b) => {
+      const seniorDiff = Number(isSeniorTitle(a.title)) - Number(isSeniorTitle(b.title));
+      if (seniorDiff !== 0) return seniorDiff;
+      return a.freshnessHours - b.freshnessHours;
+    });
+    let taken = 0;
+    for (const item of sorted) {
+      const titleKey = `${item.company.toLowerCase()}::${item.title.toLowerCase().replace(/\s+/g, ' ').trim()}`;
+      if (seenTitleKeys.has(titleKey)) continue;
+      seenTitleKeys.add(titleKey);
+      cappedByCompany.push(item);
+      taken++;
+      if (taken >= perCompanyCap) break;
     }
+  }
 
-    const domainLower = company.careersDomain.toLowerCase();
-    const ghMatch = domainLower.match(/greenhouse\.io\/(?:v1\/boards\/)?([a-z0-9_-]+)/);
-    if (ghMatch?.[1]) return fetchGreenhouseBoard(company.name, ghMatch[1]);
+  const maxHours = recencyWindow === '24h' ? 48 : recencyWindow === '72h' ? 120 : 336;
+  const freshOnly = cappedByCompany.filter((j) => j.freshnessHours <= maxHours);
+  const candidates = freshOnly.length >= 6 ? freshOnly : cappedByCompany;
 
-    const leverMatch = domainLower.match(/lever\.co\/([a-z0-9_-]+)/);
-    if (leverMatch?.[1]) return fetchLeverBoard(company.name, leverMatch[1]);
-
-    const ashbyMatch = domainLower.match(/ashbyhq\.com\/([a-z0-9_-]+)/);
-    if (ashbyMatch?.[1]) return fetchAshbyBoard(company.name, ashbyMatch[1]);
-
-    return [];
-  });
-
-  const flat = allBatches.flat();
-  // Prefer non-Senior mid-level titles first, then freshness
-  flat.sort((a, b) => {
+  candidates.sort((a, b) => {
     const seniorDiff = Number(isSeniorTitle(a.title)) - Number(isSeniorTitle(b.title));
     if (seniorDiff !== 0) return seniorDiff;
     return a.freshnessHours - b.freshnessHours;
   });
 
-  const maxHours = recencyWindow === '24h' ? 48 : recencyWindow === '72h' ? 120 : 336;
-  const freshOnly = flat.filter((j) => j.freshnessHours <= maxHours);
-  const pool = freshOnly.length >= 10 ? freshOnly : flat;
-
-  // Diversify: Pass 1 picks 1 role per distinct company; Pass 2 fills up to 2 per company (26 total to inspect full JDs)
-  const candidates: ScrapedPosting[] = [];
-  const usedIds = new Set<string>();
-  const perCompanyCount = new Map<string, number>();
-
-  for (const passCap of [1, 2]) {
-    for (const job of pool) {
-      if (usedIds.has(job.id)) continue;
-      const count = perCompanyCount.get(job.company) ?? 0;
-      if (count >= passCap) continue;
-      perCompanyCount.set(job.company, count + 1);
-      usedIds.add(job.id);
-      candidates.push(job);
-      if (candidates.length >= 26) break;
-    }
-    if (candidates.length >= 26) break;
-  }
-
   await hydrateFullJobDetails(candidates);
-  const hydrated = candidates.filter((j) => j.fullJdText.trim().length > 100);
-
-  // Enforce Mid-Level YoE compatibility: filter out roles explicitly requiring 7+ YoE (even accounting for Master's degree)
-  const midLevelCompatible = hydrated.filter((j) => {
-    const effectiveMin = j.signals.minYearsWithMasters ?? j.signals.minYearsRequired;
-    if (effectiveMin !== null && effectiveMin >= 7) return false;
-    return true;
-  });
-
-  const finalPool = midLevelCompatible.length >= 5 ? midLevelCompatible : hydrated;
-  return finalPool.slice(0, 8);
+  return candidates.filter((j) => j.fullJdText.trim().length > 100);
 }

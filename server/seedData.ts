@@ -32,7 +32,7 @@ export const INITIAL_MASTER_RESUME: ResumeData = {
   skills: [
     {
       category: 'Languages',
-      items: 'Python, Java, C++, SQL, JavaScript',
+      items: 'Python, C++, SQL, JavaScript',
     },
     {
       category: 'Software Engineering',
@@ -41,7 +41,7 @@ export const INITIAL_MASTER_RESUME: ResumeData = {
     },
     {
       category: 'Backend & Frameworks',
-      items: 'FastAPI, Spring Boot, Django, LangGraph, React',
+      items: 'FastAPI, Django, LangGraph, React',
     },
     {
       category: 'Databases & Data Systems',
@@ -124,7 +124,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'High ownership and fast engineering velocity; selective India infra/product roles.',
     careersDomain: 'metacareers.com',
     locationHubs: ['Bengaluru', 'Gurugram'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-uber',
@@ -134,7 +134,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'Deep distributed systems, Go/Java/Python stack, high-bar engineering mentorship.',
     careersDomain: 'uber.com/careers',
     locationHubs: ['Bengaluru', 'Hyderabad'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-netflix',
@@ -144,7 +144,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'High-trust freedom and responsibility culture, top-of-market cash compensation.',
     careersDomain: 'jobs.netflix.com',
     locationHubs: ['Mumbai', 'Bengaluru'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-linkedin',
@@ -154,7 +154,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'Exceptional work-life balance, strong distributed data & Java/Python infrastructure.',
     careersDomain: 'careers.linkedin.com',
     locationHubs: ['Bengaluru'],
-    enabled: false,
+    enabled: true,
   },
 
   // ================= WARM-UP PRODUCT & GLOBAL SAAS / INFRA / FINTECH (>40 LPA, 70+ TOTAL) =================
@@ -728,7 +728,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'Top-rated India WLB, mature Java/Python backend platforms, strong AI/data focus.',
     careersDomain: 'jobs.intuit.com',
     locationHubs: ['Bengaluru'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-adobe',
@@ -738,7 +738,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'Humane pace, low attrition, strong cloud/platform teams in Noida & Bengaluru.',
     careersDomain: 'careers.adobe.com',
     locationHubs: ['Noida', 'Bengaluru'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-walmart',
@@ -748,7 +748,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'Steady hours, massive scale retail systems, Java/GCP stack.',
     careersDomain: 'careers.walmart.com',
     locationHubs: ['Bengaluru', 'Chennai'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-paypal',
@@ -758,7 +758,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'Predictable hours, enterprise fintech reliability, Java/Python microservices.',
     careersDomain: 'careers.pypl.com',
     locationHubs: ['Bengaluru', 'Chennai'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-salesforce',
@@ -768,7 +768,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'Strong WLB, multi-tenant cloud & AI agent infrastructure in Hyderabad/Bengaluru.',
     careersDomain: 'careers.salesforce.com',
     locationHubs: ['Hyderabad', 'Bengaluru'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-flipkart',
@@ -778,7 +778,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'Classic Indian SDE-2 benchmark; strong system design & distributed backend interviews.',
     careersDomain: 'flipkartcareers.com',
     locationHubs: ['Bengaluru'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-phonepe',
@@ -788,7 +788,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'High-throughput UPI/payments systems in Bengaluru & Pune.',
     careersDomain: 'phonepe.com/careers',
     locationHubs: ['Bengaluru', 'Pune'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-postman',
@@ -798,7 +798,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'Developer-first product culture, async collaboration, healthy work-life boundaries.',
     careersDomain: 'postman.com/company/careers',
     locationHubs: ['Bengaluru', 'Remote India'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-browserstack',
@@ -808,7 +808,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'Profitable developer infrastructure SaaS in Mumbai/Bengaluru.',
     careersDomain: 'browserstack.com/careers',
     locationHubs: ['Mumbai', 'Bengaluru'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-confluent',
@@ -818,7 +818,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'Event streaming / Kafka cloud engineering with strong distributed systems bar.',
     careersDomain: 'careers.confluent.io',
     locationHubs: ['Bengaluru'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-nutanix',
@@ -828,7 +828,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'Hybrid multi-cloud systems & distributed storage engineering in Bengaluru/Pune.',
     careersDomain: 'nutanix.com/company/careers',
     locationHubs: ['Bengaluru', 'Pune'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-cohesity',
@@ -838,7 +838,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'AI-powered data security & distributed storage in Bengaluru & Pune.',
     careersDomain: 'cohesity.com/company/careers',
     locationHubs: ['Bengaluru', 'Pune'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-crowdstrike',
@@ -848,7 +848,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'Remote-friendly cybersecurity cloud & telemetry engineering in Pune/Bengaluru.',
     careersDomain: 'crowdstrike.com/careers',
     locationHubs: ['Pune', 'Bengaluru', 'Remote India'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-paloaltonetworks',
@@ -858,7 +858,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'Enterprise cloud security engineering with balanced work culture.',
     careersDomain: 'jobs.paloaltonetworks.com',
     locationHubs: ['Bengaluru'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-nvidia',
@@ -868,7 +868,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'Low attrition, world-class AI systems & platform software engineering.',
     careersDomain: 'nvidia.com/en-in/about-nvidia/careers',
     locationHubs: ['Bengaluru', 'Pune', 'Hyderabad'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-arista',
@@ -878,7 +878,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'Exceptional WLB, systems & cloud networking software engineering in Bengaluru/Pune.',
     careersDomain: 'arista.com/en/careers',
     locationHubs: ['Bengaluru', 'Pune'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-visa',
@@ -888,7 +888,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'High-reliability global payments tech hub in Bengaluru with great WLB.',
     careersDomain: 'visa.co.in/careers',
     locationHubs: ['Bengaluru'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-amex',
@@ -898,7 +898,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'Predictable hours, enterprise Python/Java/BigData engineering in Bengaluru/Gurugram.',
     careersDomain: 'americanexpress.com/en-us/careers',
     locationHubs: ['Bengaluru', 'Gurugram'],
-    enabled: false,
+    enabled: true,
   },
   {
     id: 'co-rippling',
@@ -908,7 +908,7 @@ export const INITIAL_COMPANIES: TargetCompany[] = [
     cultureNote: 'Fast-paced high-ownership product engineering in Bengaluru.',
     careersDomain: 'rippling.com/careers',
     locationHubs: ['Bengaluru'],
-    enabled: false,
+    enabled: true,
   },
 ];
 

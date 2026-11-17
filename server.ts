@@ -75,16 +75,18 @@ async function startServer() {
       const body = req.body as SweepRequest;
       const workspace = await loadWorkspace();
 
-      const { jobs: newJobs, targetedNames } = await sweepCareerPages(
-        workspace.masterResume,
-        workspace.companies,
-        {
-          laneScope: body.laneScope ?? 'all',
-          recencyWindow: body.recencyWindow ?? '72h',
-          roleFocus: body.roleFocus ?? 'Backend, Distributed Systems, Cloud, and AI Platform SWE',
-          companyIds: body.companyIds,
-        }
-      );
+      const {
+        jobs: newJobs,
+        targetedNames,
+        discoveredCount,
+        skippedMinYoeCount,
+        scoredCount,
+      } = await sweepCareerPages(workspace.masterResume, workspace.companies, {
+        laneScope: body.laneScope ?? 'all',
+        recencyWindow: body.recencyWindow ?? '72h',
+        roleFocus: body.roleFocus ?? 'Backend, Distributed Systems, Cloud, and AI Platform SWE',
+        companyIds: body.companyIds,
+      });
 
       // Merge newly audited jobs: update existing (company + title) entries with fresh audit results while preserving workflow state
       const existingByKey = new Map(
@@ -139,7 +141,10 @@ async function startServer() {
         workspace,
         addedCount: added.length,
         updatedCount,
-        discoveredCount: newJobs.length,
+        discoveredCount,
+        skippedMinYoeCount,
+        scoredCount,
+        batchCompanies: targetedNames,
       });
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Career page sweep failed.';
