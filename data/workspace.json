@@ -46,7 +46,7 @@
       },
       {
         "category": "Cloud & Infrastructure",
-        "items": "Google Cloud Platform (GCP), Docker, CI/CD, Autoscaling, Monitoring & Alerting"
+        "items": "Google Cloud Platform (GCP), Kubernetes (GKE), Docker, CI/CD, Autoscaling, Monitoring & Alerting"
       },
       {
         "category": "AI/ML",
@@ -1118,6 +1118,57 @@
   ],
   "jobs": [
     {
+      "id": "gh-rubrik-8282005",
+      "company": "Rubrik",
+      "title": "Software Engineer Product Infra: Core Services",
+      "location": "Bengaluru",
+      "postedAtText": "15h ago",
+      "freshnessHours": 15,
+      "applyUrl": "https://www.rubrik.com/company/careers/departments/job.8282005?gh_jid=8282005",
+      "sourceUrls": [
+        {
+          "title": "Rubrik Greenhouse Careers",
+          "url": "https://www.rubrik.com/company/careers/departments/job.8282005?gh_jid=8282005"
+        }
+      ],
+      "tier": "Warm-Up Product",
+      "estimatedCompLPA": "45–65 LPA",
+      "cultureSummary": "Strong distributed systems & cloud data security engineering in Bengaluru & Pune.",
+      "keyRequirements": [
+        "Bachelor/Master in CS",
+        "6 months - 1 year industry experience",
+        "Proficiency in Java, C/C++, Scala, Python, or C#",
+        "Cloud experience (GCP/AWS/Azure)",
+        "Unix/Linux environments",
+        "Docker/Kubernetes/Microservices"
+      ],
+      "minQualificationsMet": [
+        "Bachelor/Master in CS",
+        "5.3 years industry experience",
+        "Proficiency in Python and C++",
+        "GCP experience",
+        "Unix/Linux and Docker/Kubernetes/Microservices experience"
+      ],
+      "minQualificationsMissing": [],
+      "preferredQualificationsMet": [],
+      "preferredQualificationsMissing": [
+        "Java experience"
+      ],
+      "yoeAssessment": "5.3 years vs 1 year req (Over-leveled)",
+      "realityVerdict": "Highly qualified over-leveled candidate, strong chance of call despite potential over-qualification concerns.",
+      "shortlistProbability": 75,
+      "strategicLane": "Warm-Up First",
+      "matchReasons": [
+        "Strong core stack alignment (Python/C++/Cloud/K8s)",
+        "Exceeds minimum education and experience requirements"
+      ],
+      "gapWarnings": [
+        "Candidate is significantly more experienced than the 1-year target; potential over-qualification risk."
+      ],
+      "status": "New",
+      "discoveredAt": "2026-11-18T05:24:21.278Z"
+    },
+    {
       "id": "li-4469942327",
       "company": "Visa",
       "title": "Sr. SW Engineer (3 - 6 years of experience as a Full-stack Developer - .Net , React / Angular, GenAI)",
@@ -1830,37 +1881,39 @@
       "estimatedCompLPA": "50–75 LPA",
       "cultureSummary": "Strong engineering rigor, collaborative code reviews, healthy WLB across Cloud & Core teams.",
       "keyRequirements": [
-        "2 years SWE experience",
-        "Java/C++/Python",
-        "Apache Spark"
+        "Bachelor's degree",
+        "2 years software development",
+        "Apache Spark",
+        "Java/C++/Python proficiency"
       ],
       "minQualificationsMet": [
-        "YoE requirement",
-        "Java/Python expertise"
+        "Bachelor's degree",
+        "5.3 years software development",
+        "C++/Python proficiency"
       ],
       "minQualificationsMissing": [
-        "No production Apache Spark experience"
+        "Apache Spark production experience"
       ],
       "preferredQualificationsMet": [
-        "Masters degree"
+        "Master's degree"
       ],
       "preferredQualificationsMissing": [
-        "Apache Spark"
+        "Developing accessible technologies"
       ],
-      "yoeAssessment": "5.3 YoE + M.Tech vs 2 yrs req (Fits)",
-      "realityVerdict": "Viable candidate, though lack of Spark experience may be a bottleneck at Google.",
+      "yoeAssessment": "5.3 years vs 2 years req (Fits)",
+      "realityVerdict": "Good match for senior software engineering criteria at Google.",
       "shortlistProbability": 64,
       "strategicLane": "FAANG+ Priority",
       "matchReasons": [
-        "Meets core SWE requirements",
-        "Advanced degree"
+        "Meets educational and language requirements",
+        "Strong systems background"
       ],
       "gapWarnings": [
-        "Onsite Bengaluru",
-        "Missing specific Spark/Big Data processing in production"
+        "Missing required Apache Spark experience",
+        "JD references Java (Industry) — verify required depth vs. Joy's GCP/GKE/Python/C++/Snowflake background."
       ],
       "status": "New",
-      "discoveredAt": "2026-11-17T09:07:18.645Z"
+      "discoveredAt": "2026-11-18T05:24:21.278Z"
     },
     {
       "id": "google-107449265193657030",
@@ -1987,47 +2040,46 @@
       "estimatedCompLPA": "50–75 LPA",
       "cultureSummary": "Strong engineering rigor, collaborative code reviews, healthy WLB across Cloud & Core teams.",
       "keyRequirements": [
-        "4+ years backend/full-stack development",
-        "Distributed data processing experience",
-        "Database technologies"
+        "Bachelor's degree",
+        "4 years of full-stack/back-end experience",
+        "Distributed data processing (BigQuery/Spark)",
+        "Event streaming (Kafka)",
+        "Database technologies (SQL/NoSQL)"
       ],
       "minQualificationsMet": [
-        "4+ years development experience",
-        "Database experience (SQL/NoSQL)"
+        "Bachelor's degree",
+        "5.3 years back-end experience",
+        "BigQuery/SQL/NoSQL experience"
       ],
       "minQualificationsMissing": [
-        "Explicit production Kafka/Spark experience",
-        "gRPC/Protocol Buffers production usage"
+        "Kafka/Spark production streaming experience"
       ],
       "preferredQualificationsMet": [
-        "Database optimization",
-        "LLM/RAG experience"
+        "LLM/RAG engineering experience",
+        "Designing/optimizing databases"
       ],
-      "preferredQualificationsMissing": [
-        "Kafka/Spark ecosystem mastery"
-      ],
-      "yoeAssessment": "5.3 YoE vs 4+ yrs req (Fits)",
-      "realityVerdict": "Good candidate, but high competition makes the lack of core streaming (Kafka) experience a potential differentiator in a negative way.",
-      "shortlistProbability": 48,
+      "preferredQualificationsMissing": [],
+      "yoeAssessment": "5.3 years vs 4 years req (Fits)",
+      "realityVerdict": "Very strong match, particularly with the LLM/RAG experience required by the team.",
+      "shortlistProbability": 64,
       "strategicLane": "FAANG+ Priority",
       "matchReasons": [
-        "Strong AI/RAG background",
-        "Meets YoE requirement"
+        "Matches backend/database years of experience",
+        "Strong overlap with preferred AI/Agentic requirements"
       ],
       "gapWarnings": [
-        "Requires relocation to Bengaluru",
-        "Missing specific streaming technologies (Kafka/Spark) mentioned in requirements"
+        "Missing Kafka/Spark specific streaming experience"
       ],
       "status": "New",
-      "discoveredAt": "2026-11-17T09:07:18.645Z"
+      "discoveredAt": "2026-11-18T05:24:21.278Z"
     },
     {
       "id": "gh-rubrik-8327940",
       "company": "Rubrik",
       "title": "Software Engineer - Cloud Native Protection",
       "location": "Bangalore ",
-      "postedAtText": "5d ago",
-      "freshnessHours": 124,
+      "postedAtText": "6d ago",
+      "freshnessHours": 145,
       "applyUrl": "https://www.rubrik.com/company/careers/departments/job.8327940?gh_jid=8327940",
       "sourceUrls": [
         {
@@ -2039,34 +2091,36 @@
       "estimatedCompLPA": "45–65 LPA",
       "cultureSummary": "Strong distributed systems & cloud data security engineering in Bengaluru & Pune.",
       "keyRequirements": [
-        "2+ years relevant work experience",
-        "Programming proficiency"
+        "Bachelor/Master in CS",
+        "2+ years relevant experience",
+        "Golang/Java/C++/Python proficiency",
+        "Cloud (GCP/AWS/Azure)",
+        "Docker/Kubernetes",
+        "Distributed systems"
       ],
       "minQualificationsMet": [
-        "5.3+ years experience",
-        "Programming proficiency"
+        "Bachelor/Master in CS",
+        "5.3 years relevant experience",
+        "Python/C++ proficiency",
+        "GCP/Docker/Kubernetes",
+        "Distributed systems experience"
       ],
-      "minQualificationsMissing": [
-        "Production experience with Golang, Kubernetes, and Public Cloud (AWS/Azure)"
-      ],
+      "minQualificationsMissing": [],
       "preferredQualificationsMet": [],
       "preferredQualificationsMissing": [
-        "Golang",
-        "Kubernetes",
-        "AWS/Azure"
+        "Golang/Java experience"
       ],
-      "yoeAssessment": "5.3 YoE vs 2+ yrs req (Fits)",
-      "realityVerdict": "Borderline; while YoE is fine, missing the core stack (Go/K8s/AWS) often results in a rejection at Rubrik.",
-      "shortlistProbability": 45,
+      "yoeAssessment": "5.3 years vs 2+ years req (Fits)",
+      "realityVerdict": "Excellent fit; candidate possesses all core technical requirements.",
+      "shortlistProbability": 76,
       "strategicLane": "Warm-Up First",
       "matchReasons": [
-        "Meets YoE requirement"
+        "Strong alignment with cloud/distributed systems requirements",
+        "Meets all minimum experience and stack requirements"
       ],
-      "gapWarnings": [
-        "Missing primary stack: Go and Kubernetes internals are heavily weighted by this team"
-      ],
+      "gapWarnings": [],
       "status": "New",
-      "discoveredAt": "2026-11-17T09:07:18.645Z"
+      "discoveredAt": "2026-11-18T05:24:21.278Z"
     },
     {
       "id": "amazon-10603674",
@@ -2319,8 +2373,8 @@
       "company": "Rubrik",
       "title": "Software Engineer ",
       "location": "bangalore",
-      "postedAtText": "9h ago",
-      "freshnessHours": 9,
+      "postedAtText": "1d ago",
+      "freshnessHours": 29,
       "applyUrl": "https://www.rubrik.com/company/careers/departments/job.8349847?gh_jid=8349847",
       "sourceUrls": [
         {
@@ -2332,41 +2386,39 @@
       "estimatedCompLPA": "45–65 LPA",
       "cultureSummary": "Strong distributed systems & cloud data security engineering in Bengaluru & Pune.",
       "keyRequirements": [
-        "Hands-on Golang",
-        "Identity protocols (OIDC/OAuth/SAML)",
-        "Active Directory",
-        "Applied cryptography",
-        "Security engineering"
-      ],
-      "minQualificationsMet": [
-        "Solid understanding of OS/networking",
-        "Linux knowledge"
-      ],
-      "minQualificationsMissing": [
-        "Strong hands-on Golang",
-        "Identity protocols",
+        "Strong Golang proficiency",
+        "Identity protocols: OIDC/OAuth 2.0/SAML",
         "Active Directory",
         "Applied cryptography/PKI",
-        "Security engineering focus"
+        "Security engineering",
+        "Linux/shell scripting"
+      ],
+      "minQualificationsMet": [
+        "Security engineering experience",
+        "Linux/shell scripting",
+        "Backend API development experience"
+      ],
+      "minQualificationsMissing": [
+        "Golang proficiency (Missing production proof)",
+        "Deep identity protocols/SAML experience",
+        "Active Directory experience",
+        "Applied cryptography/PKI production implementation"
       ],
       "preferredQualificationsMet": [],
-      "preferredQualificationsMissing": [
-        "Golang",
-        "Identity expertise",
-        "PKI/Security specialization"
-      ],
-      "yoeAssessment": "5.3 YoE vs unspecified (Fits)",
-      "realityVerdict": "Candidate lacks the core, mandatory Golang and Identity stack requirements; near-zero chance of shortlist.",
-      "shortlistProbability": 15,
+      "preferredQualificationsMissing": [],
+      "yoeAssessment": "5.3 years vs unspecified (Fits)",
+      "realityVerdict": "Strong mismatch on core mandatory language (Golang) and domain-specific identity protocols.",
+      "shortlistProbability": 25,
       "strategicLane": "Warm-Up First",
       "matchReasons": [
-        "System engineering fundamentals"
+        "General backend system design experience"
       ],
       "gapWarnings": [
-        "Zero production experience in Golang and Identity protocols is a hard blocker"
+        "Missing critical Golang requirement",
+        "Missing mandatory identity/cryptography domain expertise"
       ],
       "status": "New",
-      "discoveredAt": "2026-11-17T09:07:18.645Z"
+      "discoveredAt": "2026-11-18T05:24:21.278Z"
     },
     {
       "id": "gh-rubrik-7956918",
@@ -2426,8 +2478,8 @@
       "company": "Rubrik",
       "title": "Sr AI Engineer, Agentic Systems",
       "location": "Bengaluru, India",
-      "postedAtText": "1d ago",
-      "freshnessHours": 24,
+      "postedAtText": "2d ago",
+      "freshnessHours": 45,
       "applyUrl": "https://www.rubrik.com/company/careers/departments/job.8318044?gh_jid=8318044",
       "sourceUrls": [
         {
@@ -2439,37 +2491,34 @@
       "estimatedCompLPA": "45–65 LPA",
       "cultureSummary": "Strong distributed systems & cloud data security engineering in Bengaluru & Pune.",
       "keyRequirements": [
-        "7+ years production experience",
-        "2+ years building AI agents",
-        "Full stack background"
+        "7+ years professional software engineering",
+        "2+ years building AI agents/production applications",
+        "Full stack engineering",
+        "System design/API/Data models",
+        "Agent orchestrations/LLM SDKs"
       ],
       "minQualificationsMet": [
-        "Hands-on AI/RAG agent development"
+        "Full stack engineering",
+        "System design/API/Data models",
+        "LLM/Agentic systems experience"
       ],
       "minQualificationsMissing": [
-        "Total YoE is 5.3; role requires 7+",
-        "Missing 'full stack' production ownership"
+        "7+ years professional experience (Candidate has 5.3)"
       ],
-      "preferredQualificationsMet": [
-        "LLM/Agentic systems"
-      ],
-      "preferredQualificationsMissing": [
-        "Approval UIs/Dashboard frontend ownership"
-      ],
-      "yoeAssessment": "5.3 YoE vs 7+ yrs req (Under-leveled - Low Score)",
-      "realityVerdict": "Fails the mandatory 7-year experience floor for this senior agentic systems role.",
-      "shortlistProbability": 15,
+      "preferredQualificationsMet": [],
+      "preferredQualificationsMissing": [],
+      "yoeAssessment": "5.3 years vs 7+ years req (Low YoE — Low Score) (Higher YoE — Low Score)",
+      "realityVerdict": "Candidate falls short of the minimum years of experience requirement for this Senior role.",
+      "shortlistProbability": 20,
       "strategicLane": "Warm-Up First",
       "matchReasons": [
-        "Relevant AI experience"
+        "Relevant AI/Agentic experience"
       ],
       "gapWarnings": [
-        "YoE hard floor not met",
-        "Missing significant full-stack/frontend production ownership",
-        "Hybrid / in-office days specified in Bengaluru, India (requires relocation from Kolkata, India)."
+        "Candidate does not meet the 7+ years of experience requirement."
       ],
       "status": "New",
-      "discoveredAt": "2026-11-17T09:07:18.645Z"
+      "discoveredAt": "2026-11-18T05:24:21.278Z"
     },
     {
       "id": "google-75184274717713094",
@@ -2886,6 +2935,20 @@
   ],
   "sweepHistory": [
     {
+      "id": "sweep-1794979461281",
+      "timestamp": "2026-11-18T05:24:21.281Z",
+      "laneScope": "all",
+      "recencyWindow": "7d",
+      "roleFocus": "Backend SWE",
+      "companiesTargeted": [
+        "Google",
+        "Snowflake",
+        "Stripe",
+        "Rubrik"
+      ],
+      "jobsAdded": 6
+    },
+    {
       "id": "sweep-1794908295130",
       "timestamp": "2026-11-17T09:38:15.130Z",
       "laneScope": "all",
@@ -3087,5 +3150,5 @@
       "jobsAdded": 14
     }
   ],
-  "schemaVersion": 3
+  "schemaVersion": 4
 }

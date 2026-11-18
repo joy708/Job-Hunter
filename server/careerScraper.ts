@@ -267,10 +267,7 @@ export function extractDeterministicSignals(
     [/\b(spring\s*boot|spring\s*framework|spring\s*mvc)\b/i, 'Spring Boot'],
     [/\bjava\b(?!script)/i, 'Java (Industry)'],
     [/\b(rust\s+programming|experience\s+(?:with|in)\s+rust|written\s+in\s+rust|fluency\s+in\s+rust)\b/i, 'Rust'],
-    [/\b(kubernetes|k8s)\b/i, 'Kubernetes'],
     [/\b(kafka|flink|spark|airflow)\b/i, 'Kafka / Streaming / Spark'],
-    [/\b(aws|amazon web services)\b/i, 'AWS'],
-    [/\b(azure)\b/i, 'Microsoft Azure'],
     [/\b(terraform|ansible|helm)\b/i, 'Terraform / IaC'],
     [/\b(c#|dotnet|\.net)\b/i, 'C# / .NET'],
     [/\b(ruby\s+on\s+rails|ruby)\b/i, 'Ruby'],
@@ -280,6 +277,22 @@ export function extractDeterministicSignals(
   ];
   for (const [rx, label] of stackProbes) {
     if (rx.test(combinedText)) detectedMandatoryStacks.push(label);
+  }
+
+  // Flag AWS or Azure ONLY if explicitly required in core (non-preferred) qualifications without GCP multi-cloud equivalence
+  const coreLines = coreText.split(/\n+/);
+  for (const line of coreLines) {
+    const hasGcpAlt = /\b(gcp|google\s+cloud)\b/i.test(line);
+    if (!hasGcpAlt && /\b(aws|amazon\s+web\s+services)\b/i.test(line)) {
+      if (!detectedMandatoryStacks.includes('AWS (Primary)')) {
+        detectedMandatoryStacks.push('AWS (Primary)');
+      }
+    }
+    if (!hasGcpAlt && /\b(microsoft\s+azure|azure)\b/i.test(line)) {
+      if (!detectedMandatoryStacks.includes('Microsoft Azure (Primary)')) {
+        detectedMandatoryStacks.push('Microsoft Azure (Primary)');
+      }
+    }
   }
 
   return {

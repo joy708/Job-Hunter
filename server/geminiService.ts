@@ -410,7 +410,7 @@ export async function sweepCareerPages(
   const ai = getAiClient();
 
   const resumeContext = [
-    `Candidate: ${masterResume.fullName} (~${yoeYears} years total full-time industry experience: ${masterResume.experience.map((e) => e.period).join(', ')}; Base Location: ${masterResume.location}; Holds Master's Degree: ${hasMasters ? 'Yes (M.Tech Information Security)' : 'No'})`,
+    `Candidate: ${masterResume.fullName} (~${yoeYears} years total full-time industry experience: ${masterResume.experience.map((e) => e.period).join(', ')}; Location Preference: Open to relocate anywhere in India — Bengaluru, Hyderabad, Pune, NCR, Chennai, Mumbai; Holds Master's Degree: ${hasMasters ? 'Yes (M.Tech Information Security)' : 'No'})`,
     `Summary: ${masterResume.summary}`,
     `Experience:\n${masterResume.experience
       .map((e) => `${e.role} @ ${e.company} (${e.period})\n- ${e.bullets.join('\n- ')}`)
@@ -477,32 +477,37 @@ export async function sweepCareerPages(
       fullJobDescription: j.fullJdText.slice(0, 2400),
     }));
 
-    const scoringPrompt = `You are a blunt, uncompromising FAANG/product technical recruiting judge evaluating whether ${masterResume.fullName} will ACTUALLY get shortlisted for each India opening. Do NOT give false hopes or optimistic inflation.
+    const scoringPrompt = `You are an objective FAANG/product technical recruiting screen judge evaluating ONLY whether ${masterResume.fullName}'s resume will pass ATS/recruiter screening and get a CALL FOR THE INTERVIEW LOOP.
+
+SCORING OBJECTIVE (RESUME SHORTLIST / RECRUITER CALL ONLY):
+- shortlistProbability measures ONLY the likelihood that ${masterResume.fullName}'s resume matches the JD and earns an interview call from a recruiter / hiring manager.
+- DO NOT consider interview loop difficulty, DSA/system design loop performance, or interview pass rates at all!
+- Candidate is 100% WILLING TO RELOCATE anywhere in India (Bengaluru, Hyderabad, Pune, NCR, Chennai, Mumbai) and open to onsite/hybrid/remote — NEVER penalize, discount, or list relocation / city difference / onsite / hybrid work mode as a gap or risk!
 
 CANDIDATE GROUND TRUTH (DO NOT ASSUME UNLISTED PRODUCTION EXPERIENCE):
 - Total Industry YoE: ~${yoeYears} years (Jul 2021 – Present at Deloitte USI; M.Tech 2019–2021 counts as education, NOT industry YoE unless JD explicitly credits a Master's degree as an alternate track).
 - Degrees: M.Tech in Information Security (ABV-IIITM Gwalior) + B.Tech in CSE.
-- Proven Production Stack: Python, C++, SQL, JavaScript; FastAPI, Django, LangGraph; Snowflake, BigQuery, PostgreSQL, Redis; GCP, Docker, CI/CD, Autoscaling; LLMs, RAG, Vertex AI; Multi-tenant RBAC, async audit pipelines, latency/cost optimization.
-- NOT PROVEN IN INDUSTRY PRODUCTION (must go to Missing / Gap if JD asks for them!): Java (no hands-on industry/production experience), Spring Boot (no hands-on industry/production experience), Go (Golang), Rust, Ruby on Rails, C#/.NET, iOS/Swift, Android/Kotlin, AWS, Microsoft Azure, Kubernetes/Helm/Terraform, Kafka/Flink/Spark/Airflow, PyTorch/TensorFlow/CUDA model training, or Frontend UI/TypeScript architecture ownership (React is only in Skills with zero frontend work bullets).
-- Candidate Location: ${masterResume.location} (if JD is Bengaluru/Hyderabad/Pune/NCR onsite or hybrid, note relocation/onsite commitment in gapWarnings).
+- Proven Production Stack: Python, C++, SQL, JavaScript; FastAPI, Django, LangGraph; Snowflake, BigQuery, PostgreSQL, Redis; GCP, Kubernetes (GKE), Docker, CI/CD, Autoscaling; LLMs, RAG, Vertex AI; Multi-tenant RBAC, async audit pipelines, latency/cost optimization.
+- Cloud Transferability (AWS / Azure): Joy has production GCP + Kubernetes (GKE) experience and adapts quickly to AWS/Azure. ONLY penalize AWS or Azure if the JD explicitly lists AWS or Azure under PRIMARY / MANDATORY minimum requirements without accepting GCP or general cloud experience. If AWS/Azure is optional, preferred, or listed alongside GCP ("AWS/GCP/Azure"), DO NOT penalize or list as missing!
+- NOT PROVEN IN INDUSTRY PRODUCTION (must go to Missing / Gap if JD asks for them as required): Java (no hands-on industry/production experience), Spring Boot (no hands-on industry/production experience), Go (Golang), Rust, Ruby on Rails, C#/.NET, iOS/Swift, Android/Kotlin, Terraform/Helm/Ansible, Kafka/Flink/Spark/Airflow, PyTorch/TensorFlow/CUDA model training, or Frontend UI/TypeScript architecture ownership (React is only in Skills with zero frontend work bullets).
 
 MANDATORY AUDIT CHECKLIST PER JOB (keep each bullet crisp <= 14 words, max 6 items per list so structured JSON stays compact):
 1. Extract EVERY Minimum / Basic / Required qualification from fullJobDescription. Check whether the resume has concrete production proof:
-   - Proven items -> minQualificationsMet
-   - Missing, unproven, or partial items -> minQualificationsMissing (be brutally honest!)
-2. Extract EVERY Preferred / Bonus / Nice-to-Have qualification and split into preferredQualificationsMet vs preferredQualificationsMissing.
+   - Proven items (including Kubernetes via GKE and cloud equivalence unless AWS/Azure is explicitly primary/mandatory) -> minQualificationsMet
+   - Missing or unproven items -> minQualificationsMissing (be brutally honest!)
+2. Extract EVERY Preferred / Bonus / Nice-to-Have qualification and split into preferredQualificationsMet vs preferredQualificationsMissing (do NOT penalize AWS/Azure here as a minimum blocker).
 3. Audit Years of Experience strictly in yoeAssessment using extractedSignals and fullJobDescription:
    - Format like: "${yoeYears} YoE vs 3+ yrs req (Fits)" or "${yoeYears} YoE + M.Tech vs 3+ yrs w/ Master's (Fits)" or "${yoeYears} YoE vs 5+ yrs / Senior expectation (Higher YoE — Low Score)" or "${yoeYears} YoE vs 1-3 yrs target (Over-leveled)".
    - CRITICAL YOE POLICY: Roles expecting 5+ years of minimum experience or Senior/Lead multi-team architecting scope (implied higher YOE) MUST receive VERY LOW scores (10–28)!
-4. Check Work Mode, Location, Domain & Role Scope: note onsite/hybrid/relocation, on-call/SRE ops focus, or domain mismatch (e.g., Java/Spring-Boot-only, frontend/mobile/embedded/data-science-only) in gapWarnings and minQualificationsMissing when mandatory.
-5. Apply STRICT CALIBRATED SCORING CAPS for shortlistProbability (0 to 100):
-   - 10–28 (Higher YoE / Major Blocker): JD requires or implies 5+ / 6+ / 7+ / 8+ years experience, Senior/Lead architecture track expecting higher YoE, or hard primary stack blocker.
-   - 29–44 (Low Odds): Missing ANY mandatory core Minimum Qualification or primary stack/domain Joy lacks (Java/Spring Boot-only backend, Go, Rust, Ruby, iOS/Android, Frontend-only, Kubernetes internals).
-   - 45–64 (Borderline / Stretch): Fits YoE (<5 yrs min), and missing 1 secondary minimum qualification or key primary cloud/streaming tool (e.g., AWS+Kafka shop vs Joy's GCP+Snowflake+Redis+Python/FastAPI/Django).
-   - 65–76 (Viable Match): Meets ALL Minimum Qualifications and YoE cleanly, but meets <50% of Preferred Qualifications.
-   - 77–89 (Strong Shortlist): Meets ALL Minimum Qualifications, matches YoE cleanly, AND meets >=50% of Preferred Qualifications (direct overlap with Python, C++, FastAPI/Django, GCP/Snowflake/BigQuery/Redis, Multi-tenant RBAC, or LLM/RAG).
+4. Check Domain & Role Scope (ignore city/relocation/onsite/hybrid completely): note domain mismatch (e.g., Java/Spring-Boot-only, frontend/mobile/embedded/data-science-only) in gapWarnings and minQualificationsMissing when mandatory.
+5. Apply STRICT CALIBRATED SCORING CAPS for shortlistProbability (0 to 100 — resume screen & recruiter call odds ONLY):
+   - 10–28 (Higher YoE / Major Screen Blocker): JD requires or implies 5+ / 6+ / 7+ / 8+ years experience, Senior/Lead track expecting higher YoE, or hard primary stack blocker.
+   - 29–44 (Low Resume Match): Missing ANY mandatory core Minimum Qualification or primary stack/domain Joy lacks (Java/Spring Boot-only backend, Go, Rust, Ruby, iOS/Android, Frontend-only, or explicit primary-requirement AWS/Azure without GCP alternative).
+   - 45–64 (Borderline Resume Match): Fits YoE (<5 yrs min), and missing 1 secondary minimum qualification or key streaming tool (e.g., Kafka).
+   - 65–76 (Good Shortlist Odds): Meets ALL Minimum Qualifications and YoE cleanly, <50% of Preferred Qualifications.
+   - 77–90 (Strong Shortlist / High Recruiter Call Odds): Meets ALL Minimum Qualifications, matches YoE cleanly, AND meets >=50% of Preferred Qualifications (direct overlap with Python, C++, FastAPI/Django, GCP/Kubernetes (GKE)/Snowflake/BigQuery/Redis, Multi-tenant RBAC, or LLM/RAG).
    - NEVER score above 90 unless virtually every single minimum and preferred requirement matches directly.
-6. Write a blunt 1-sentence realityVerdict summarizing the real shortlist outlook.
+6. Write a blunt 1-sentence realityVerdict summarizing the real resume shortlist / recruiter call outlook.
 
 CANDIDATE RESUME:
 ${resumeContext}
@@ -575,12 +580,6 @@ ${JSON.stringify(jobsForScoring)}`;
           yoeAssessment = `${yoeAssessment} (Higher YoE — Low Score)`;
         }
       } else if (
-        effectiveMinY === null &&
-        /\b(senior|sr\.?|lead|smts|iii|3)\b/i.test(post.title)
-      ) {
-        // Senior/SMTS/Computer Scientist 2 without explicit <5 YoE number: keep conservative unless clearly matched
-        calibratedProb = Math.min(calibratedProb, 58);
-      } else if (
         effectiveMinY !== null &&
         post.signals.maxYearsRequired !== null &&
         post.signals.maxYearsRequired <= 3 &&
@@ -635,11 +634,8 @@ ${JSON.stringify(jobsForScoring)}`;
         { label: 'Ruby', keywordRx: /\bruby\b/i },
         { label: 'C# / .NET', keywordRx: /c#|\.net|dotnet/i },
         { label: 'Mobile (iOS / Android)', keywordRx: /ios|android|swift|kotlin/i },
-        { label: 'Kubernetes', keywordRx: /kubernetes|k8s/i },
         { label: 'Kafka / Streaming / Spark', keywordRx: /kafka|spark|flink|airflow|streaming/i },
         { label: 'Terraform / IaC', keywordRx: /terraform|helm|ansible|iac/i },
-        { label: 'AWS', keywordRx: /\baws\b|amazon web/i },
-        { label: 'Microsoft Azure', keywordRx: /azure/i },
         { label: 'PyTorch / Deep Learning', keywordRx: /pytorch|tensorflow|deep learning|cuda/i },
       ];
 
@@ -649,21 +645,18 @@ ${JSON.stringify(jobsForScoring)}`;
           !stackCheck.keywordRx.test(combinedAuditText)
         ) {
           gapWarnings.push(
-            `JD references ${stackCheck.label} — verify required depth vs. Joy's GCP/Python/C++/Snowflake background.`
+            `JD references ${stackCheck.label} — verify required depth vs. Joy's GCP/GKE/Python/C++/Snowflake background.`
           );
         }
       }
 
-      if (
-        post.signals.workModeHint &&
-        !/remote/i.test(post.signals.workModeHint) &&
-        !/remote/i.test(post.location) &&
-        !/onsite|hybrid|in-office|relocat|kolkata/i.test(combinedAuditText)
-      ) {
-        gapWarnings.push(
-          `${post.signals.workModeHint} in ${post.location} (requires relocation from ${masterResume.location}).`
-        );
-      }
+      const filteredGapWarnings = gapWarnings.filter(
+        (w) =>
+          !/\b(requires\s+relocation|relocation\s+to|candidate\s+is\s+in\s+kolkata)\b/i.test(w) &&
+          !/^\s*(?:onsite|hybrid)\s+(?:in\s+)?(?:bengaluru|bangalore|hyderabad|pune|noida|gurugram|mumbai|chennai)/i.test(
+            w
+          )
+      );
 
       return {
         excludeMinFive: false,
@@ -690,7 +683,7 @@ ${JSON.stringify(jobsForScoring)}`;
           shortlistProbability: Math.max(10, Math.min(90, Math.round(calibratedProb))),
           strategicLane,
           matchReasons: (scored?.matchReasons ?? []).slice(0, 4),
-          gapWarnings: gapWarnings.slice(0, 6),
+          gapWarnings: filteredGapWarnings.slice(0, 6),
           status: 'New',
           discoveredAt: nowIso,
         },

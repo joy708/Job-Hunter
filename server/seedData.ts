@@ -49,7 +49,7 @@ export const INITIAL_MASTER_RESUME: ResumeData = {
     },
     {
       category: 'Cloud & Infrastructure',
-      items: 'Google Cloud Platform (GCP), Docker, CI/CD, Autoscaling, Monitoring & Alerting',
+      items: 'Google Cloud Platform (GCP), Kubernetes (GKE), Docker, CI/CD, Autoscaling, Monitoring & Alerting',
     },
     {
       category: 'AI/ML',

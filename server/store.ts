@@ -38,9 +38,10 @@ export async function loadWorkspace(): Promise<WorkspaceState> {
 
     const masterResume = parsed.masterResume ?? INITIAL_WORKSPACE_STATE.masterResume;
     const needsStackMigration = (parsed.schemaVersion ?? 1) < 3;
-    if (needsStackMigration && Array.isArray(masterResume.skills)) {
+    const needsK8sMigration = (parsed.schemaVersion ?? 1) < 4;
+    if ((needsStackMigration || needsK8sMigration) && Array.isArray(masterResume.skills)) {
       masterResume.skills = masterResume.skills.map((skill) => {
-        if (skill.category === 'Languages') {
+        if (needsStackMigration && skill.category === 'Languages') {
           return {
             ...skill,
             items: skill.items
@@ -50,7 +51,7 @@ export async function loadWorkspace(): Promise<WorkspaceState> {
               .join(', '),
           };
         }
-        if (skill.category === 'Backend & Frameworks') {
+        if (needsStackMigration && skill.category === 'Backend & Frameworks') {
           return {
             ...skill,
             items: skill.items
@@ -59,6 +60,19 @@ export async function loadWorkspace(): Promise<WorkspaceState> {
               .filter((s) => !/^spring\s*boot$/i.test(s))
               .join(', '),
           };
+        }
+        if (
+          needsK8sMigration &&
+          skill.category === 'Cloud & Infrastructure' &&
+          !/kubernetes|gke/i.test(skill.items)
+        ) {
+          const updatedItems = skill.items.includes('Google Cloud Platform (GCP)')
+            ? skill.items.replace(
+                'Google Cloud Platform (GCP)',
+                'Google Cloud Platform (GCP), Kubernetes (GKE)'
+              )
+            : `Kubernetes (GKE), ${skill.items}`;
+          return { ...skill, items: updatedItems };
         }
         return skill;
       });
@@ -77,13 +91,18 @@ export async function loadWorkspace(): Promise<WorkspaceState> {
       sweepHistory: Array.isArray(parsed.sweepHistory) ? parsed.sweepHistory : [],
     };
 
-    if (cleanedJobs.length !== rawJobs.length || needsEnableMigration || needsStackMigration) {
-      await saveWorkspace({ ...state, schemaVersion: 3 } as WorkspaceState);
+    if (
+      cleanedJobs.length !== rawJobs.length ||
+      needsEnableMigration ||
+      needsStackMigration ||
+      needsK8sMigration
+    ) {
+      await saveWorkspace({ ...state, schemaVersion: 4 } as WorkspaceState);
     }
 
     return state;
   } catch {
-    await saveWorkspace({ ...INITIAL_WORKSPACE_STATE, schemaVersion: 3 } as WorkspaceState);
+    await saveWorkspace({ ...INITIAL_WORKSPACE_STATE, schemaVersion: 4 } as WorkspaceState);
     return structuredClone(INITIAL_WORKSPACE_STATE);
   }
 }
@@ -94,7 +113,7 @@ export async function saveWorkspace(state: WorkspaceState): Promise<void> {
     const tempFile = `${DATA_FILE}.tmp`;
     await fs.writeFile(
       tempFile,
-      JSON.stringify({ ...state, schemaVersion: 3 }, null, 2),
+      JSON.stringify({ ...state, schemaVersion: 4 }, null, 2),
       'utf-8'
     );
     await fs.rename(tempFile, DATA_FILE);
