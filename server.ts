@@ -10,7 +10,16 @@ import type {
   TargetCompany,
 } from './src/types/workspace.ts';
 import { sweepCareerPages, tailorResumeForJob } from './server/geminiService.ts';
-import { loadWorkspace, saveWorkspace } from './server/store.ts';
+import {
+  applySweepResults,
+  attachTailoredResume,
+  deleteJobById,
+  loadWorkspace,
+  saveCompanies,
+  saveMasterResume,
+  updateJobStatus,
+  updateTailoredResume,
+} from './server/store.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -41,9 +50,7 @@ async function startServer() {
         res.status(400).json({ error: 'Invalid resume payload.' });
         return;
       }
-      const workspace = await loadWorkspace();
-      workspace.masterResume = masterResume;
-      await saveWorkspace(workspace);
+      const workspace = await saveMasterResume(masterResume);
       res.json(workspace);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to update master resume.';
@@ -59,9 +66,7 @@ async function startServer() {
         res.status(400).json({ error: 'Invalid companies array.' });
         return;
       }
-      const workspace = await loadWorkspace();
-      workspace.companies = companies;
-      await saveWorkspace(workspace);
+      const workspace = await saveCompanies(companies);
       res.json(workspace);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to update companies.';
@@ -69,11 +74,11 @@ async function startServer() {
     }
   });
 
-  // Run live career page sweep via Gemini Search Grounding
+  // Run live career page sweep via ATS APIs + Gemini Judge
   app.post('/api/jobs/sweep', async (req, res) => {
     try {
       const body = req.body as SweepRequest;
-      const workspace = await loadWorkspace();
+      const initialSnapshot = await loadWorkspace();
 
       const {
         jobs: newJobs,
@@ -81,65 +86,26 @@ async function startServer() {
         discoveredCount,
         skippedMinYoeCount,
         scoredCount,
-      } = await sweepCareerPages(workspace.masterResume, workspace.companies, {
+      } = await sweepCareerPages(initialSnapshot.masterResume, initialSnapshot.companies, {
         laneScope: body.laneScope ?? 'all',
         recencyWindow: body.recencyWindow ?? '72h',
         roleFocus: body.roleFocus ?? 'Backend, Distributed Systems, Cloud, and AI Platform SWE',
         companyIds: body.companyIds,
       });
 
-      // Merge newly audited jobs: update existing (company + title) entries with fresh audit results while preserving workflow state
-      const existingByKey = new Map(
-        workspace.jobs.map((j) => [`${j.company.toLowerCase()}::${j.title.toLowerCase()}`, j])
-      );
+      const { workspace, addedCount, updatedCount } = await applySweepResults(newJobs, {
+        id: `sweep-${Date.now()}`,
+        timestamp: new Date().toISOString(),
+        laneScope: body.laneScope ?? 'all',
+        recencyWindow: body.recencyWindow ?? '72h',
+        roleFocus: body.roleFocus ?? 'Mid-Level SWE (India)',
+        companiesTargeted: targetedNames,
+        jobsAdded: newJobs.length,
+      });
 
-      const added: typeof newJobs = [];
-      let updatedCount = 0;
-      for (const job of newJobs) {
-        const key = `${job.company.toLowerCase()}::${job.title.toLowerCase()}`;
-        const existing = existingByKey.get(key);
-        if (existing) {
-          existing.location = job.location;
-          existing.postedAtText = job.postedAtText;
-          existing.freshnessHours = job.freshnessHours;
-          existing.applyUrl = job.applyUrl;
-          existing.sourceUrls = job.sourceUrls;
-          existing.keyRequirements = job.keyRequirements;
-          existing.minQualificationsMet = job.minQualificationsMet;
-          existing.minQualificationsMissing = job.minQualificationsMissing;
-          existing.preferredQualificationsMet = job.preferredQualificationsMet;
-          existing.preferredQualificationsMissing = job.preferredQualificationsMissing;
-          existing.yoeAssessment = job.yoeAssessment;
-          existing.realityVerdict = job.realityVerdict;
-          existing.shortlistProbability = job.shortlistProbability;
-          existing.matchReasons = job.matchReasons;
-          existing.gapWarnings = job.gapWarnings;
-          existing.discoveredAt = job.discoveredAt;
-          updatedCount++;
-        } else {
-          existingByKey.set(key, job);
-          added.push(job);
-        }
-      }
-
-      workspace.jobs = [...added, ...workspace.jobs];
-      workspace.sweepHistory = [
-        {
-          id: `sweep-${Date.now()}`,
-          timestamp: new Date().toISOString(),
-          laneScope: body.laneScope ?? 'all',
-          recencyWindow: body.recencyWindow ?? '72h',
-          roleFocus: body.roleFocus ?? 'Mid-Level SWE (India)',
-          companiesTargeted: targetedNames,
-          jobsAdded: added.length + updatedCount,
-        },
-        ...workspace.sweepHistory.slice(0, 14),
-      ];
-
-      await saveWorkspace(workspace);
       res.json({
         workspace,
-        addedCount: added.length,
+        addedCount,
         updatedCount,
         discoveredCount,
         skippedMinYoeCount,
@@ -157,17 +123,11 @@ async function startServer() {
     try {
       const { id } = req.params;
       const { status } = req.body as { status: JobStatus };
-      const workspace = await loadWorkspace();
-      const target = workspace.jobs.find((j) => j.id === id);
-      if (!target) {
+      const workspace = await updateJobStatus(id, status);
+      if (!workspace) {
         res.status(404).json({ error: 'Job not found.' });
         return;
       }
-      target.status = status;
-      if (status === 'Applied' && !target.appliedAt) {
-        target.appliedAt = new Date().toISOString();
-      }
-      await saveWorkspace(workspace);
       res.json(workspace);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to update job status.';
@@ -179,10 +139,7 @@ async function startServer() {
   app.delete('/api/jobs/:id', async (req, res) => {
     try {
       const { id } = req.params;
-      const workspace = await loadWorkspace();
-      workspace.jobs = workspace.jobs.filter((j) => j.id !== id);
-      workspace.tailoredResumes = workspace.tailoredResumes.filter((r) => r.jobId !== id);
-      await saveWorkspace(workspace);
+      const workspace = await deleteJobById(id);
       res.json(workspace);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to delete job.';
@@ -204,14 +161,8 @@ async function startServer() {
       const existingCount = workspace.tailoredResumes.filter((r) => r.jobId === jobId).length;
       const tailored = await tailorResumeForJob(workspace.masterResume, job, existingCount);
 
-      workspace.tailoredResumes = [tailored, ...workspace.tailoredResumes];
-      job.tailoredResumeId = tailored.id;
-      if (job.status === 'New') {
-        job.status = 'Tailored';
-      }
-
-      await saveWorkspace(workspace);
-      res.json({ workspace, tailored });
+      const updatedWorkspace = await attachTailoredResume(tailored);
+      res.json({ workspace: updatedWorkspace, tailored });
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to tailor resume.';
       res.status(500).json({ error: message });
@@ -223,18 +174,11 @@ async function startServer() {
     try {
       const { id } = req.params;
       const updated = req.body as TailoredResumeVersion;
-      const workspace = await loadWorkspace();
-      const idx = workspace.tailoredResumes.findIndex((r) => r.id === id);
-      if (idx === -1) {
+      const workspace = await updateTailoredResume(id, updated);
+      if (!workspace) {
         res.status(404).json({ error: 'Tailored resume version not found.' });
         return;
       }
-      workspace.tailoredResumes[idx] = {
-        ...workspace.tailoredResumes[idx],
-        ...updated,
-        updatedAt: new Date().toISOString(),
-      };
-      await saveWorkspace(workspace);
       res.json(workspace);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to save tailored resume.';

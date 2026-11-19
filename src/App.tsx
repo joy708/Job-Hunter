@@ -69,6 +69,22 @@ export default function App() {
   const [tailoringJobId, setTailoringJobId] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const sweepAbortRef = useRef(false);
+  const pendingStatusRef = useRef<Map<string, JobStatus>>(new Map());
+
+  const applyWorkspaceWithPending = useCallback((next: WorkspaceState) => {
+    const pending = pendingStatusRef.current;
+    if (pending.size === 0) {
+      setWorkspace(next);
+      return;
+    }
+    setWorkspace({
+      ...next,
+      jobs: next.jobs.map((job) => {
+        const pendingStatus = pending.get(job.id);
+        return pendingStatus ? { ...job, status: pendingStatus } : job;
+      }),
+    });
+  }, []);
 
   const loadInitialWorkspace = useCallback(async () => {
     try {
@@ -155,7 +171,7 @@ export default function App() {
         }),
       });
 
-      setWorkspace(result.workspace);
+      applyWorkspaceWithPending(result.workspace);
       companiesChecked += batchIds.length;
       discoveredCount += result.discoveredCount ?? 0;
       skippedMinYoeCount += result.skippedMinYoeCount ?? 0;
@@ -376,13 +392,33 @@ export default function App() {
   };
 
   const handleUpdateJobStatus = async (jobId: string, status: JobStatus) => {
+    pendingStatusRef.current.set(jobId, status);
+    setWorkspace((prev) =>
+      prev
+        ? {
+            ...prev,
+            jobs: prev.jobs.map((j) =>
+              j.id === jobId
+                ? {
+                    ...j,
+                    status,
+                    appliedAt: status === 'Applied' && !j.appliedAt ? new Date().toISOString() : j.appliedAt,
+                  }
+                : j
+            ),
+          }
+        : prev
+    );
     try {
       const updated = await apiJson<WorkspaceState>(`/api/jobs/${jobId}/status`, {
         method: 'PATCH',
         body: JSON.stringify({ status }),
       });
-      setWorkspace(updated);
+      pendingStatusRef.current.delete(jobId);
+      applyWorkspaceWithPending(updated);
     } catch (err) {
+      pendingStatusRef.current.delete(jobId);
+      void loadInitialWorkspace();
       setErrorMessage(err instanceof Error ? err.message : 'Failed to update status.');
     }
   };
